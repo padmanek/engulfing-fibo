@@ -1,0 +1,52 @@
+; Settings extracted from C:\Users\padma\Downloads\ReportTester3-13001.html
+; Symbol/report: XAUUSD. M15, 2026.03.01 - 2026.04.30
+; EA: EngulfingFibSetupEA.mq5
+
+; === Strategia ===
+InpRequireOppositeColor=true
+InpMinSizeMultiple=2.3
+InpSameColorSizeMultiple=3
+InpEntryFib=0.5
+InpRewardR=2
+InpSetupExpiryBars=20
+InpPendingInvalidation=3
+InpSameBarMode=0
+InpPendingSameBarMode=0
+
+; === Break Even ===
+InpUseBreakEven=true
+InpBreakEvenTriggerPct=85
+
+; === Filtr trendu EMA ===
+InpUseTrendFilter=true
+InpTrendFastLen=57
+InpTrendSlowLen=201
+
+; === Filtr ATR ===
+InpUseAtrFilter=true
+InpAtrLength=3
+InpMinBodyAtrPct=75
+InpMaxBodyAtrPct=166
+
+; === Filtr knota ===
+InpUseCloseWickFilter=true
+InpMaxCloseWickPct=33
+
+; === Techniczne ===
+InpMaxCloseOpenGapAtrPct=5
+InpShowFilteredSetups=false
+InpAlertFilteredSetups=false
+InpPrintSetupDiagnostics=false
+
+; === Trading MT5 ===
+InpMagicNumber=505015
+InpAllowMultipleSetups=true
+InpDeviationPoints=20
+InpPositionSizing=2
+InpFixedLots=0.1
+InpRiskPercent=1
+InpRiskMoney=50
+
+; === Rysowanie ===
+InpDrawSetups=true
+InpFibProjectionBars=24

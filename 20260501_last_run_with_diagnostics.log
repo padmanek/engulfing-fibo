@@ -1,0 +1,752 @@
+﻿CM	0	06:31:02.278	Tester	XAUUSD.,M15 (VEOMarkets-Trade): testing of Experts\EngulfingFibSetupEA.ex5 from 2026.03.01 00:00 to 2026.04.30 00:00
+MN	0	06:31:02.285	Core 01	common synchronization completed
+FD	0	06:31:03.999	Core 01	test Experts\EngulfingFibSetupEA.ex5 on XAUUSD.,M15 thread finished
+FJ	0	06:31:03.999	Core 01	prepare for shutdown
+NR	0	06:31:03.999	Core 01	shutdown finished
+IO	0	06:31:03.999	Core 01	login (build 5833)
+HK	0	06:31:03.999	Core 01	account info found with currency USD
+EL	0	06:31:03.999	Core 01	21188 bytes of input parameters loaded
+DJ	0	06:31:03.999	Core 01	initial deposit 1000.00 USD, leverage 1:1000
+MQ	0	06:31:03.999	Core 01	successfully initialized
+FE	0	06:31:03.999	Core 01	1679 bytes of total initialization data received
+FN	0	06:31:03.999	Core 01	AMD Ryzen 7 9800X3D 8-Core, 31910 MB
+DE	0	06:31:03.999	Core 01	XAUUSD.: symbol to be synchronized
+JO	0	06:31:03.999	Core 01	XAUUSD.: symbol synchronized already, 20 bytes received
+CF	0	06:31:03.999	Core 01	XAUUSD.,M15: history cached from 2025.01.01 23:00
+JH	0	06:31:03.999	Core 01	XAUUSD.,M15 (VEOMarkets-Trade): generating based on real ticks
+MQ	0	06:31:03.999	Core 01	testing with execution delay 19 milliseconds
+DE	0	06:31:03.999	Core 01	XAUUSD.,M15: testing of Experts\EngulfingFibSetupEA.ex5 from 2026.03.01 00:00 to 2026.04.30 00:00 started with inputs:
+GO	0	06:31:03.999	Core 01	  Strategia=
+GQ	0	06:31:03.999	Core 01	  InpRequireOppositeColor=true
+PE	0	06:31:03.999	Core 01	  InpMinSizeMultiple=2.3
+GP	0	06:31:03.999	Core 01	  InpSameColorSizeMultiple=3
+JD	0	06:31:03.999	Core 01	  InpEntryFib=0.5
+KD	0	06:31:03.999	Core 01	  InpRewardR=2
+NN	0	06:31:03.999	Core 01	  InpSetupExpiryBars=20
+LI	0	06:31:03.999	Core 01	  InpPendingInvalidation=3
+PP	0	06:31:03.999	Core 01	  InpSameBarMode=0
+IS	0	06:31:03.999	Core 01	  InpPendingSameBarMode=0
+NI	0	06:31:03.999	Core 01	  Break Even=
+RN	0	06:31:03.999	Core 01	  InpUseBreakEven=true
+GH	0	06:31:03.999	Core 01	  InpBreakEvenTriggerPct=85
+KR	0	06:31:03.999	Core 01	  Filtr trendu EMA=
+DS	0	06:31:03.999	Core 01	  InpUseTrendFilter=true
+LH	0	06:31:03.999	Core 01	  InpTrendFastLen=57
+RM	0	06:31:03.999	Core 01	  InpTrendSlowLen=201
+EI	0	06:31:03.999	Core 01	  Filtr ATR=
+HH	0	06:31:03.999	Core 01	  InpUseAtrFilter=true
+FN	0	06:31:03.999	Core 01	  InpAtrLength=3
+NH	0	06:31:03.999	Core 01	  InpMinBodyAtrPct=75
+CD	0	06:31:03.999	Core 01	  InpMaxBodyAtrPct=166
+GL	0	06:31:03.999	Core 01	  Filtr knota=
+KD	0	06:31:03.999	Core 01	  InpUseCloseWickFilter=true
+QS	0	06:31:03.999	Core 01	  InpMaxCloseWickPct=33
+NI	0	06:31:03.999	Core 01	  Techniczne=
+CF	0	06:31:03.999	Core 01	  InpMaxCloseOpenGapAtrPct=5
+QN	0	06:31:03.999	Core 01	  InpShowFilteredSetups=false
+DG	0	06:31:03.999	Core 01	  InpAlertFilteredSetups=false
+RP	0	06:31:03.999	Core 01	  InpPrintSetupDiagnostics=true
+LE	0	06:31:03.999	Core 01	  Trading MT5=
+FG	0	06:31:03.999	Core 01	  InpMagicNumber=505015
+CL	0	06:31:03.999	Core 01	  InpAllowMultipleSetups=true
+FD	0	06:31:03.999	Core 01	  InpDeviationPoints=20
+KO	0	06:31:03.999	Core 01	  InpPositionSizing=2
+KJ	0	06:31:03.999	Core 01	  InpFixedLots=0.1
+KE	0	06:31:03.999	Core 01	  InpRiskPercent=1
+NL	0	06:31:03.999	Core 01	  InpRiskMoney=50
+FE	0	06:31:03.999	Core 01	  Rysowanie=
+HI	0	06:31:03.999	Core 01	  InpDrawSetups=true
+FN	0	06:31:03.999	Core 01	  InpFibProjectionBars=24
+QG	0	06:31:03.999	Core 01	XAUUSD. : real ticks begin from 2026.02.24 00:00:00
+IQ	0	06:31:03.999	Core 01	2026.03.02 01:00:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.02 00:45 O=5364.170 H=5364.650 L=5339.450 C=5346.480 body=17.690 ATR=22.343 body_ATR_pct=79.17 min_pct=75.00 max_pct=166.00 close_wick_pct=27.90 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+NF	0	06:31:03.999	Core 01	2026.03.02 10:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.02 10:30 O=5390.370 H=5398.530 L=5386.590 C=5398.100 body=7.730 ATR=11.983 body_ATR_pct=64.51 min_pct=75.00 max_pct=166.00 close_wick_pct=3.60 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+CQ	0	06:31:03.999	Core 01	2026.03.02 12:00:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.02 11:45 O=5390.670 H=5391.030 L=5373.680 C=5382.930 body=7.740 ATR=12.337 body_ATR_pct=62.74 min_pct=75.00 max_pct=166.00 close_wick_pct=53.31 trend_ok=false atr_ok=false wick_ok=false reason=Trend, ATR, Knot
+PK	0	06:31:03.999	Core 01	2026.03.03 00:00:01   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.02 23:45 O=5331.740 H=5346.240 L=5330.040 C=5346.240 body=14.500 ATR=11.767 body_ATR_pct=123.23 min_pct=75.00 max_pct=166.00 close_wick_pct=0.00 trend_ok=true atr_ok=true wick_ok=true
+KG	0	06:31:03.999	Core 01	2026.03.03 00:00:01   buy limit 0.06 XAUUSD. at 5338.140 sl: 5330.040 tp: 5354.340 (5346.240 / 5346.550)
+FJ	0	06:31:03.999	Core 01	2026.03.03 00:00:01   CTrade::OrderSend: buy limit 0.06 XAUUSD. at 5338.140 sl: 5330.040 tp: 5354.340 [done]
+IR	0	06:31:03.999	Core 01	2026.03.03 00:01:51   order [#2 buy limit 0.06 XAUUSD. at 5338.140] triggered
+LK	0	06:31:03.999	Core 01	2026.03.03 00:01:51   deal #2 buy 0.06 XAUUSD. at 5338.020 done (based on order #2)
+RJ	0	06:31:03.999	Core 01	2026.03.03 00:01:51   deal performed [#2 buy 0.06 XAUUSD. at 5338.020]
+DR	0	06:31:03.999	Core 01	2026.03.03 00:01:51   order performed buy 0.06 at 5338.020 [#2 buy limit 0.06 XAUUSD. at 5338.140]
+MR	0	06:31:03.999	Core 01	2026.03.03 00:01:51   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.02 23:45 price=5338.020 volume=0.06
+DD	0	06:31:03.999	Core 01	2026.03.03 00:17:37   position modified [#2 buy 0.06 XAUUSD. 5338.020 sl: 5338.020 tp: 5354.340]
+RG	0	06:31:03.999	Core 01	2026.03.03 00:17:37   CTrade::OrderSend: modify position #2 XAUUSD. (sl: 5338.020, tp: 5354.340) [done]
+FK	0	06:31:03.999	Core 01	2026.03.03 00:18:02   take profit triggered #2 buy 0.06 XAUUSD. 5338.020 sl: 5338.020 tp: 5354.340 [#3 sell 0.06 XAUUSD. at 5354.340]
+GD	0	06:31:03.999	Core 01	2026.03.03 00:18:02   deal #3 sell 0.06 XAUUSD. at 5356.120 done (based on order #3)
+PE	0	06:31:03.999	Core 01	2026.03.03 00:18:02   deal performed [#3 sell 0.06 XAUUSD. at 5356.120]
+CH	0	06:31:03.999	Core 01	2026.03.03 00:18:02   order performed sell 0.06 at 5356.120 [#3 sell 0.06 XAUUSD. at 5354.340]
+RM	0	06:31:03.999	Core 01	2026.03.03 00:30:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.03 00:15 O=5345.940 H=5358.660 L=5345.860 C=5355.910 body=9.970 ATR=12.947 body_ATR_pct=77.01 min_pct=75.00 max_pct=166.00 close_wick_pct=21.48 trend_ok=true atr_ok=true wick_ok=true
+NJ	0	06:31:03.999	Core 01	2026.03.03 00:30:00   buy limit 0.04 XAUUSD. at 5347.750 sl: 5336.840 tp: 5369.570 (5355.910 / 5356.220)
+PI	0	06:31:03.999	Core 01	2026.03.03 00:30:00   CTrade::OrderSend: buy limit 0.04 XAUUSD. at 5347.750 sl: 5336.840 tp: 5369.570 [done]
+RG	0	06:31:03.999	Core 01	2026.03.03 00:54:46   order [#4 buy limit 0.04 XAUUSD. at 5347.750] triggered
+PD	0	06:31:03.999	Core 01	2026.03.03 00:54:46   deal #4 buy 0.04 XAUUSD. at 5347.240 done (based on order #4)
+HI	0	06:31:03.999	Core 01	2026.03.03 00:54:46   deal performed [#4 buy 0.04 XAUUSD. at 5347.240]
+QQ	0	06:31:03.999	Core 01	2026.03.03 00:54:46   order performed buy 0.04 at 5347.240 [#4 buy limit 0.04 XAUUSD. at 5347.750]
+FQ	0	06:31:03.999	Core 01	2026.03.03 00:54:46   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.03 00:15 price=5347.240 volume=0.04
+CS	0	06:31:03.999	Core 01	2026.03.03 01:07:42   position modified [#4 buy 0.04 XAUUSD. 5347.240 sl: 5347.240 tp: 5369.570]
+CS	0	06:31:03.999	Core 01	2026.03.03 01:07:42   CTrade::OrderSend: modify position #4 XAUUSD. (sl: 5347.240, tp: 5369.570) [done]
+DL	0	06:31:03.999	Core 01	2026.03.03 01:07:47   take profit triggered #4 buy 0.04 XAUUSD. 5347.240 sl: 5347.240 tp: 5369.570 [#5 sell 0.04 XAUUSD. at 5369.570]
+IK	0	06:31:03.999	Core 01	2026.03.03 01:07:47   deal #5 sell 0.04 XAUUSD. at 5369.580 done (based on order #5)
+LF	0	06:31:03.999	Core 01	2026.03.03 01:07:47   deal performed [#5 sell 0.04 XAUUSD. at 5369.580]
+PL	0	06:31:03.999	Core 01	2026.03.03 01:07:47   order performed sell 0.04 at 5369.580 [#5 sell 0.04 XAUUSD. at 5369.570]
+RP	0	06:31:03.999	Core 01	2026.03.03 09:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.03 09:15 O=5294.860 H=5302.340 L=5226.310 C=5242.760 body=52.100 ATR=38.607 body_ATR_pct=134.95 min_pct=75.00 max_pct=166.00 close_wick_pct=21.64 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+QE	0	06:31:03.999	Core 01	2026.03.03 19:15:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.03 19:00 O=5136.500 H=5148.520 L=5110.070 C=5112.210 body=24.290 ATR=26.420 body_ATR_pct=91.94 min_pct=75.00 max_pct=166.00 close_wick_pct=5.57 trend_ok=true atr_ok=true wick_ok=true
+CI	0	06:31:03.999	Core 01	2026.03.03 19:15:00   sell limit 0.02 XAUUSD. at 5129.295 sl: 5148.520 tp: 5090.845 (5112.240 / 5112.500)
+OE	0	06:31:03.999	Core 01	2026.03.03 19:15:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 5129.295 sl: 5148.520 tp: 5090.845 [done]
+KM	0	06:31:03.999	Core 01	2026.03.03 20:25:27   order [#6 sell limit 0.02 XAUUSD. at 5129.295] triggered
+MG	0	06:31:03.999	Core 01	2026.03.03 20:25:27   deal #6 sell 0.02 XAUUSD. at 5129.460 done (based on order #6)
+IJ	0	06:31:03.999	Core 01	2026.03.03 20:25:27   deal performed [#6 sell 0.02 XAUUSD. at 5129.460]
+JE	0	06:31:03.999	Core 01	2026.03.03 20:25:27   order performed sell 0.02 at 5129.460 [#6 sell limit 0.02 XAUUSD. at 5129.295]
+CE	0	06:31:03.999	Core 01	2026.03.03 20:25:27   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.03 19:00 price=5129.460 volume=0.02
+PH	0	06:31:03.999	Core 01	2026.03.03 20:52:31   position modified [#6 sell 0.02 XAUUSD. 5129.460 sl: 5129.460 tp: 5090.845]
+FD	0	06:31:03.999	Core 01	2026.03.03 20:52:31   CTrade::OrderSend: modify position #6 XAUUSD. (sl: 5129.460, tp: 5090.845) [done]
+PH	0	06:31:03.999	Core 01	2026.03.03 20:52:42   take profit triggered #6 sell 0.02 XAUUSD. 5129.460 sl: 5129.460 tp: 5090.845 [#7 buy 0.02 XAUUSD. at 5090.845]
+DI	0	06:31:03.999	Core 01	2026.03.03 20:52:42   deal #7 buy 0.02 XAUUSD. at 5090.230 done (based on order #7)
+EE	0	06:31:03.999	Core 01	2026.03.03 20:52:42   deal performed [#7 buy 0.02 XAUUSD. at 5090.230]
+CI	0	06:31:03.999	Core 01	2026.03.03 20:52:42   order performed buy 0.02 at 5090.230 [#7 buy 0.02 XAUUSD. at 5090.845]
+KJ	0	06:31:03.999	Core 01	2026.03.04 10:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.04 10:00 O=5182.210 H=5197.980 L=5182.210 C=5197.820 body=15.610 ATR=13.507 body_ATR_pct=115.57 min_pct=75.00 max_pct=166.00 close_wick_pct=1.01 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+QH	0	06:31:03.999	Core 01	2026.03.04 12:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.04 12:00 O=5192.130 H=5205.970 L=5192.120 C=5197.500 body=5.370 ATR=10.053 body_ATR_pct=53.42 min_pct=75.00 max_pct=166.00 close_wick_pct=61.16 trend_ok=false atr_ok=false wick_ok=false reason=Trend, ATR, Knot
+KQ	0	06:31:03.999	Core 01	2026.03.04 12:30:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.04 12:15 O=5197.500 H=5197.740 L=5174.190 C=5178.220 body=19.280 ATR=14.663 body_ATR_pct=131.48 min_pct=75.00 max_pct=166.00 close_wick_pct=17.11 trend_ok=true atr_ok=true wick_ok=true
+ND	0	06:31:03.999	Core 01	2026.03.04 12:30:00   sell limit 0.03 XAUUSD. at 5190.080 sl: 5205.970 tp: 5158.300 (5178.310 / 5178.600)
+OI	0	06:31:03.999	Core 01	2026.03.04 12:30:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 5190.080 sl: 5205.970 tp: 5158.300 [done]
+HI	0	06:31:03.999	Core 01	2026.03.04 13:10:51   order [#8 sell limit 0.03 XAUUSD. at 5190.080] triggered
+IH	0	06:31:03.999	Core 01	2026.03.04 13:10:51   deal #8 sell 0.03 XAUUSD. at 5190.120 done (based on order #8)
+GQ	0	06:31:03.999	Core 01	2026.03.04 13:10:51   deal performed [#8 sell 0.03 XAUUSD. at 5190.120]
+OQ	0	06:31:03.999	Core 01	2026.03.04 13:10:51   order performed sell 0.03 at 5190.120 [#8 sell limit 0.03 XAUUSD. at 5190.080]
+KQ	0	06:31:03.999	Core 01	2026.03.04 13:10:51   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.04 12:15 price=5190.120 volume=0.03
+DL	0	06:31:03.999	Core 01	2026.03.04 14:22:29   position modified [#8 sell 0.03 XAUUSD. 5190.120 sl: 5190.120 tp: 5158.300]
+DP	0	06:31:03.999	Core 01	2026.03.04 14:22:29   CTrade::OrderSend: modify position #8 XAUUSD. (sl: 5190.120, tp: 5158.300) [done]
+CL	0	06:31:03.999	Core 01	2026.03.04 14:48:02   take profit triggered #8 sell 0.03 XAUUSD. 5190.120 sl: 5190.120 tp: 5158.300 [#9 buy 0.03 XAUUSD. at 5158.300]
+ND	0	06:31:03.999	Core 01	2026.03.04 14:48:02   deal #9 buy 0.03 XAUUSD. at 5155.650 done (based on order #9)
+MI	0	06:31:03.999	Core 01	2026.03.04 14:48:02   deal performed [#9 buy 0.03 XAUUSD. at 5155.650]
+IM	0	06:31:03.999	Core 01	2026.03.04 14:48:02   order performed buy 0.03 at 5155.650 [#9 buy 0.03 XAUUSD. at 5158.300]
+IP	0	06:31:03.999	Core 01	2026.03.04 15:00:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.04 14:45 O=5171.780 H=5179.540 L=5138.580 C=5146.890 body=24.890 ATR=25.937 body_ATR_pct=95.96 min_pct=75.00 max_pct=166.00 close_wick_pct=20.29 trend_ok=true atr_ok=true wick_ok=true
+QF	0	06:31:03.999	Core 01	2026.03.04 15:00:00   sell limit 0.02 XAUUSD. at 5161.790 sl: 5185.000 tp: 5115.370 (5146.890 / 5147.120)
+IK	0	06:31:03.999	Core 01	2026.03.04 15:00:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 5161.790 sl: 5185.000 tp: 5115.370 [done]
+DD	0	06:31:03.999	Core 01	2026.03.04 15:01:39   order [#10 sell limit 0.02 XAUUSD. at 5161.790] triggered
+NN	0	06:31:03.999	Core 01	2026.03.04 15:01:39   deal #10 sell 0.02 XAUUSD. at 5161.920 done (based on order #10)
+OS	0	06:31:03.999	Core 01	2026.03.04 15:01:39   deal performed [#10 sell 0.02 XAUUSD. at 5161.920]
+RL	0	06:31:03.999	Core 01	2026.03.04 15:01:39   order performed sell 0.02 at 5161.920 [#10 sell limit 0.02 XAUUSD. at 5161.790]
+MO	0	06:31:03.999	Core 01	2026.03.04 15:01:39   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.04 14:45 price=5161.920 volume=0.02
+FL	0	06:31:03.999	Core 01	2026.03.04 17:23:56   position modified [#10 sell 0.02 XAUUSD. 5161.920 sl: 5161.920 tp: 5115.370]
+EQ	0	06:31:03.999	Core 01	2026.03.04 17:23:56   CTrade::OrderSend: modify position #10 XAUUSD. (sl: 5161.920, tp: 5115.370) [done]
+HR	0	06:31:03.999	Core 01	2026.03.04 18:15:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.04 18:00 O=5141.020 H=5143.360 L=5117.700 C=5124.570 body=16.450 ATR=16.073 body_ATR_pct=102.34 min_pct=75.00 max_pct=166.00 close_wick_pct=26.77 trend_ok=true atr_ok=true wick_ok=true
+GD	0	06:31:03.999	Core 01	2026.03.04 18:15:00   sell limit 0.03 XAUUSD. at 5132.570 sl: 5147.440 tp: 5102.830 (5124.580 / 5124.810)
+NH	0	06:31:03.999	Core 01	2026.03.04 18:15:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 5132.570 sl: 5147.440 tp: 5102.830 [done]
+MI	0	06:31:03.999	Core 01	2026.03.04 18:20:29   take profit triggered #10 sell 0.02 XAUUSD. 5161.920 sl: 5161.920 tp: 5115.370 [#12 buy 0.02 XAUUSD. at 5115.370]
+PN	0	06:31:03.999	Core 01	2026.03.04 18:20:29   deal #11 buy 0.02 XAUUSD. at 5113.510 done (based on order #12)
+ID	0	06:31:03.999	Core 01	2026.03.04 18:20:29   deal performed [#11 buy 0.02 XAUUSD. at 5113.510]
+CI	0	06:31:03.999	Core 01	2026.03.04 18:20:29   order performed buy 0.02 at 5113.510 [#12 buy 0.02 XAUUSD. at 5115.370]
+HG	0	06:31:03.999	Core 01	2026.03.04 18:50:05   order [#11 sell limit 0.03 XAUUSD. at 5132.570] triggered
+PN	0	06:31:03.999	Core 01	2026.03.04 18:50:05   deal #12 sell 0.03 XAUUSD. at 5133.240 done (based on order #11)
+NP	0	06:31:03.999	Core 01	2026.03.04 18:50:05   deal performed [#12 sell 0.03 XAUUSD. at 5133.240]
+CL	0	06:31:03.999	Core 01	2026.03.04 18:50:05   order performed sell 0.03 at 5133.240 [#11 sell limit 0.03 XAUUSD. at 5132.570]
+EO	0	06:31:03.999	Core 01	2026.03.04 18:50:05   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.04 18:00 price=5133.240 volume=0.03
+DO	0	06:31:03.999	Core 01	2026.03.04 23:00:07   stop loss triggered #11 sell 0.03 XAUUSD. 5133.240 sl: 5147.440 tp: 5102.830 [#13 buy 0.03 XAUUSD. at 5147.440]
+EF	0	06:31:03.999	Core 01	2026.03.04 23:00:07   deal #13 buy 0.03 XAUUSD. at 5156.420 done (based on order #13)
+KL	0	06:31:03.999	Core 01	2026.03.04 23:00:07   deal performed [#13 buy 0.03 XAUUSD. at 5156.420]
+RP	0	06:31:03.999	Core 01	2026.03.04 23:00:07   order performed buy 0.03 at 5156.420 [#13 buy 0.03 XAUUSD. at 5147.440]
+GM	0	06:31:03.999	Core 01	2026.03.05 08:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.05 08:00 O=5162.300 H=5162.580 L=5142.870 C=5143.120 body=19.180 ATR=11.537 body_ATR_pct=166.25 min_pct=75.00 max_pct=166.00 close_wick_pct=1.27 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+LI	0	06:31:03.999	Core 01	2026.03.05 08:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.05 08:30 O=5142.860 H=5163.320 L=5142.760 C=5160.830 body=17.970 ATR=17.053 body_ATR_pct=105.38 min_pct=75.00 max_pct=166.00 close_wick_pct=12.11 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+PD	0	06:31:03.999	Core 01	2026.03.05 20:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.05 20:00 O=5065.450 H=5079.670 L=5061.710 C=5079.050 body=13.600 ATR=12.580 body_ATR_pct=108.11 min_pct=75.00 max_pct=166.00 close_wick_pct=3.45 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+HM	0	06:31:03.999	Core 01	2026.03.08 23:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.08 23:30 O=5104.640 H=5105.090 L=5044.580 C=5072.920 body=31.720 ATR=37.753 body_ATR_pct=84.02 min_pct=75.00 max_pct=166.00 close_wick_pct=46.84 trend_ok=true atr_ok=true wick_ok=false reason=Knot
+EH	0	06:31:03.999	Core 01	2026.03.09 01:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.09 01:00 O=5050.050 H=5074.350 L=5015.020 C=5072.400 body=22.350 ATR=33.123 body_ATR_pct=67.48 min_pct=75.00 max_pct=166.00 close_wick_pct=3.29 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+LQ	0	06:31:03.999	Core 01	2026.03.09 05:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.09 05:00 O=5090.110 H=5102.050 L=5080.860 C=5096.610 body=6.500 ATR=10.993 body_ATR_pct=59.13 min_pct=75.00 max_pct=166.00 close_wick_pct=25.67 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+PK	0	06:31:03.999	Core 01	2026.03.09 05:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.09 05:30 O=5095.390 H=5121.120 L=5092.030 C=5120.720 body=25.330 ATR=22.423 body_ATR_pct=112.96 min_pct=75.00 max_pct=166.00 close_wick_pct=1.38 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+JG	0	06:31:03.999	Core 01	2026.03.09 15:30:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.09 15:15 O=5092.400 H=5100.230 L=5081.810 C=5099.600 body=7.200 ATR=21.213 body_ATR_pct=33.94 min_pct=75.00 max_pct=166.00 close_wick_pct=3.42 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+MQ	0	06:31:03.999	Core 01	2026.03.10 03:00:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.10 02:45 O=5182.250 H=5185.630 L=5163.770 C=5165.290 body=16.960 ATR=12.997 body_ATR_pct=130.49 min_pct=75.00 max_pct=166.00 close_wick_pct=6.95 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+MH	0	06:31:03.999	Core 01	2026.03.10 18:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.10 18:00 O=5227.580 H=5227.580 L=5215.470 C=5215.830 body=11.750 ATR=8.617 body_ATR_pct=136.36 min_pct=75.00 max_pct=166.00 close_wick_pct=2.97 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+CP	0	06:31:03.999	Core 01	2026.03.10 19:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.10 19:30 O=5200.680 H=5200.820 L=5179.930 C=5187.580 body=13.100 ATR=15.227 body_ATR_pct=86.03 min_pct=75.00 max_pct=166.00 close_wick_pct=36.62 trend_ok=false atr_ok=true wick_ok=false reason=Trend, Knot
+LH	0	06:31:03.999	Core 01	2026.03.11 00:30:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.11 00:15 O=5192.060 H=5215.510 L=5191.400 C=5212.350 body=20.290 ATR=15.153 body_ATR_pct=133.90 min_pct=75.00 max_pct=166.00 close_wick_pct=13.11 trend_ok=true atr_ok=true wick_ok=true
+JG	0	06:31:03.999	Core 01	2026.03.11 00:30:00   buy limit 0.03 XAUUSD. at 5201.145 sl: 5186.780 tp: 5229.875 (5212.350 / 5212.650)
+RJ	0	06:31:03.999	Core 01	2026.03.11 00:30:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 5201.145 sl: 5186.780 tp: 5229.875 [done]
+ML	0	06:31:03.999	Core 01	2026.03.11 01:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.11 00:45 O=5211.810 H=5219.350 L=5211.370 C=5216.430 body=4.620 ATR=12.867 body_ATR_pct=35.91 min_pct=75.00 max_pct=166.00 close_wick_pct=36.59 trend_ok=true atr_ok=false wick_ok=false reason=ATR, Knot
+LO	0	06:31:03.999	Core 01	2026.03.11 02:02:49   order [#14 buy limit 0.03 XAUUSD. at 5201.145] triggered
+JR	0	06:31:03.999	Core 01	2026.03.11 02:02:49   deal #14 buy 0.03 XAUUSD. at 5201.120 done (based on order #14)
+QP	0	06:31:03.999	Core 01	2026.03.11 02:02:49   deal performed [#14 buy 0.03 XAUUSD. at 5201.120]
+LH	0	06:31:03.999	Core 01	2026.03.11 02:02:49   order performed buy 0.03 at 5201.120 [#14 buy limit 0.03 XAUUSD. at 5201.145]
+IK	0	06:31:03.999	Core 01	2026.03.11 02:02:49   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.11 00:15 price=5201.120 volume=0.03
+HR	0	06:31:03.999	Core 01	2026.03.11 06:15:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.11 06:00 O=5198.990 H=5210.340 L=5196.320 C=5209.060 body=10.070 ATR=11.287 body_ATR_pct=89.22 min_pct=75.00 max_pct=166.00 close_wick_pct=9.13 trend_ok=true atr_ok=true wick_ok=true
+QL	0	06:31:03.999	Core 01	2026.03.11 06:15:00   buy limit 0.06 XAUUSD. at 5202.935 sl: 5195.530 tp: 5217.745 (5209.050 / 5209.300)
+HP	0	06:31:03.999	Core 01	2026.03.11 06:15:00   CTrade::OrderSend: buy limit 0.06 XAUUSD. at 5202.935 sl: 5195.530 tp: 5217.745 [done]
+LO	0	06:31:03.999	Core 01	2026.03.11 06:34:55   order [#15 buy limit 0.06 XAUUSD. at 5202.935] triggered
+MM	0	06:31:03.999	Core 01	2026.03.11 06:34:55   deal #15 buy 0.06 XAUUSD. at 5202.800 done (based on order #15)
+MP	0	06:31:03.999	Core 01	2026.03.11 06:34:55   deal performed [#15 buy 0.06 XAUUSD. at 5202.800]
+OH	0	06:31:03.999	Core 01	2026.03.11 06:34:55   order performed buy 0.06 at 5202.800 [#15 buy limit 0.06 XAUUSD. at 5202.935]
+LK	0	06:31:03.999	Core 01	2026.03.11 06:34:55   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.11 06:00 price=5202.800 volume=0.06
+KS	0	06:31:03.999	Core 01	2026.03.11 06:42:58   stop loss triggered #15 buy 0.06 XAUUSD. 5202.800 sl: 5195.530 tp: 5217.745 [#16 sell 0.06 XAUUSD. at 5195.530]
+KM	0	06:31:03.999	Core 01	2026.03.11 06:42:58   deal #16 sell 0.06 XAUUSD. at 5195.520 done (based on order #16)
+DO	0	06:31:03.999	Core 01	2026.03.11 06:42:58   deal performed [#16 sell 0.06 XAUUSD. at 5195.520]
+CD	0	06:31:03.999	Core 01	2026.03.11 06:42:58   order performed sell 0.06 at 5195.520 [#16 sell 0.06 XAUUSD. at 5195.530]
+KE	0	06:31:03.999	Core 01	2026.03.11 07:37:12   stop loss triggered #14 buy 0.03 XAUUSD. 5201.120 sl: 5186.780 tp: 5229.875 [#17 sell 0.03 XAUUSD. at 5186.780]
+FS	0	06:31:03.999	Core 01	2026.03.11 07:37:12   deal #17 sell 0.03 XAUUSD. at 5186.750 done (based on order #17)
+FL	0	06:31:03.999	Core 01	2026.03.11 07:37:12   deal performed [#17 sell 0.03 XAUUSD. at 5186.750]
+OF	0	06:31:03.999	Core 01	2026.03.11 07:37:12   order performed sell 0.03 at 5186.750 [#17 sell 0.03 XAUUSD. at 5186.780]
+KJ	0	06:31:03.999	Core 01	2026.03.11 12:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.11 12:30 O=5193.870 H=5196.680 L=5173.140 C=5180.280 body=13.590 ATR=15.480 body_ATR_pct=87.79 min_pct=75.00 max_pct=166.00 close_wick_pct=30.33 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+GO	0	06:31:03.999	Core 01	2026.03.11 15:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.11 15:00 O=5184.670 H=5185.690 L=5170.390 C=5170.940 body=13.730 ATR=16.620 body_ATR_pct=82.61 min_pct=75.00 max_pct=166.00 close_wick_pct=3.59 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+FH	0	06:31:03.999	Core 01	2026.03.12 01:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.12 01:30 O=5157.420 H=5170.320 L=5154.820 C=5169.970 body=12.550 ATR=13.117 body_ATR_pct=95.68 min_pct=75.00 max_pct=166.00 close_wick_pct=2.26 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+JK	0	06:31:03.999	Core 01	2026.03.12 04:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.12 04:30 O=5152.290 H=5152.370 L=5143.750 C=5144.100 body=8.190 ATR=5.183 body_ATR_pct=158.01 min_pct=75.00 max_pct=166.00 close_wick_pct=4.06 trend_ok=true atr_ok=true wick_ok=true
+NR	0	06:31:03.999	Core 01	2026.03.12 04:45:00   sell limit 0.09 XAUUSD. at 5148.815 sl: 5153.880 tp: 5138.685 (5144.240 / 5144.700)
+DN	0	06:31:03.999	Core 01	2026.03.12 04:45:00   CTrade::OrderSend: sell limit 0.09 XAUUSD. at 5148.815 sl: 5153.880 tp: 5138.685 [done]
+ES	0	06:31:03.999	Core 01	2026.03.12 05:10:58   order [#18 sell limit 0.09 XAUUSD. at 5148.815] triggered
+CR	0	06:31:03.999	Core 01	2026.03.12 05:10:58   deal #18 sell 0.09 XAUUSD. at 5148.900 done (based on order #18)
+RL	0	06:31:03.999	Core 01	2026.03.12 05:10:58   deal performed [#18 sell 0.09 XAUUSD. at 5148.900]
+QH	0	06:31:03.999	Core 01	2026.03.12 05:10:58   order performed sell 0.09 at 5148.900 [#18 sell limit 0.09 XAUUSD. at 5148.815]
+HK	0	06:31:03.999	Core 01	2026.03.12 05:10:58   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.12 04:30 price=5148.900 volume=0.09
+NQ	0	06:31:03.999	Core 01	2026.03.12 05:25:02   position modified [#18 sell 0.09 XAUUSD. 5148.900 sl: 5148.900 tp: 5138.685]
+KM	0	06:31:03.999	Core 01	2026.03.12 05:25:02   CTrade::OrderSend: modify position #18 XAUUSD. (sl: 5148.900, tp: 5138.685) [done]
+OR	0	06:31:03.999	Core 01	2026.03.12 05:25:22   take profit triggered #18 sell 0.09 XAUUSD. 5148.900 sl: 5148.900 tp: 5138.685 [#19 buy 0.09 XAUUSD. at 5138.685]
+DS	0	06:31:03.999	Core 01	2026.03.12 05:25:22   deal #19 buy 0.09 XAUUSD. at 5138.590 done (based on order #19)
+DQ	0	06:31:03.999	Core 01	2026.03.12 05:25:22   deal performed [#19 buy 0.09 XAUUSD. at 5138.590]
+RD	0	06:31:03.999	Core 01	2026.03.12 05:25:22   order performed buy 0.09 at 5138.590 [#19 buy 0.09 XAUUSD. at 5138.685]
+LG	0	06:31:03.999	Core 01	2026.03.12 07:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.12 07:30 O=5168.830 H=5179.630 L=5168.120 C=5178.910 body=10.080 ATR=7.267 body_ATR_pct=138.72 min_pct=75.00 max_pct=166.00 close_wick_pct=6.26 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+KL	0	06:31:03.999	Core 01	2026.03.12 13:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.12 13:15 O=5183.930 H=5184.110 L=5158.890 C=5169.120 body=14.810 ATR=14.533 body_ATR_pct=101.90 min_pct=75.00 max_pct=166.00 close_wick_pct=40.56 trend_ok=false atr_ok=true wick_ok=false reason=Trend, Knot
+HH	0	06:31:03.999	Core 01	2026.03.12 20:30:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.12 20:15 O=5085.390 H=5088.750 L=5071.280 C=5071.730 body=13.660 ATR=13.063 body_ATR_pct=104.57 min_pct=75.00 max_pct=166.00 close_wick_pct=2.58 trend_ok=true atr_ok=true wick_ok=true
+DO	0	06:31:03.999	Core 01	2026.03.12 20:30:00   sell limit 0.05 XAUUSD. at 5080.920 sl: 5090.560 tp: 5061.640 (5071.730 / 5071.970)
+GS	0	06:31:03.999	Core 01	2026.03.12 20:30:00   CTrade::OrderSend: sell limit 0.05 XAUUSD. at 5080.920 sl: 5090.560 tp: 5061.640 [done]
+JL	0	06:31:03.999	Core 01	2026.03.12 20:48:50   order [#20 sell limit 0.05 XAUUSD. at 5080.920] triggered
+GQ	0	06:31:03.999	Core 01	2026.03.12 20:48:50   deal #20 sell 0.05 XAUUSD. at 5081.010 done (based on order #20)
+KK	0	06:31:03.999	Core 01	2026.03.12 20:48:50   deal performed [#20 sell 0.05 XAUUSD. at 5081.010]
+JD	0	06:31:03.999	Core 01	2026.03.12 20:48:50   order performed sell 0.05 at 5081.010 [#20 sell limit 0.05 XAUUSD. at 5080.920]
+GF	0	06:31:03.999	Core 01	2026.03.12 20:48:50   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.12 20:15 price=5081.010 volume=0.05
+MF	0	06:31:03.999	Core 01	2026.03.12 22:18:22   stop loss triggered #20 sell 0.05 XAUUSD. 5081.010 sl: 5090.560 tp: 5061.640 [#21 buy 0.05 XAUUSD. at 5090.560]
+GO	0	06:31:03.999	Core 01	2026.03.12 22:18:22   deal #21 buy 0.05 XAUUSD. at 5090.560 done (based on order #21)
+NE	0	06:31:03.999	Core 01	2026.03.12 22:18:22   deal performed [#21 buy 0.05 XAUUSD. at 5090.560]
+IG	0	06:31:03.999	Core 01	2026.03.12 22:18:22   order performed buy 0.05 at 5090.560 [#21 buy 0.05 XAUUSD. at 5090.560]
+LI	0	06:31:03.999	Core 01	2026.03.13 04:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.13 03:45 O=5110.460 H=5116.710 L=5110.380 C=5115.870 body=5.410 ATR=5.980 body_ATR_pct=90.47 min_pct=75.00 max_pct=166.00 close_wick_pct=13.27 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+OP	0	06:31:03.999	Core 01	2026.03.13 11:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.13 10:45 O=5087.780 H=5098.090 L=5084.500 C=5095.680 body=7.900 ATR=10.167 body_ATR_pct=77.70 min_pct=75.00 max_pct=166.00 close_wick_pct=17.73 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+LN	0	06:31:03.999	Core 01	2026.03.15 22:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.15 22:00 O=5004.940 H=5030.280 L=4998.850 C=5023.480 body=18.540 ATR=17.287 body_ATR_pct=107.25 min_pct=75.00 max_pct=166.00 close_wick_pct=21.64 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+QI	0	06:31:03.999	Core 01	2026.03.16 06:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.16 06:30 O=5027.920 H=5029.540 L=5020.930 C=5022.350 body=5.570 ATR=11.197 body_ATR_pct=49.75 min_pct=75.00 max_pct=166.00 close_wick_pct=16.49 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+EL	0	06:31:03.999	Core 01	2026.03.16 08:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.16 08:00 O=4995.500 H=5000.450 L=4988.470 C=4988.480 body=7.020 ATR=11.527 body_ATR_pct=60.90 min_pct=75.00 max_pct=166.00 close_wick_pct=0.08 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+OK	0	06:31:03.999	Core 01	2026.03.16 11:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.16 10:45 O=4985.020 H=4999.430 L=4984.010 C=4999.300 body=14.280 ATR=12.467 body_ATR_pct=114.55 min_pct=75.00 max_pct=166.00 close_wick_pct=0.84 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+NH	0	06:31:03.999	Core 01	2026.03.17 15:30:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.17 15:15 O=5008.360 H=5014.860 L=4993.720 C=4994.830 body=13.530 ATR=15.010 body_ATR_pct=90.14 min_pct=75.00 max_pct=166.00 close_wick_pct=5.25 trend_ok=true atr_ok=true wick_ok=true
+IR	0	06:31:03.999	Core 01	2026.03.17 15:30:00   sell limit 0.04 XAUUSD. at 5005.625 sl: 5017.530 tp: 4981.815 (4994.820 / 4995.070)
+LO	0	06:31:03.999	Core 01	2026.03.17 15:30:00   CTrade::OrderSend: sell limit 0.04 XAUUSD. at 5005.625 sl: 5017.530 tp: 4981.815 [done]
+JP	0	06:31:03.999	Core 01	2026.03.17 16:30:55   order [#22 sell limit 0.04 XAUUSD. at 5005.625] triggered
+RR	0	06:31:03.999	Core 01	2026.03.17 16:30:55   deal #22 sell 0.04 XAUUSD. at 5005.700 done (based on order #22)
+DL	0	06:31:03.999	Core 01	2026.03.17 16:30:55   deal performed [#22 sell 0.04 XAUUSD. at 5005.700]
+KH	0	06:31:03.999	Core 01	2026.03.17 16:30:55   order performed sell 0.04 at 5005.700 [#22 sell limit 0.04 XAUUSD. at 5005.625]
+CK	0	06:31:03.999	Core 01	2026.03.17 16:30:55   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.17 15:15 price=5005.700 volume=0.04
+NQ	0	06:31:03.999	Core 01	2026.03.18 04:36:07   position modified [#22 sell 0.04 XAUUSD. 5005.700 sl: 5005.700 tp: 4981.815]
+NM	0	06:31:03.999	Core 01	2026.03.18 04:36:07   CTrade::OrderSend: modify position #22 XAUUSD. (sl: 5005.700, tp: 4981.815) [done]
+QR	0	06:31:03.999	Core 01	2026.03.18 04:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.18 04:30 O=4990.630 H=4990.960 L=4981.790 C=4985.010 body=5.620 ATR=5.113 body_ATR_pct=109.91 min_pct=75.00 max_pct=166.00 close_wick_pct=35.11 trend_ok=true atr_ok=true wick_ok=false reason=Knot
+DL	0	06:31:03.999	Core 01	2026.03.18 06:12:47   stop loss triggered #22 sell 0.04 XAUUSD. 5005.700 sl: 5005.700 tp: 4981.815 [#23 buy 0.04 XAUUSD. at 5005.700]
+CE	0	06:31:03.999	Core 01	2026.03.18 06:12:47   deal #23 buy 0.04 XAUUSD. at 5006.000 done (based on order #23)
+HK	0	06:31:03.999	Core 01	2026.03.18 06:12:47   deal performed [#23 buy 0.04 XAUUSD. at 5006.000]
+LN	0	06:31:03.999	Core 01	2026.03.18 06:12:47   order performed buy 0.04 at 5006.000 [#23 buy 0.04 XAUUSD. at 5005.700]
+FL	0	06:31:03.999	Core 01	2026.03.18 06:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.18 06:00 O=4998.420 H=5009.210 L=4996.350 C=5008.980 body=10.560 ATR=11.500 body_ATR_pct=91.83 min_pct=75.00 max_pct=166.00 close_wick_pct=1.79 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+EG	0	06:31:03.999	Core 01	2026.03.18 13:15:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.18 13:00 O=4878.190 H=4878.230 L=4849.700 C=4858.100 body=20.090 ATR=24.983 body_ATR_pct=80.41 min_pct=75.00 max_pct=166.00 close_wick_pct=29.44 trend_ok=true atr_ok=true wick_ok=true
+II	0	06:31:03.999	Core 01	2026.03.18 13:15:00   sell limit 0.02 XAUUSD. at 4870.555 sl: 4891.410 tp: 4828.845 (4858.090 / 4858.290)
+NR	0	06:31:03.999	Core 01	2026.03.18 13:15:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 4870.555 sl: 4891.410 tp: 4828.845 [done]
+KO	0	06:31:03.999	Core 01	2026.03.18 13:40:52   order [#24 sell limit 0.02 XAUUSD. at 4870.555] triggered
+HG	0	06:31:03.999	Core 01	2026.03.18 13:40:52   deal #24 sell 0.02 XAUUSD. at 4870.590 done (based on order #24)
+HH	0	06:31:03.999	Core 01	2026.03.18 13:40:52   deal performed [#24 sell 0.02 XAUUSD. at 4870.590]
+HG	0	06:31:03.999	Core 01	2026.03.18 13:40:52   order performed sell 0.02 at 4870.590 [#24 sell limit 0.02 XAUUSD. at 4870.555]
+ND	0	06:31:03.999	Core 01	2026.03.18 13:40:52   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.18 13:00 price=4870.590 volume=0.02
+HG	0	06:31:03.999	Core 01	2026.03.18 14:05:50   stop loss triggered #24 sell 0.02 XAUUSD. 4870.590 sl: 4891.410 tp: 4828.845 [#25 buy 0.02 XAUUSD. at 4891.410]
+IN	0	06:31:03.999	Core 01	2026.03.18 14:05:50   deal #25 buy 0.02 XAUUSD. at 4891.510 done (based on order #25)
+HD	0	06:31:03.999	Core 01	2026.03.18 14:05:50   deal performed [#25 buy 0.02 XAUUSD. at 4891.510]
+LI	0	06:31:03.999	Core 01	2026.03.18 14:05:50   order performed buy 0.02 at 4891.510 [#25 buy 0.02 XAUUSD. at 4891.410]
+JH	0	06:31:03.999	Core 01	2026.03.18 16:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.18 16:00 O=4862.240 H=4879.260 L=4860.970 C=4877.550 body=15.310 ATR=11.697 body_ATR_pct=130.89 min_pct=75.00 max_pct=166.00 close_wick_pct=9.35 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+NS	0	06:31:03.999	Core 01	2026.03.19 02:30:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.19 02:15 O=4849.670 H=4858.160 L=4848.120 C=4856.740 body=7.070 ATR=11.937 body_ATR_pct=59.23 min_pct=75.00 max_pct=166.00 close_wick_pct=14.14 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+JS	0	06:31:03.999	Core 01	2026.03.19 06:30:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.19 06:15 O=4833.460 H=4833.610 L=4813.460 C=4813.780 body=19.680 ATR=15.700 body_ATR_pct=125.35 min_pct=75.00 max_pct=166.00 close_wick_pct=1.59 trend_ok=true atr_ok=true wick_ok=true
+DE	0	06:31:03.999	Core 01	2026.03.19 06:30:00   sell limit 0.03 XAUUSD. at 4827.840 sl: 4842.220 tp: 4799.080 (4813.840 / 4814.090)
+OF	0	06:31:03.999	Core 01	2026.03.19 06:30:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 4827.840 sl: 4842.220 tp: 4799.080 [done]
+LD	0	06:31:03.999	Core 01	2026.03.19 06:45:00   order canceled [#26 sell limit 0.03 XAUUSD. at 4827.840]
+RF	0	06:31:03.999	Core 01	2026.03.19 06:45:00   CTrade::OrderSend: cancel #26 [done]
+MQ	0	06:31:03.999	Core 01	2026.03.19 08:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.19 08:30 O=4720.520 H=4722.130 L=4686.840 C=4687.630 body=32.890 ATR=32.480 body_ATR_pct=101.26 min_pct=75.00 max_pct=166.00 close_wick_pct=2.24 trend_ok=true atr_ok=true wick_ok=true
+LD	0	06:31:03.999	Core 01	2026.03.19 08:45:00   sell limit 0.02 XAUUSD. at 4711.630 sl: 4736.420 tp: 4662.050 (4687.660 / 4687.910)
+MH	0	06:31:03.999	Core 01	2026.03.19 08:45:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 4711.630 sl: 4736.420 tp: 4662.050 [done]
+QE	0	06:31:03.999	Core 01	2026.03.19 08:47:55   order [#27 sell limit 0.02 XAUUSD. at 4711.630] triggered
+QH	0	06:31:03.999	Core 01	2026.03.19 08:47:55   deal #26 sell 0.02 XAUUSD. at 4711.690 done (based on order #27)
+PR	0	06:31:03.999	Core 01	2026.03.19 08:47:55   deal performed [#26 sell 0.02 XAUUSD. at 4711.690]
+GR	0	06:31:03.999	Core 01	2026.03.19 08:47:55   order performed sell 0.02 at 4711.690 [#27 sell limit 0.02 XAUUSD. at 4711.630]
+PQ	0	06:31:03.999	Core 01	2026.03.19 08:47:55   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.19 08:30 price=4711.690 volume=0.02
+FN	0	06:31:03.999	Core 01	2026.03.19 10:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.19 10:15 O=4704.230 H=4705.640 L=4671.630 C=4684.220 body=20.010 ATR=25.473 body_ATR_pct=78.55 min_pct=75.00 max_pct=166.00 close_wick_pct=37.02 trend_ok=true atr_ok=true wick_ok=false reason=Knot
+FE	0	06:31:03.999	Core 01	2026.03.19 10:53:55   position modified [#27 sell 0.02 XAUUSD. 4711.690 sl: 4711.690 tp: 4662.050]
+QI	0	06:31:03.999	Core 01	2026.03.19 10:53:55   CTrade::OrderSend: modify position #27 XAUUSD. (sl: 4711.690, tp: 4662.050) [done]
+HG	0	06:31:03.999	Core 01	2026.03.19 11:42:37   take profit triggered #27 sell 0.02 XAUUSD. 4711.690 sl: 4711.690 tp: 4662.050 [#28 buy 0.02 XAUUSD. at 4662.050]
+HO	0	06:31:03.999	Core 01	2026.03.19 11:42:37   deal #27 buy 0.02 XAUUSD. at 4660.000 done (based on order #28)
+JE	0	06:31:03.999	Core 01	2026.03.19 11:42:37   deal performed [#27 buy 0.02 XAUUSD. at 4660.000]
+MG	0	06:31:03.999	Core 01	2026.03.19 11:42:37   order performed buy 0.02 at 4660.000 [#28 buy 0.02 XAUUSD. at 4662.050]
+RI	0	06:31:03.999	Core 01	2026.03.19 14:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.19 13:45 O=4558.750 H=4625.210 L=4538.700 C=4625.210 body=66.460 ATR=60.183 body_ATR_pct=110.43 min_pct=75.00 max_pct=166.00 close_wick_pct=0.00 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+QN	0	06:31:03.999	Core 01	2026.03.19 14:30:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.19 14:15 O=4634.100 H=4635.420 L=4584.170 C=4586.060 body=48.040 ATR=56.020 body_ATR_pct=85.76 min_pct=75.00 max_pct=166.00 close_wick_pct=3.69 trend_ok=true atr_ok=true wick_ok=true
+PS	0	06:31:03.999	Core 01	2026.03.19 14:30:00   sell limit 0.01 XAUUSD. at 4616.615 sl: 4649.060 tp: 4551.725 (4586.140 / 4586.430)
+OL	0	06:31:03.999	Core 01	2026.03.19 14:30:00   CTrade::OrderSend: sell limit 0.01 XAUUSD. at 4616.615 sl: 4649.060 tp: 4551.725 [done]
+MQ	0	06:31:03.999	Core 01	2026.03.19 14:36:25   order [#29 sell limit 0.01 XAUUSD. at 4616.615] triggered
+RL	0	06:31:03.999	Core 01	2026.03.19 14:36:25   deal #28 sell 0.01 XAUUSD. at 4616.740 done (based on order #29)
+MN	0	06:31:03.999	Core 01	2026.03.19 14:36:25   deal performed [#28 sell 0.01 XAUUSD. at 4616.740]
+DI	0	06:31:03.999	Core 01	2026.03.19 14:36:25   order performed sell 0.01 at 4616.740 [#29 sell limit 0.01 XAUUSD. at 4616.615]
+QJ	0	06:31:03.999	Core 01	2026.03.19 14:36:25   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.19 14:15 price=4616.740 volume=0.01
+EP	0	06:31:03.999	Core 01	2026.03.19 19:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.19 18:45 O=4608.890 H=4625.460 L=4604.440 C=4625.460 body=16.570 ATR=16.277 body_ATR_pct=101.80 min_pct=75.00 max_pct=166.00 close_wick_pct=0.00 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+HK	0	06:31:03.999	Core 01	2026.03.19 19:06:42   stop loss triggered #29 sell 0.01 XAUUSD. 4616.740 sl: 4649.060 tp: 4551.725 [#30 buy 0.01 XAUUSD. at 4649.060]
+CJ	0	06:31:03.999	Core 01	2026.03.19 19:06:42   deal #29 buy 0.01 XAUUSD. at 4649.150 done (based on order #30)
+NH	0	06:31:03.999	Core 01	2026.03.19 19:06:42   deal performed [#29 buy 0.01 XAUUSD. at 4649.150]
+KL	0	06:31:03.999	Core 01	2026.03.19 19:06:42   order performed buy 0.01 at 4649.150 [#30 buy 0.01 XAUUSD. at 4649.060]
+OM	0	06:31:03.999	Core 01	2026.03.20 05:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.20 05:30 O=4719.970 H=4719.970 L=4701.820 C=4710.130 body=9.840 ATR=11.953 body_ATR_pct=82.32 min_pct=75.00 max_pct=166.00 close_wick_pct=45.79 trend_ok=true atr_ok=true wick_ok=false reason=Knot
+FH	0	06:31:03.999	Core 01	2026.03.20 08:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.20 08:30 O=4721.670 H=4721.800 L=4699.350 C=4705.680 body=15.990 ATR=18.973 body_ATR_pct=84.28 min_pct=75.00 max_pct=166.00 close_wick_pct=28.20 trend_ok=true atr_ok=true wick_ok=true
+MO	0	06:31:03.999	Core 01	2026.03.20 08:45:00   sell limit 0.02 XAUUSD. at 4717.010 sl: 4734.670 tp: 4681.690 (4705.750 / 4706.000)
+CS	0	06:31:03.999	Core 01	2026.03.20 08:45:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 4717.010 sl: 4734.670 tp: 4681.690 [done]
+OS	0	06:31:03.999	Core 01	2026.03.20 09:45:00   order canceled [#31 sell limit 0.02 XAUUSD. at 4717.010]
+EL	0	06:31:03.999	Core 01	2026.03.20 09:45:00   CTrade::OrderSend: cancel #31 [done]
+FH	0	06:31:03.999	Core 01	2026.03.20 16:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.20 16:00 O=4553.700 H=4589.360 L=4552.070 C=4588.710 body=35.010 ATR=24.820 body_ATR_pct=141.06 min_pct=75.00 max_pct=166.00 close_wick_pct=1.74 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+NR	0	06:31:03.999	Core 01	2026.03.22 22:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.22 22:00 O=4456.060 H=4516.650 L=4448.840 C=4507.760 body=51.700 ATR=29.760 body_ATR_pct=173.72 min_pct=75.00 max_pct=166.00 close_wick_pct=13.11 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+KH	0	06:31:03.999	Core 01	2026.03.23 01:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.23 01:00 O=4354.440 H=4422.700 L=4329.730 C=4407.490 body=53.050 ATR=83.640 body_ATR_pct=63.43 min_pct=75.00 max_pct=166.00 close_wick_pct=16.36 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+KH	0	06:31:03.999	Core 01	2026.03.23 02:00:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.23 01:45 O=4434.700 H=4436.730 L=4381.060 C=4388.730 body=45.970 ATR=43.397 body_ATR_pct=105.93 min_pct=75.00 max_pct=166.00 close_wick_pct=13.78 trend_ok=true atr_ok=true wick_ok=true
+JR	0	06:31:03.999	Core 01	2026.03.23 02:00:00   sell limit 0.01 XAUUSD. at 4417.520 sl: 4453.980 tp: 4344.600 (4388.710 / 4389.000)
+RN	0	06:31:03.999	Core 01	2026.03.23 02:00:00   CTrade::OrderSend: sell limit 0.01 XAUUSD. at 4417.520 sl: 4453.980 tp: 4344.600 [done]
+NS	0	06:31:03.999	Core 01	2026.03.23 02:02:41   order [#32 sell limit 0.01 XAUUSD. at 4417.520] triggered
+DR	0	06:31:03.999	Core 01	2026.03.23 02:02:41   deal #30 sell 0.01 XAUUSD. at 4417.620 done (based on order #32)
+QL	0	06:31:03.999	Core 01	2026.03.23 02:02:41   deal performed [#30 sell 0.01 XAUUSD. at 4417.620]
+CK	0	06:31:03.999	Core 01	2026.03.23 02:02:41   order performed sell 0.01 at 4417.620 [#32 sell limit 0.01 XAUUSD. at 4417.520]
+JK	0	06:31:03.999	Core 01	2026.03.23 02:02:41   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.23 01:45 price=4417.620 volume=0.01
+RR	0	06:31:03.999	Core 01	2026.03.23 02:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.23 02:30 O=4397.790 H=4400.750 L=4369.440 C=4383.310 body=14.480 ATR=31.103 body_ATR_pct=46.55 min_pct=75.00 max_pct=166.00 close_wick_pct=44.30 trend_ok=true atr_ok=false wick_ok=false reason=ATR, Knot
+JN	0	06:31:03.999	Core 01	2026.03.23 02:53:49   position modified [#32 sell 0.01 XAUUSD. 4417.620 sl: 4417.620 tp: 4344.600]
+RR	0	06:31:03.999	Core 01	2026.03.23 02:53:49   CTrade::OrderSend: modify position #32 XAUUSD. (sl: 4417.620, tp: 4344.600) [done]
+FM	0	06:31:03.999	Core 01	2026.03.23 03:40:39   take profit triggered #32 sell 0.01 XAUUSD. 4417.620 sl: 4417.620 tp: 4344.600 [#33 buy 0.01 XAUUSD. at 4344.600]
+LJ	0	06:31:03.999	Core 01	2026.03.23 03:40:39   deal #31 buy 0.01 XAUUSD. at 4344.580 done (based on order #33)
+HH	0	06:31:03.999	Core 01	2026.03.23 03:40:39   deal performed [#31 buy 0.01 XAUUSD. at 4344.580]
+CM	0	06:31:03.999	Core 01	2026.03.23 03:40:39   order performed buy 0.01 at 4344.580 [#33 buy 0.01 XAUUSD. at 4344.600]
+OR	0	06:31:03.999	Core 01	2026.03.23 03:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.23 03:30 O=4351.570 H=4364.680 L=4334.960 C=4341.280 body=10.290 ATR=26.123 body_ATR_pct=39.39 min_pct=75.00 max_pct=166.00 close_wick_pct=21.27 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+HD	0	06:31:03.999	Core 01	2026.03.23 05:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.23 05:15 O=4371.400 H=4374.030 L=4351.760 C=4355.850 body=15.550 ATR=20.943 body_ATR_pct=74.25 min_pct=75.00 max_pct=166.00 close_wick_pct=18.37 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+QM	0	06:31:03.999	Core 01	2026.03.24 03:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.24 03:30 O=4364.970 H=4364.970 L=4338.250 C=4341.300 body=23.670 ATR=19.087 body_ATR_pct=124.01 min_pct=75.00 max_pct=166.00 close_wick_pct=11.41 trend_ok=true atr_ok=true wick_ok=true
+PP	0	06:31:03.999	Core 01	2026.03.24 03:45:00   sell limit 0.03 XAUUSD. at 4353.245 sl: 4368.240 tp: 4323.255 (4341.180 / 4341.470)
+KM	0	06:31:03.999	Core 01	2026.03.24 03:45:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 4353.245 sl: 4368.240 tp: 4323.255 [done]
+MF	0	06:31:03.999	Core 01	2026.03.24 04:02:06   order [#34 sell limit 0.03 XAUUSD. at 4353.245] triggered
+RL	0	06:31:03.999	Core 01	2026.03.24 04:02:06   deal #32 sell 0.03 XAUUSD. at 4353.360 done (based on order #34)
+QQ	0	06:31:03.999	Core 01	2026.03.24 04:02:06   deal performed [#32 sell 0.03 XAUUSD. at 4353.360]
+HN	0	06:31:03.999	Core 01	2026.03.24 04:02:06   order performed sell 0.03 at 4353.360 [#34 sell limit 0.03 XAUUSD. at 4353.245]
+MM	0	06:31:03.999	Core 01	2026.03.24 04:02:06   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.24 03:30 price=4353.360 volume=0.03
+NR	0	06:31:03.999	Core 01	2026.03.24 04:20:18   position modified [#34 sell 0.03 XAUUSD. 4353.360 sl: 4353.360 tp: 4323.255]
+RN	0	06:31:03.999	Core 01	2026.03.24 04:20:18   CTrade::OrderSend: modify position #34 XAUUSD. (sl: 4353.360, tp: 4323.255) [done]
+MQ	0	06:31:03.999	Core 01	2026.03.24 04:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.24 04:15 O=4349.610 H=4349.610 L=4326.050 C=4337.660 body=11.950 ATR=16.313 body_ATR_pct=73.25 min_pct=75.00 max_pct=166.00 close_wick_pct=49.28 trend_ok=true atr_ok=false wick_ok=false reason=ATR, Knot
+JH	0	06:31:03.999	Core 01	2026.03.24 05:05:39   take profit triggered #34 sell 0.03 XAUUSD. 4353.360 sl: 4353.360 tp: 4323.255 [#35 buy 0.03 XAUUSD. at 4323.255]
+OH	0	06:31:03.999	Core 01	2026.03.24 05:05:39   deal #33 buy 0.03 XAUUSD. at 4323.210 done (based on order #35)
+QG	0	06:31:03.999	Core 01	2026.03.24 05:05:39   deal performed [#33 buy 0.03 XAUUSD. at 4323.210]
+CJ	0	06:31:03.999	Core 01	2026.03.24 05:05:39   order performed buy 0.03 at 4323.210 [#35 buy 0.03 XAUUSD. at 4323.255]
+GD	0	06:31:03.999	Core 01	2026.03.24 17:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.24 17:30 O=4397.310 H=4397.800 L=4374.930 C=4377.490 body=19.820 ATR=24.243 body_ATR_pct=81.75 min_pct=75.00 max_pct=166.00 close_wick_pct=11.19 trend_ok=true atr_ok=true wick_ok=true
+RK	0	06:31:03.999	Core 01	2026.03.24 17:45:00   sell limit 0.03 XAUUSD. at 4390.355 sl: 4405.780 tp: 4359.505 (4377.530 / 4377.770)
+EG	0	06:31:03.999	Core 01	2026.03.24 17:45:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 4390.355 sl: 4405.780 tp: 4359.505 [done]
+EH	0	06:31:03.999	Core 01	2026.03.24 17:55:36   order [#36 sell limit 0.03 XAUUSD. at 4390.355] triggered
+RE	0	06:31:03.999	Core 01	2026.03.24 17:55:36   deal #34 sell 0.03 XAUUSD. at 4390.520 done (based on order #36)
+OG	0	06:31:03.999	Core 01	2026.03.24 17:55:36   deal performed [#34 sell 0.03 XAUUSD. at 4390.520]
+OQ	0	06:31:03.999	Core 01	2026.03.24 17:55:36   order performed sell 0.03 at 4390.520 [#36 sell limit 0.03 XAUUSD. at 4390.355]
+RR	0	06:31:03.999	Core 01	2026.03.24 17:55:36   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.24 17:30 price=4390.520 volume=0.03
+GJ	0	06:31:03.999	Core 01	2026.03.24 18:24:55   stop loss triggered #36 sell 0.03 XAUUSD. 4390.520 sl: 4405.780 tp: 4359.505 [#37 buy 0.03 XAUUSD. at 4405.780]
+OK	0	06:31:03.999	Core 01	2026.03.24 18:24:55   deal #35 buy 0.03 XAUUSD. at 4406.110 done (based on order #37)
+CI	0	06:31:03.999	Core 01	2026.03.24 18:24:55   deal performed [#35 buy 0.03 XAUUSD. at 4406.110]
+KK	0	06:31:03.999	Core 01	2026.03.24 18:24:55   order performed buy 0.03 at 4406.110 [#37 buy 0.03 XAUUSD. at 4405.780]
+QN	0	06:31:03.999	Core 01	2026.03.24 23:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.24 22:45 O=4469.110 H=4484.730 L=4466.800 C=4484.710 body=15.600 ATR=16.773 body_ATR_pct=93.00 min_pct=75.00 max_pct=166.00 close_wick_pct=0.11 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+IG	0	06:31:03.999	Core 01	2026.03.24 23:30:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.24 23:15 O=4484.250 H=4511.130 L=4483.290 C=4510.970 body=26.720 ATR=19.400 body_ATR_pct=137.73 min_pct=75.00 max_pct=166.00 close_wick_pct=0.57 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+EL	0	06:31:03.999	Core 01	2026.03.25 07:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.25 07:30 O=4560.500 H=4560.930 L=4542.720 C=4548.450 body=12.050 ATR=13.200 body_ATR_pct=91.29 min_pct=75.00 max_pct=166.00 close_wick_pct=31.47 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+HE	0	06:31:03.999	Core 01	2026.03.25 15:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.25 15:00 O=4567.630 H=4568.010 L=4547.970 C=4548.850 body=18.780 ATR=15.667 body_ATR_pct=119.87 min_pct=75.00 max_pct=166.00 close_wick_pct=4.39 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+JQ	0	06:31:03.999	Core 01	2026.03.25 22:45:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.25 22:30 O=4511.670 H=4534.560 L=4508.200 C=4531.710 body=20.040 ATR=21.387 body_ATR_pct=93.70 min_pct=75.00 max_pct=166.00 close_wick_pct=10.81 trend_ok=true atr_ok=true wick_ok=true
+IL	0	06:31:03.999	Core 01	2026.03.25 22:45:00   buy limit 0.03 XAUUSD. at 4519.985 sl: 4505.410 tp: 4549.135 (4531.640 / 4531.920)
+EP	0	06:31:03.999	Core 01	2026.03.25 22:45:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 4519.985 sl: 4505.410 tp: 4549.135 [done]
+NO	0	06:31:03.999	Core 01	2026.03.25 22:48:34   order [#38 buy limit 0.03 XAUUSD. at 4519.985] triggered
+MM	0	06:31:03.999	Core 01	2026.03.25 22:48:34   deal #36 buy 0.03 XAUUSD. at 4519.880 done (based on order #38)
+LS	0	06:31:03.999	Core 01	2026.03.25 22:48:34   deal performed [#36 buy 0.03 XAUUSD. at 4519.880]
+RH	0	06:31:03.999	Core 01	2026.03.25 22:48:34   order performed buy 0.03 at 4519.880 [#38 buy limit 0.03 XAUUSD. at 4519.985]
+DK	0	06:31:03.999	Core 01	2026.03.25 22:48:34   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.25 22:30 price=4519.880 volume=0.03
+DS	0	06:31:03.999	Core 01	2026.03.25 23:02:40   stop loss triggered #38 buy 0.03 XAUUSD. 4519.880 sl: 4505.410 tp: 4549.135 [#39 sell 0.03 XAUUSD. at 4505.410]
+FM	0	06:31:03.999	Core 01	2026.03.25 23:02:40   deal #37 sell 0.03 XAUUSD. at 4505.260 done (based on order #39)
+JO	0	06:31:03.999	Core 01	2026.03.25 23:02:40   deal performed [#37 sell 0.03 XAUUSD. at 4505.260]
+ED	0	06:31:03.999	Core 01	2026.03.25 23:02:40   order performed sell 0.03 at 4505.260 [#39 sell 0.03 XAUUSD. at 4505.410]
+EJ	0	06:31:03.999	Core 01	2026.03.26 05:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.26 05:00 O=4520.630 H=4522.220 L=4507.460 C=4508.580 body=12.050 ATR=8.883 body_ATR_pct=135.65 min_pct=75.00 max_pct=166.00 close_wick_pct=7.59 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+HN	0	06:31:03.999	Core 01	2026.03.26 07:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.26 07:30 O=4447.990 H=4463.750 L=4447.850 C=4459.470 body=11.480 ATR=15.513 body_ATR_pct=74.00 min_pct=75.00 max_pct=166.00 close_wick_pct=26.92 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+IF	0	06:31:03.999	Core 01	2026.03.26 16:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.26 16:15 O=4439.210 H=4439.210 L=4387.000 C=4392.550 body=46.660 ATR=27.137 body_ATR_pct=171.94 min_pct=75.00 max_pct=166.00 close_wick_pct=10.63 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+NM	0	06:31:03.999	Core 01	2026.03.26 22:00:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.26 20:45 O=4407.090 H=4409.920 L=4371.790 C=4381.950 body=25.140 ATR=32.323 body_ATR_pct=77.78 min_pct=75.00 max_pct=166.00 close_wick_pct=26.65 trend_ok=true atr_ok=true wick_ok=true
+NS	0	06:31:03.999	Core 01	2026.03.26 22:00:00   sell limit 0.02 XAUUSD. at 4396.185 sl: 4420.580 tp: 4347.395 (4390.750 / 4391.070)
+CL	0	06:31:03.999	Core 01	2026.03.26 22:00:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 4396.185 sl: 4420.580 tp: 4347.395 [done]
+NQ	0	06:31:03.999	Core 01	2026.03.26 22:05:57   order [#40 sell limit 0.02 XAUUSD. at 4396.185] triggered
+NM	0	06:31:03.999	Core 01	2026.03.26 22:05:57   deal #38 sell 0.02 XAUUSD. at 4396.410 done (based on order #40)
+LN	0	06:31:03.999	Core 01	2026.03.26 22:05:57   deal performed [#38 sell 0.02 XAUUSD. at 4396.410]
+OI	0	06:31:03.999	Core 01	2026.03.26 22:05:57   order performed sell 0.02 at 4396.410 [#40 sell limit 0.02 XAUUSD. at 4396.185]
+IJ	0	06:31:03.999	Core 01	2026.03.26 22:05:57   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.26 20:45 price=4396.410 volume=0.02
+DQ	0	06:31:03.999	Core 01	2026.03.27 01:42:40   stop loss triggered #40 sell 0.02 XAUUSD. 4396.410 sl: 4420.580 tp: 4347.395 [#41 buy 0.02 XAUUSD. at 4420.580]
+OP	0	06:31:03.999	Core 01	2026.03.27 01:42:40   deal #39 buy 0.02 XAUUSD. at 4420.580 done (based on order #41)
+PN	0	06:31:03.999	Core 01	2026.03.27 01:42:40   deal performed [#39 buy 0.02 XAUUSD. at 4420.580]
+CS	0	06:31:03.999	Core 01	2026.03.27 01:42:40   order performed buy 0.02 at 4420.580 [#41 buy 0.02 XAUUSD. at 4420.580]
+EQ	0	06:31:03.999	Core 01	2026.03.27 05:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.03.27 05:30 O=4443.280 H=4475.050 L=4442.740 C=4465.580 body=22.300 ATR=14.810 body_ATR_pct=150.57 min_pct=75.00 max_pct=166.00 close_wick_pct=29.31 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+RQ	0	06:31:03.999	Core 01	2026.03.27 10:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.27 10:30 O=4428.990 H=4430.340 L=4412.320 C=4415.370 body=13.620 ATR=11.407 body_ATR_pct=119.40 min_pct=75.00 max_pct=166.00 close_wick_pct=16.93 trend_ok=true atr_ok=true wick_ok=true
+IE	0	06:31:03.999	Core 01	2026.03.27 10:45:00   sell limit 0.05 XAUUSD. at 4421.860 sl: 4431.400 tp: 4402.780 (4415.320 / 4415.600)
+MI	0	06:31:03.999	Core 01	2026.03.27 10:45:00   CTrade::OrderSend: sell limit 0.05 XAUUSD. at 4421.860 sl: 4431.400 tp: 4402.780 [done]
+IJ	0	06:31:03.999	Core 01	2026.03.27 11:45:00   order [#42 sell limit 0.05 XAUUSD. at 4421.860] triggered
+FK	0	06:31:03.999	Core 01	2026.03.27 11:45:00   deal #40 sell 0.05 XAUUSD. at 4421.890 done (based on order #42)
+FE	0	06:31:03.999	Core 01	2026.03.27 11:45:00   deal performed [#40 sell 0.05 XAUUSD. at 4421.890]
+HS	0	06:31:03.999	Core 01	2026.03.27 11:45:00   order performed sell 0.05 at 4421.890 [#42 sell limit 0.05 XAUUSD. at 4421.860]
+JP	0	06:31:03.999	Core 01	2026.03.27 11:45:00   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.27 10:30 price=4421.890 volume=0.05
+IL	0	06:31:03.999	Core 01	2026.03.27 12:16:25   stop loss triggered #42 sell 0.05 XAUUSD. 4421.890 sl: 4431.400 tp: 4402.780 [#43 buy 0.05 XAUUSD. at 4431.400]
+PE	0	06:31:03.999	Core 01	2026.03.27 12:16:25   deal #41 buy 0.05 XAUUSD. at 4431.590 done (based on order #43)
+EK	0	06:31:03.999	Core 01	2026.03.27 12:16:25   deal performed [#41 buy 0.05 XAUUSD. at 4431.590]
+CM	0	06:31:03.999	Core 01	2026.03.27 12:16:25   order performed buy 0.05 at 4431.590 [#43 buy 0.05 XAUUSD. at 4431.400]
+QR	0	06:31:03.999	Core 01	2026.03.27 16:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.03.27 16:30 O=4528.540 H=4528.830 L=4505.520 C=4510.550 body=17.990 ATR=15.693 body_ATR_pct=114.63 min_pct=75.00 max_pct=166.00 close_wick_pct=21.58 trend_ok=true atr_ok=true wick_ok=true
+JD	0	06:31:03.999	Core 01	2026.03.27 16:45:00   sell limit 0.03 XAUUSD. at 4519.635 sl: 4533.750 tp: 4491.405 (4510.580 / 4510.790)
+RH	0	06:31:03.999	Core 01	2026.03.27 16:45:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 4519.635 sl: 4533.750 tp: 4491.405 [done]
+GE	0	06:31:03.999	Core 01	2026.03.27 16:48:59   order [#44 sell limit 0.03 XAUUSD. at 4519.635] triggered
+FH	0	06:31:03.999	Core 01	2026.03.27 16:48:59   deal #42 sell 0.03 XAUUSD. at 4519.870 done (based on order #44)
+HR	0	06:31:03.999	Core 01	2026.03.27 16:48:59   deal performed [#42 sell 0.03 XAUUSD. at 4519.870]
+HR	0	06:31:03.999	Core 01	2026.03.27 16:48:59   order performed sell 0.03 at 4519.870 [#44 sell limit 0.03 XAUUSD. at 4519.635]
+HQ	0	06:31:03.999	Core 01	2026.03.27 16:48:59   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.03.27 16:30 price=4519.870 volume=0.03
+JO	0	06:31:03.999	Core 01	2026.03.27 17:22:31   position modified [#44 sell 0.03 XAUUSD. 4519.870 sl: 4519.870 tp: 4491.405]
+LS	0	06:31:03.999	Core 01	2026.03.27 17:22:31   CTrade::OrderSend: modify position #44 XAUUSD. (sl: 4519.870, tp: 4491.405) [done]
+GL	0	06:31:03.999	Core 01	2026.03.27 17:25:58   take profit triggered #44 sell 0.03 XAUUSD. 4519.870 sl: 4519.870 tp: 4491.405 [#45 buy 0.03 XAUUSD. at 4491.405]
+ME	0	06:31:03.999	Core 01	2026.03.27 17:25:58   deal #43 buy 0.03 XAUUSD. at 4491.400 done (based on order #45)
+FK	0	06:31:03.999	Core 01	2026.03.27 17:25:58   deal performed [#43 buy 0.03 XAUUSD. at 4491.400]
+ON	0	06:31:03.999	Core 01	2026.03.27 17:25:58   order performed buy 0.03 at 4491.400 [#45 buy 0.03 XAUUSD. at 4491.405]
+NM	0	06:31:03.999	Core 01	2026.03.30 01:15:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.30 01:00 O=4431.710 H=4462.020 L=4431.710 C=4460.220 body=28.510 ATR=22.147 body_ATR_pct=128.73 min_pct=75.00 max_pct=166.00 close_wick_pct=5.94 trend_ok=true atr_ok=true wick_ok=true
+IH	0	06:31:03.999	Core 01	2026.03.30 01:15:00   buy limit 0.03 XAUUSD. at 4446.175 sl: 4430.330 tp: 4477.865 (4460.230 / 4460.550)
+MD	0	06:31:03.999	Core 01	2026.03.30 01:15:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 4446.175 sl: 4430.330 tp: 4477.865 [done]
+PK	0	06:31:03.999	Core 01	2026.03.30 01:29:55   order [#46 buy limit 0.03 XAUUSD. at 4446.175] triggered
+EF	0	06:31:03.999	Core 01	2026.03.30 01:29:55   deal #44 buy 0.03 XAUUSD. at 4446.040 done (based on order #46)
+OL	0	06:31:03.999	Core 01	2026.03.30 01:29:55   deal performed [#44 buy 0.03 XAUUSD. at 4446.040]
+QL	0	06:31:03.999	Core 01	2026.03.30 01:29:55   order performed buy 0.03 at 4446.040 [#46 buy limit 0.03 XAUUSD. at 4446.175]
+JO	0	06:31:03.999	Core 01	2026.03.30 01:29:55   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.30 01:00 price=4446.040 volume=0.03
+RR	0	06:31:03.999	Core 01	2026.03.30 01:35:21   position modified [#46 buy 0.03 XAUUSD. 4446.040 sl: 4446.040 tp: 4477.865]
+RQ	0	06:31:03.999	Core 01	2026.03.30 01:35:21   CTrade::OrderSend: modify position #46 XAUUSD. (sl: 4446.040, tp: 4477.865) [done]
+QN	0	06:31:03.999	Core 01	2026.03.30 02:41:34   take profit triggered #46 buy 0.03 XAUUSD. 4446.040 sl: 4446.040 tp: 4477.865 [#47 sell 0.03 XAUUSD. at 4477.865]
+RH	0	06:31:03.999	Core 01	2026.03.30 02:41:34   deal #45 sell 0.03 XAUUSD. at 4478.000 done (based on order #47)
+MR	0	06:31:03.999	Core 01	2026.03.30 02:41:34   deal performed [#45 sell 0.03 XAUUSD. at 4478.000]
+LO	0	06:31:03.999	Core 01	2026.03.30 02:41:34   order performed sell 0.03 at 4478.000 [#47 sell 0.03 XAUUSD. at 4477.865]
+PQ	0	06:31:03.999	Core 01	2026.03.30 05:00:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.30 04:45 O=4488.290 H=4498.690 L=4487.040 C=4496.950 body=8.660 ATR=8.247 body_ATR_pct=105.01 min_pct=75.00 max_pct=166.00 close_wick_pct=14.94 trend_ok=true atr_ok=true wick_ok=true
+RN	0	06:31:03.999	Core 01	2026.03.30 05:00:00   buy limit 0.08 XAUUSD. at 4492.465 sl: 4486.240 tp: 4504.915 (4496.930 / 4497.250)
+QE	0	06:31:03.999	Core 01	2026.03.30 05:00:00   CTrade::OrderSend: buy limit 0.08 XAUUSD. at 4492.465 sl: 4486.240 tp: 4504.915 [done]
+PG	0	06:31:03.999	Core 01	2026.03.30 05:30:00   order canceled [#48 buy limit 0.08 XAUUSD. at 4492.465]
+JR	0	06:31:03.999	Core 01	2026.03.30 05:30:00   CTrade::OrderSend: cancel #48 [done]
+EN	0	06:31:03.999	Core 01	2026.03.30 13:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.30 13:30 O=4567.480 H=4573.820 L=4543.200 C=4544.200 body=23.280 ATR=20.080 body_ATR_pct=115.94 min_pct=75.00 max_pct=166.00 close_wick_pct=3.27 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+FN	0	06:31:03.999	Core 01	2026.03.30 15:45:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.30 15:30 O=4531.530 H=4553.910 L=4527.570 C=4551.820 body=20.290 ATR=15.617 body_ATR_pct=129.93 min_pct=75.00 max_pct=166.00 close_wick_pct=7.93 trend_ok=true atr_ok=true wick_ok=true
+CE	0	06:31:03.999	Core 01	2026.03.30 15:45:00   buy limit 0.03 XAUUSD. at 4539.320 sl: 4524.730 tp: 4568.500 (4551.950 / 4552.150)
+II	0	06:31:03.999	Core 01	2026.03.30 15:45:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 4539.320 sl: 4524.730 tp: 4568.500 [done]
+DD	0	06:31:03.999	Core 01	2026.03.30 16:04:52   order [#49 buy limit 0.03 XAUUSD. at 4539.320] triggered
+CD	0	06:31:03.999	Core 01	2026.03.30 16:04:52   deal #46 buy 0.03 XAUUSD. at 4539.310 done (based on order #49)
+HJ	0	06:31:03.999	Core 01	2026.03.30 16:04:52   deal performed [#46 buy 0.03 XAUUSD. at 4539.310]
+HS	0	06:31:03.999	Core 01	2026.03.30 16:04:52   order performed buy 0.03 at 4539.310 [#49 buy limit 0.03 XAUUSD. at 4539.320]
+MP	0	06:31:03.999	Core 01	2026.03.30 16:04:52   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.30 15:30 price=4539.310 volume=0.03
+RL	0	06:31:03.999	Core 01	2026.03.30 17:14:17   stop loss triggered #49 buy 0.03 XAUUSD. 4539.310 sl: 4524.730 tp: 4568.500 [#50 sell 0.03 XAUUSD. at 4524.730]
+JJ	0	06:31:03.999	Core 01	2026.03.30 17:14:17   deal #47 sell 0.03 XAUUSD. at 4524.490 done (based on order #50)
+OD	0	06:31:03.999	Core 01	2026.03.30 17:14:17   deal performed [#47 sell 0.03 XAUUSD. at 4524.490]
+FM	0	06:31:03.999	Core 01	2026.03.30 17:14:17   order performed sell 0.03 at 4524.490 [#50 sell 0.03 XAUUSD. at 4524.730]
+FR	0	06:31:03.999	Core 01	2026.03.30 19:00:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.30 18:45 O=4515.350 H=4518.670 L=4498.310 C=4498.990 body=16.360 ATR=12.403 body_ATR_pct=131.90 min_pct=75.00 max_pct=166.00 close_wick_pct=3.34 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+IF	0	06:31:03.999	Core 01	2026.03.30 22:00:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.30 20:45 O=4503.130 H=4514.030 L=4502.510 C=4514.030 body=10.900 ATR=8.437 body_ATR_pct=129.20 min_pct=75.00 max_pct=166.00 close_wick_pct=0.00 trend_ok=true atr_ok=true wick_ok=true
+LQ	0	06:31:03.999	Core 01	2026.03.30 22:00:00   buy limit 0.07 XAUUSD. at 4507.530 sl: 4501.030 tp: 4520.530 (4512.590 / 4512.840)
+GM	0	06:31:03.999	Core 01	2026.03.30 22:00:00   CTrade::OrderSend: buy limit 0.07 XAUUSD. at 4507.530 sl: 4501.030 tp: 4520.530 [done]
+DP	0	06:31:03.999	Core 01	2026.03.30 22:18:59   order [#51 buy limit 0.07 XAUUSD. at 4507.530] triggered
+RI	0	06:31:03.999	Core 01	2026.03.30 22:18:59   deal #48 buy 0.07 XAUUSD. at 4507.480 done (based on order #51)
+JG	0	06:31:03.999	Core 01	2026.03.30 22:18:59   deal performed [#48 buy 0.07 XAUUSD. at 4507.480]
+MG	0	06:31:03.999	Core 01	2026.03.30 22:18:59   order performed buy 0.07 at 4507.480 [#51 buy limit 0.07 XAUUSD. at 4507.530]
+ED	0	06:31:03.999	Core 01	2026.03.30 22:18:59   EFIB transaction opened: LONG setup candle EFIB LONG 2026.03.30 20:45 price=4507.480 volume=0.07
+EE	0	06:31:03.999	Core 01	2026.03.30 22:31:34   position modified [#51 buy 0.07 XAUUSD. 4507.480 sl: 4507.480 tp: 4520.530]
+MF	0	06:31:03.999	Core 01	2026.03.30 22:31:34   CTrade::OrderSend: modify position #51 XAUUSD. (sl: 4507.480, tp: 4520.530) [done]
+OH	0	06:31:03.999	Core 01	2026.03.30 23:00:08   stop loss triggered #51 buy 0.07 XAUUSD. 4507.480 sl: 4507.480 tp: 4520.530 [#52 sell 0.07 XAUUSD. at 4507.480]
+PQ	0	06:31:03.999	Core 01	2026.03.30 23:00:08   deal #49 sell 0.07 XAUUSD. at 4507.390 done (based on order #52)
+GK	0	06:31:03.999	Core 01	2026.03.30 23:00:08   deal performed [#49 sell 0.07 XAUUSD. at 4507.390]
+MI	0	06:31:03.999	Core 01	2026.03.30 23:00:08   order performed sell 0.07 at 4507.390 [#52 sell 0.07 XAUUSD. at 4507.480]
+PK	0	06:31:03.999	Core 01	2026.03.30 23:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.30 23:00 O=4510.810 H=4510.810 L=4492.560 C=4498.810 body=12.000 ATR=11.897 body_ATR_pct=100.87 min_pct=75.00 max_pct=166.00 close_wick_pct=34.25 trend_ok=false atr_ok=true wick_ok=false reason=Trend, Knot
+ES	0	06:31:03.999	Core 01	2026.03.31 00:45:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.31 00:30 O=4512.350 H=4537.230 L=4506.370 C=4536.090 body=23.740 ATR=28.043 body_ATR_pct=84.65 min_pct=75.00 max_pct=166.00 close_wick_pct=3.69 trend_ok=true atr_ok=true wick_ok=true
+GL	0	06:31:03.999	Core 01	2026.03.31 00:45:00   buy limit 0.01 XAUUSD. at 4509.925 sl: 4482.620 tp: 4564.535 (4536.080 / 4536.360)
+GS	0	06:31:03.999	Core 01	2026.03.31 00:45:00   CTrade::OrderSend: buy limit 0.01 XAUUSD. at 4509.925 sl: 4482.620 tp: 4564.535 [done]
+FQ	0	06:31:03.999	Core 01	2026.03.31 01:30:00   order canceled [#53 buy limit 0.01 XAUUSD. at 4509.925]
+IP	0	06:31:03.999	Core 01	2026.03.31 01:30:00   CTrade::OrderSend: cancel #53 [done]
+IE	0	06:31:03.999	Core 01	2026.03.31 01:30:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.03.31 01:15 O=4544.020 H=4585.810 L=4543.460 C=4581.400 body=37.380 ATR=24.607 body_ATR_pct=151.91 min_pct=75.00 max_pct=166.00 close_wick_pct=10.41 trend_ok=true atr_ok=true wick_ok=true
+DR	0	06:31:03.999	Core 01	2026.03.31 01:30:00   buy limit 0.01 XAUUSD. at 4558.975 sl: 4532.140 tp: 4612.645 (4581.420 / 4581.760)
+NQ	0	06:31:03.999	Core 01	2026.03.31 01:30:00   CTrade::OrderSend: buy limit 0.01 XAUUSD. at 4558.975 sl: 4532.140 tp: 4612.645 [done]
+JS	0	06:31:03.999	Core 01	2026.03.31 01:45:00   order canceled [#54 buy limit 0.01 XAUUSD. at 4558.975]
+FN	0	06:31:03.999	Core 01	2026.03.31 01:45:00   CTrade::OrderSend: cancel #54 [done]
+GI	0	06:31:03.999	Core 01	2026.03.31 05:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.31 05:00 O=4564.710 H=4570.630 L=4547.600 C=4550.250 body=14.460 ATR=12.140 body_ATR_pct=119.11 min_pct=75.00 max_pct=166.00 close_wick_pct=11.51 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+QR	0	06:31:03.999	Core 01	2026.03.31 10:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.03.31 10:30 O=4560.530 H=4560.830 L=4529.560 C=4541.180 body=19.350 ATR=14.533 body_ATR_pct=133.14 min_pct=75.00 max_pct=166.00 close_wick_pct=37.16 trend_ok=false atr_ok=true wick_ok=false reason=Trend, Knot
+JJ	0	06:31:03.999	Core 01	2026.04.01 04:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.01 04:30 O=4672.460 H=4677.030 L=4669.110 C=4676.780 body=4.320 ATR=7.937 body_ATR_pct=54.43 min_pct=75.00 max_pct=166.00 close_wick_pct=3.16 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+ER	0	06:31:03.999	Core 01	2026.04.01 07:00:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.01 06:45 O=4708.630 H=4733.130 L=4708.610 C=4730.600 body=21.970 ATR=17.953 body_ATR_pct=122.37 min_pct=75.00 max_pct=166.00 close_wick_pct=10.32 trend_ok=true atr_ok=true wick_ok=true
+CL	0	06:31:03.999	Core 01	2026.04.01 07:00:00   buy limit 0.03 XAUUSD. at 4717.700 sl: 4702.270 tp: 4748.560 (4730.660 / 4730.740)
+QP	0	06:31:03.999	Core 01	2026.04.01 07:00:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 4717.700 sl: 4702.270 tp: 4748.560 [done]
+IO	0	06:31:03.999	Core 01	2026.04.01 07:06:15   order [#55 buy limit 0.03 XAUUSD. at 4717.700] triggered
+FR	0	06:31:03.999	Core 01	2026.04.01 07:06:15   deal #50 buy 0.03 XAUUSD. at 4717.690 done (based on order #55)
+RP	0	06:31:03.999	Core 01	2026.04.01 07:06:15   deal performed [#50 buy 0.03 XAUUSD. at 4717.690]
+LH	0	06:31:03.999	Core 01	2026.04.01 07:06:15   order performed buy 0.03 at 4717.690 [#55 buy limit 0.03 XAUUSD. at 4717.700]
+EK	0	06:31:03.999	Core 01	2026.04.01 07:06:15   EFIB transaction opened: LONG setup candle EFIB LONG 2026.04.01 06:45 price=4717.690 volume=0.03
+KN	0	06:31:03.999	Core 01	2026.04.01 07:37:55   position modified [#55 buy 0.03 XAUUSD. 4717.690 sl: 4717.690 tp: 4748.560]
+GM	0	06:31:03.999	Core 01	2026.04.01 07:37:55   CTrade::OrderSend: modify position #55 XAUUSD. (sl: 4717.690, tp: 4748.560) [done]
+PS	0	06:31:03.999	Core 01	2026.04.01 07:51:52   stop loss triggered #55 buy 0.03 XAUUSD. 4717.690 sl: 4717.690 tp: 4748.560 [#56 sell 0.03 XAUUSD. at 4717.690]
+FL	0	06:31:03.999	Core 01	2026.04.01 07:51:52   deal #51 sell 0.03 XAUUSD. at 4717.530 done (based on order #56)
+QN	0	06:31:03.999	Core 01	2026.04.01 07:51:52   deal performed [#51 sell 0.03 XAUUSD. at 4717.530]
+LD	0	06:31:03.999	Core 01	2026.04.01 07:51:52   order performed sell 0.03 at 4717.530 [#56 sell 0.03 XAUUSD. at 4717.690]
+NK	0	06:31:03.999	Core 01	2026.04.01 16:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.01 16:00 O=4786.530 H=4790.790 L=4774.370 C=4775.000 body=11.530 ATR=13.010 body_ATR_pct=88.62 min_pct=75.00 max_pct=166.00 close_wick_pct=3.84 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+JM	0	06:31:03.999	Core 01	2026.04.02 02:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.02 02:30 O=4690.120 H=4691.250 L=4655.310 C=4676.020 body=14.100 ATR=25.350 body_ATR_pct=55.62 min_pct=75.00 max_pct=166.00 close_wick_pct=57.62 trend_ok=false atr_ok=false wick_ok=false reason=Trend, ATR, Knot
+JK	0	06:31:03.999	Core 01	2026.04.02 05:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.02 05:30 O=4677.250 H=4678.990 L=4629.010 C=4634.150 body=43.100 ATR=23.293 body_ATR_pct=185.03 min_pct=75.00 max_pct=166.00 close_wick_pct=10.28 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+LM	0	06:31:03.999	Core 01	2026.04.02 07:45:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.02 07:30 O=4620.610 H=4641.400 L=4619.340 C=4637.530 body=16.920 ATR=18.893 body_ATR_pct=89.56 min_pct=75.00 max_pct=166.00 close_wick_pct=17.54 trend_ok=true atr_ok=true wick_ok=true
+MH	0	06:31:03.999	Core 01	2026.04.02 07:45:00   buy limit 0.04 XAUUSD. at 4629.585 sl: 4617.770 tp: 4653.215 (4637.320 / 4637.400)
+ED	0	06:31:03.999	Core 01	2026.04.02 07:45:00   CTrade::OrderSend: buy limit 0.04 XAUUSD. at 4629.585 sl: 4617.770 tp: 4653.215 [done]
+LK	0	06:31:03.999	Core 01	2026.04.02 08:11:56   order [#57 buy limit 0.04 XAUUSD. at 4629.585] triggered
+JQ	0	06:31:03.999	Core 01	2026.04.02 08:11:56   deal #52 buy 0.04 XAUUSD. at 4629.100 done (based on order #57)
+DL	0	06:31:03.999	Core 01	2026.04.02 08:11:56   deal performed [#52 buy 0.04 XAUUSD. at 4629.100]
+NL	0	06:31:03.999	Core 01	2026.04.02 08:11:56   order performed buy 0.04 at 4629.100 [#57 buy limit 0.04 XAUUSD. at 4629.585]
+IO	0	06:31:03.999	Core 01	2026.04.02 08:11:56   EFIB transaction opened: LONG setup candle EFIB LONG 2026.04.02 07:30 price=4629.100 volume=0.04
+MO	0	06:31:03.999	Core 01	2026.04.02 08:58:30   stop loss triggered #57 buy 0.04 XAUUSD. 4629.100 sl: 4617.770 tp: 4653.215 [#58 sell 0.04 XAUUSD. at 4617.770]
+HI	0	06:31:03.999	Core 01	2026.04.02 08:58:30   deal #53 sell 0.04 XAUUSD. at 4616.770 done (based on order #58)
+IS	0	06:31:03.999	Core 01	2026.04.02 08:58:30   deal performed [#53 sell 0.04 XAUUSD. at 4616.770]
+GP	0	06:31:03.999	Core 01	2026.04.02 08:58:30   order performed sell 0.04 at 4616.770 [#58 sell 0.04 XAUUSD. at 4617.770]
+MP	0	06:31:03.999	Core 01	2026.04.02 20:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.02 20:15 O=4673.980 H=4674.460 L=4664.450 C=4667.900 body=6.080 ATR=8.523 body_ATR_pct=71.33 min_pct=75.00 max_pct=166.00 close_wick_pct=34.47 trend_ok=true atr_ok=false wick_ok=false reason=ATR, Knot
+OI	0	06:31:03.999	Core 01	2026.04.06 02:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.06 02:00 O=4626.090 H=4640.120 L=4623.650 C=4636.260 body=10.170 ATR=13.863 body_ATR_pct=73.36 min_pct=75.00 max_pct=166.00 close_wick_pct=23.44 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+QR	0	06:31:03.999	Core 01	2026.04.06 07:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.06 06:45 O=4655.640 H=4667.860 L=4653.800 C=4666.090 body=10.450 ATR=10.590 body_ATR_pct=98.68 min_pct=75.00 max_pct=166.00 close_wick_pct=12.59 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+CO	0	06:31:03.999	Core 01	2026.04.06 07:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.06 07:30 O=4650.840 H=4665.680 L=4650.300 C=4664.330 body=13.490 ATR=14.873 body_ATR_pct=90.70 min_pct=75.00 max_pct=166.00 close_wick_pct=8.78 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+MH	0	06:31:03.999	Core 01	2026.04.06 10:00:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.06 09:45 O=4703.470 H=4705.200 L=4690.970 C=4693.660 body=9.810 ATR=8.777 body_ATR_pct=111.77 min_pct=75.00 max_pct=166.00 close_wick_pct=18.90 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+LL	0	06:31:03.999	Core 01	2026.04.06 18:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.06 18:30 O=4660.320 H=4663.540 L=4649.130 C=4650.390 body=9.930 ATR=11.687 body_ATR_pct=84.97 min_pct=75.00 max_pct=166.00 close_wick_pct=8.74 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+GE	0	06:31:03.999	Core 01	2026.04.07 09:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.07 09:30 O=4686.750 H=4686.920 L=4665.920 C=4667.230 body=19.520 ATR=15.127 body_ATR_pct=129.04 min_pct=75.00 max_pct=166.00 close_wick_pct=6.24 trend_ok=true atr_ok=true wick_ok=true
+PK	0	06:31:03.999	Core 01	2026.04.07 09:45:00   sell limit 0.03 XAUUSD. at 4680.205 sl: 4694.490 tp: 4651.635 (4667.240 / 4667.310)
+MD	0	06:31:03.999	Core 01	2026.04.07 09:45:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 4680.205 sl: 4694.490 tp: 4651.635 [done]
+FI	0	06:31:03.999	Core 01	2026.04.07 10:15:48   order [#59 sell limit 0.03 XAUUSD. at 4680.205] triggered
+LD	0	06:31:03.999	Core 01	2026.04.07 10:15:48   deal #54 sell 0.03 XAUUSD. at 4680.640 done (based on order #59)
+NF	0	06:31:03.999	Core 01	2026.04.07 10:15:48   deal performed [#54 sell 0.03 XAUUSD. at 4680.640]
+GQ	0	06:31:03.999	Core 01	2026.04.07 10:15:48   order performed sell 0.03 at 4680.640 [#59 sell limit 0.03 XAUUSD. at 4680.205]
+JR	0	06:31:03.999	Core 01	2026.04.07 10:15:48   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.07 09:30 price=4680.640 volume=0.03
+OK	0	06:31:03.999	Core 01	2026.04.07 10:43:56   position modified [#59 sell 0.03 XAUUSD. 4680.640 sl: 4680.640 tp: 4651.635]
+GG	0	06:31:03.999	Core 01	2026.04.07 10:43:56   CTrade::OrderSend: modify position #59 XAUUSD. (sl: 4680.640, tp: 4651.635) [done]
+OH	0	06:31:03.999	Core 01	2026.04.07 10:49:20   take profit triggered #59 sell 0.03 XAUUSD. 4680.640 sl: 4680.640 tp: 4651.635 [#60 buy 0.03 XAUUSD. at 4651.635]
+II	0	06:31:03.999	Core 01	2026.04.07 10:49:20   deal #55 buy 0.03 XAUUSD. at 4651.630 done (based on order #60)
+KG	0	06:31:03.999	Core 01	2026.04.07 10:49:20   deal performed [#55 buy 0.03 XAUUSD. at 4651.630]
+KJ	0	06:31:03.999	Core 01	2026.04.07 10:49:20   order performed buy 0.03 at 4651.630 [#60 buy 0.03 XAUUSD. at 4651.635]
+IG	0	06:31:03.999	Core 01	2026.04.07 13:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.07 13:30 O=4658.180 H=4663.210 L=4635.640 C=4639.890 body=18.290 ATR=17.233 body_ATR_pct=106.13 min_pct=75.00 max_pct=166.00 close_wick_pct=15.42 trend_ok=true atr_ok=true wick_ok=true
+RK	0	06:31:03.999	Core 01	2026.04.07 13:45:00   sell limit 0.03 XAUUSD. at 4649.425 sl: 4663.210 tp: 4621.855 (4639.720 / 4639.800)
+DD	0	06:31:03.999	Core 01	2026.04.07 13:45:00   CTrade::OrderSend: sell limit 0.03 XAUUSD. at 4649.425 sl: 4663.210 tp: 4621.855 [done]
+MI	0	06:31:03.999	Core 01	2026.04.07 13:51:37   order [#61 sell limit 0.03 XAUUSD. at 4649.425] triggered
+GE	0	06:31:03.999	Core 01	2026.04.07 13:51:37   deal #56 sell 0.03 XAUUSD. at 4649.660 done (based on order #61)
+PG	0	06:31:03.999	Core 01	2026.04.07 13:51:37   deal performed [#56 sell 0.03 XAUUSD. at 4649.660]
+MQ	0	06:31:03.999	Core 01	2026.04.07 13:51:37   order performed sell 0.03 at 4649.660 [#61 sell limit 0.03 XAUUSD. at 4649.425]
+KR	0	06:31:03.999	Core 01	2026.04.07 13:51:37   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.07 13:30 price=4649.660 volume=0.03
+IH	0	06:31:03.999	Core 01	2026.04.07 14:04:46   position modified [#61 sell 0.03 XAUUSD. 4649.660 sl: 4649.660 tp: 4621.855]
+LD	0	06:31:03.999	Core 01	2026.04.07 14:04:46   CTrade::OrderSend: modify position #61 XAUUSD. (sl: 4649.660, tp: 4621.855) [done]
+HH	0	06:31:03.999	Core 01	2026.04.07 14:06:05   take profit triggered #61 sell 0.03 XAUUSD. 4649.660 sl: 4649.660 tp: 4621.855 [#62 buy 0.03 XAUUSD. at 4621.855]
+RH	0	06:31:03.999	Core 01	2026.04.07 14:06:05   deal #57 buy 0.03 XAUUSD. at 4621.830 done (based on order #62)
+FF	0	06:31:03.999	Core 01	2026.04.07 14:06:05   deal performed [#57 buy 0.03 XAUUSD. at 4621.830]
+OJ	0	06:31:03.999	Core 01	2026.04.07 14:06:05   order performed buy 0.03 at 4621.830 [#62 buy 0.03 XAUUSD. at 4621.855]
+FH	0	06:31:03.999	Core 01	2026.04.07 14:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.07 14:00 O=4644.170 H=4645.510 L=4607.690 C=4622.160 body=22.010 ATR=27.400 body_ATR_pct=80.33 min_pct=75.00 max_pct=166.00 close_wick_pct=38.26 trend_ok=true atr_ok=true wick_ok=false reason=Knot
+QI	0	06:31:03.999	Core 01	2026.04.07 15:00:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.07 14:45 O=4647.210 H=4657.080 L=4630.090 C=4633.340 body=13.870 ATR=28.487 body_ATR_pct=48.69 min_pct=75.00 max_pct=166.00 close_wick_pct=12.04 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+GS	0	06:31:03.999	Core 01	2026.04.07 20:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.07 19:45 O=4687.280 H=4718.740 L=4685.930 C=4700.860 body=13.580 ATR=26.080 body_ATR_pct=52.07 min_pct=75.00 max_pct=166.00 close_wick_pct=54.50 trend_ok=true atr_ok=false wick_ok=false reason=ATR, Knot
+CI	0	06:31:03.999	Core 01	2026.04.08 00:00:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.07 23:45 O=4813.200 H=4836.240 L=4810.220 C=4833.540 body=20.340 ATR=20.290 body_ATR_pct=100.25 min_pct=75.00 max_pct=166.00 close_wick_pct=10.38 trend_ok=true atr_ok=true wick_ok=true
+FQ	0	06:31:03.999	Core 01	2026.04.08 00:00:00   buy limit 0.03 XAUUSD. at 4820.210 sl: 4804.180 tp: 4852.270 (4833.520 / 4833.610)
+QM	0	06:31:03.999	Core 01	2026.04.08 00:00:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 4820.210 sl: 4804.180 tp: 4852.270 [done]
+OP	0	06:31:03.999	Core 01	2026.04.08 00:28:22   order [#63 buy limit 0.03 XAUUSD. at 4820.210] triggered
+NH	0	06:31:03.999	Core 01	2026.04.08 00:28:22   deal #58 buy 0.03 XAUUSD. at 4820.180 done (based on order #63)
+IF	0	06:31:03.999	Core 01	2026.04.08 00:28:22   deal performed [#58 buy 0.03 XAUUSD. at 4820.180]
+IG	0	06:31:03.999	Core 01	2026.04.08 00:28:22   order performed buy 0.03 at 4820.180 [#63 buy limit 0.03 XAUUSD. at 4820.210]
+ED	0	06:31:03.999	Core 01	2026.04.08 00:28:22   EFIB transaction opened: LONG setup candle EFIB LONG 2026.04.07 23:45 price=4820.180 volume=0.03
+RF	0	06:31:03.999	Core 01	2026.04.08 00:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.08 00:15 O=4835.340 H=4839.040 L=4819.000 C=4822.810 body=12.530 ATR=24.260 body_ATR_pct=51.65 min_pct=75.00 max_pct=166.00 close_wick_pct=19.01 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+DQ	0	06:31:03.999	Core 01	2026.04.08 01:19:36   stop loss triggered #63 buy 0.03 XAUUSD. 4820.180 sl: 4804.180 tp: 4852.270 [#64 sell 0.03 XAUUSD. at 4804.180]
+KO	0	06:31:03.999	Core 01	2026.04.08 01:19:36   deal #59 sell 0.03 XAUUSD. at 4804.130 done (based on order #64)
+GQ	0	06:31:03.999	Core 01	2026.04.08 01:19:36   deal performed [#59 sell 0.03 XAUUSD. at 4804.130]
+DR	0	06:31:03.999	Core 01	2026.04.08 01:19:36   order performed sell 0.03 at 4804.130 [#64 sell 0.03 XAUUSD. at 4804.180]
+CQ	0	06:31:03.999	Core 01	2026.04.08 10:45:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.08 10:30 O=4782.660 H=4792.200 L=4780.140 C=4791.690 body=9.030 ATR=10.923 body_ATR_pct=82.67 min_pct=75.00 max_pct=166.00 close_wick_pct=4.23 trend_ok=true atr_ok=true wick_ok=true
+LL	0	06:31:03.999	Core 01	2026.04.08 10:45:00   buy limit 0.04 XAUUSD. at 4781.695 sl: 4771.190 tp: 4802.705 (4791.690 / 4791.760)
+MP	0	06:31:03.999	Core 01	2026.04.08 10:45:00   CTrade::OrderSend: buy limit 0.04 XAUUSD. at 4781.695 sl: 4771.190 tp: 4802.705 [done]
+NO	0	06:31:03.999	Core 01	2026.04.08 11:00:45   order [#65 buy limit 0.04 XAUUSD. at 4781.695] triggered
+NM	0	06:31:03.999	Core 01	2026.04.08 11:00:45   deal #60 buy 0.04 XAUUSD. at 4780.940 done (based on order #65)
+CS	0	06:31:03.999	Core 01	2026.04.08 11:00:45   deal performed [#60 buy 0.04 XAUUSD. at 4780.940]
+JH	0	06:31:03.999	Core 01	2026.04.08 11:00:45   order performed buy 0.04 at 4780.940 [#65 buy limit 0.04 XAUUSD. at 4781.695]
+EK	0	06:31:03.999	Core 01	2026.04.08 11:00:45   EFIB transaction opened: LONG setup candle EFIB LONG 2026.04.08 10:30 price=4780.940 volume=0.04
+RN	0	06:31:03.999	Core 01	2026.04.08 11:53:27   position modified [#65 buy 0.04 XAUUSD. 4780.940 sl: 4780.940 tp: 4802.705]
+GM	0	06:31:03.999	Core 01	2026.04.08 11:53:27   CTrade::OrderSend: modify position #65 XAUUSD. (sl: 4780.940, tp: 4802.705) [done]
+NR	0	06:31:03.999	Core 01	2026.04.08 11:58:11   take profit triggered #65 buy 0.04 XAUUSD. 4780.940 sl: 4780.940 tp: 4802.705 [#66 sell 0.04 XAUUSD. at 4802.705]
+DM	0	06:31:03.999	Core 01	2026.04.08 11:58:11   deal #61 sell 0.04 XAUUSD. at 4802.710 done (based on order #66)
+JN	0	06:31:03.999	Core 01	2026.04.08 11:58:11   deal performed [#61 sell 0.04 XAUUSD. at 4802.710]
+DD	0	06:31:03.999	Core 01	2026.04.08 11:58:11   order performed sell 0.04 at 4802.710 [#66 sell 0.04 XAUUSD. at 4802.705]
+GF	0	06:31:03.999	Core 01	2026.04.08 12:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.08 12:15 O=4805.330 H=4805.420 L=4768.180 C=4784.170 body=21.160 ATR=19.957 body_ATR_pct=106.03 min_pct=75.00 max_pct=166.00 close_wick_pct=42.94 trend_ok=false atr_ok=true wick_ok=false reason=Trend, Knot
+JS	0	06:31:03.999	Core 01	2026.04.08 14:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.08 14:15 O=4780.180 H=4785.740 L=4761.620 C=4767.780 body=12.400 ATR=20.233 body_ATR_pct=61.29 min_pct=75.00 max_pct=166.00 close_wick_pct=25.54 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+II	0	06:31:03.999	Core 01	2026.04.09 00:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.09 00:00 O=4715.800 H=4715.810 L=4699.050 C=4702.450 body=13.350 ATR=10.833 body_ATR_pct=123.23 min_pct=75.00 max_pct=166.00 close_wick_pct=20.29 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+HN	0	06:31:03.999	Core 01	2026.04.09 04:15:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.09 04:00 O=4711.610 H=4722.530 L=4709.820 C=4721.830 body=10.220 ATR=8.010 body_ATR_pct=127.59 min_pct=75.00 max_pct=166.00 close_wick_pct=5.51 trend_ok=true atr_ok=true wick_ok=true
+CI	0	06:31:03.999	Core 01	2026.04.09 04:15:00   buy limit 0.06 XAUUSD. at 4714.610 sl: 4706.690 tp: 4730.450 (4721.970 / 4722.040)
+GE	0	06:31:03.999	Core 01	2026.04.09 04:15:00   CTrade::OrderSend: buy limit 0.06 XAUUSD. at 4714.610 sl: 4706.690 tp: 4730.450 [done]
+OH	0	06:31:03.999	Core 01	2026.04.09 04:31:53   order [#67 buy limit 0.06 XAUUSD. at 4714.610] triggered
+HQ	0	06:31:03.999	Core 01	2026.04.09 04:31:53   deal #62 buy 0.06 XAUUSD. at 4714.570 done (based on order #67)
+KO	0	06:31:03.999	Core 01	2026.04.09 04:31:53   deal performed [#62 buy 0.06 XAUUSD. at 4714.570]
+KO	0	06:31:03.999	Core 01	2026.04.09 04:31:53   order performed buy 0.06 at 4714.570 [#67 buy limit 0.06 XAUUSD. at 4714.610]
+RL	0	06:31:03.999	Core 01	2026.04.09 04:31:53   EFIB transaction opened: LONG setup candle EFIB LONG 2026.04.09 04:00 price=4714.570 volume=0.06
+PP	0	06:31:03.999	Core 01	2026.04.09 05:52:03   stop loss triggered #67 buy 0.06 XAUUSD. 4714.570 sl: 4706.690 tp: 4730.450 [#68 sell 0.06 XAUUSD. at 4706.690]
+NN	0	06:31:03.999	Core 01	2026.04.09 05:52:03   deal #63 sell 0.06 XAUUSD. at 4706.620 done (based on order #68)
+FS	0	06:31:03.999	Core 01	2026.04.09 05:52:03   deal performed [#63 sell 0.06 XAUUSD. at 4706.620]
+PQ	0	06:31:03.999	Core 01	2026.04.09 05:52:03   order performed sell 0.06 at 4706.620 [#68 sell 0.06 XAUUSD. at 4706.690]
+KS	0	06:31:03.999	Core 01	2026.04.09 07:15:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.09 07:00 O=4712.490 H=4730.480 L=4708.650 C=4724.490 body=12.000 ATR=14.860 body_ATR_pct=80.75 min_pct=75.00 max_pct=166.00 close_wick_pct=27.44 trend_ok=true atr_ok=true wick_ok=true
+HO	0	06:31:03.999	Core 01	2026.04.09 07:15:00   buy limit 0.03 XAUUSD. at 4717.055 sl: 4703.630 tp: 4743.905 (4724.540 / 4724.610)
+QR	0	06:31:03.999	Core 01	2026.04.09 07:15:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 4717.055 sl: 4703.630 tp: 4743.905 [done]
+KI	0	06:31:03.999	Core 01	2026.04.09 07:19:28   order [#69 buy limit 0.03 XAUUSD. at 4717.055] triggered
+ES	0	06:31:03.999	Core 01	2026.04.09 07:19:28   deal #64 buy 0.03 XAUUSD. at 4716.900 done (based on order #69)
+HQ	0	06:31:03.999	Core 01	2026.04.09 07:19:28   deal performed [#64 buy 0.03 XAUUSD. at 4716.900]
+KI	0	06:31:03.999	Core 01	2026.04.09 07:19:28   order performed buy 0.03 at 4716.900 [#69 buy limit 0.03 XAUUSD. at 4717.055]
+JJ	0	06:31:03.999	Core 01	2026.04.09 07:19:28   EFIB transaction opened: LONG setup candle EFIB LONG 2026.04.09 07:00 price=4716.900 volume=0.03
+IO	0	06:31:03.999	Core 01	2026.04.09 10:25:39   position modified [#69 buy 0.03 XAUUSD. 4716.900 sl: 4716.900 tp: 4743.905]
+DL	0	06:31:03.999	Core 01	2026.04.09 10:25:39   CTrade::OrderSend: modify position #69 XAUUSD. (sl: 4716.900, tp: 4743.905) [done]
+MP	0	06:31:03.999	Core 01	2026.04.09 10:49:31   take profit triggered #69 buy 0.03 XAUUSD. 4716.900 sl: 4716.900 tp: 4743.905 [#70 sell 0.03 XAUUSD. at 4743.905]
+NO	0	06:31:03.999	Core 01	2026.04.09 10:49:31   deal #65 sell 0.03 XAUUSD. at 4743.910 done (based on order #70)
+MQ	0	06:31:03.999	Core 01	2026.04.09 10:49:31   deal performed [#65 sell 0.03 XAUUSD. at 4743.910]
+OR	0	06:31:03.999	Core 01	2026.04.09 10:49:31   order performed sell 0.03 at 4743.910 [#70 sell 0.03 XAUUSD. at 4743.905]
+DO	0	06:31:03.999	Core 01	2026.04.09 12:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.09 12:00 O=4756.680 H=4759.630 L=4742.000 C=4742.630 body=14.050 ATR=10.783 body_ATR_pct=130.29 min_pct=75.00 max_pct=166.00 close_wick_pct=3.57 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+LO	0	06:31:03.999	Core 01	2026.04.09 13:45:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.09 13:30 O=4752.750 H=4777.180 L=4750.680 C=4775.870 body=23.120 ATR=17.137 body_ATR_pct=134.92 min_pct=75.00 max_pct=166.00 close_wick_pct=4.94 trend_ok=true atr_ok=true wick_ok=true
+FJ	0	06:31:03.999	Core 01	2026.04.09 13:45:00   buy limit 0.03 XAUUSD. at 4763.930 sl: 4750.680 tp: 4790.430 (4775.880 / 4775.960)
+DF	0	06:31:03.999	Core 01	2026.04.09 13:45:00   CTrade::OrderSend: buy limit 0.03 XAUUSD. at 4763.930 sl: 4750.680 tp: 4790.430 [done]
+HE	0	06:31:03.999	Core 01	2026.04.09 13:51:33   order [#71 buy limit 0.03 XAUUSD. at 4763.930] triggered
+RD	0	06:31:03.999	Core 01	2026.04.09 13:51:33   deal #66 buy 0.03 XAUUSD. at 4763.800 done (based on order #71)
+HJ	0	06:31:03.999	Core 01	2026.04.09 13:51:33   deal performed [#66 buy 0.03 XAUUSD. at 4763.800]
+QR	0	06:31:03.999	Core 01	2026.04.09 13:51:33   order performed buy 0.03 at 4763.800 [#71 buy limit 0.03 XAUUSD. at 4763.930]
+FQ	0	06:31:03.999	Core 01	2026.04.09 13:51:33   EFIB transaction opened: LONG setup candle EFIB LONG 2026.04.09 13:30 price=4763.800 volume=0.03
+GM	0	06:31:03.999	Core 01	2026.04.09 14:36:57   stop loss triggered #71 buy 0.03 XAUUSD. 4763.800 sl: 4750.680 tp: 4790.430 [#72 sell 0.03 XAUUSD. at 4750.680]
+RK	0	06:31:03.999	Core 01	2026.04.09 14:36:57   deal #67 sell 0.03 XAUUSD. at 4749.310 done (based on order #72)
+OD	0	06:31:03.999	Core 01	2026.04.09 14:36:57   deal performed [#67 sell 0.03 XAUUSD. at 4749.310]
+MN	0	06:31:03.999	Core 01	2026.04.09 14:36:57   order performed sell 0.03 at 4749.310 [#72 sell 0.03 XAUUSD. at 4750.680]
+PQ	0	06:31:03.999	Core 01	2026.04.09 18:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.09 18:00 O=4797.930 H=4798.200 L=4780.680 C=4783.790 body=14.140 ATR=12.220 body_ATR_pct=115.71 min_pct=75.00 max_pct=166.00 close_wick_pct=17.75 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+KD	0	06:31:03.999	Core 01	2026.04.10 06:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.10 06:00 O=4765.930 H=4766.000 L=4755.680 C=4756.330 body=9.600 ATR=7.893 body_ATR_pct=121.62 min_pct=75.00 max_pct=166.00 close_wick_pct=6.30 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+PL	0	06:31:03.999	Core 01	2026.04.13 07:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.13 07:00 O=4725.690 H=4738.710 L=4724.880 C=4728.270 body=2.580 ATR=8.887 body_ATR_pct=29.03 min_pct=75.00 max_pct=166.00 close_wick_pct=75.49 trend_ok=false atr_ok=false wick_ok=false reason=Trend, ATR, Knot
+PF	0	06:31:03.999	Core 01	2026.04.13 18:00:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.13 17:45 O=4744.050 H=4744.120 L=4727.460 C=4730.090 body=13.960 ATR=13.930 body_ATR_pct=100.22 min_pct=75.00 max_pct=166.00 close_wick_pct=15.79 trend_ok=true atr_ok=true wick_ok=true
+RH	0	06:31:03.999	Core 01	2026.04.13 18:00:00   sell limit 0.04 XAUUSD. at 4737.485 sl: 4747.510 tp: 4717.435 (4730.080 / 4730.160)
+RD	0	06:31:03.999	Core 01	2026.04.13 18:00:00   CTrade::OrderSend: sell limit 0.04 XAUUSD. at 4737.485 sl: 4747.510 tp: 4717.435 [done]
+QI	0	06:31:03.999	Core 01	2026.04.13 18:51:24   order [#73 sell limit 0.04 XAUUSD. at 4737.485] triggered
+ID	0	06:31:03.999	Core 01	2026.04.13 18:51:24   deal #68 sell 0.04 XAUUSD. at 4737.500 done (based on order #73)
+OF	0	06:31:03.999	Core 01	2026.04.13 18:51:24   deal performed [#68 sell 0.04 XAUUSD. at 4737.500]
+CQ	0	06:31:03.999	Core 01	2026.04.13 18:51:24   order performed sell 0.04 at 4737.500 [#73 sell limit 0.04 XAUUSD. at 4737.485]
+NE	0	06:31:03.999	Core 01	2026.04.13 18:51:24   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.13 17:45 price=4737.500 volume=0.04
+FI	0	06:31:03.999	Core 01	2026.04.13 19:33:00   stop loss triggered #73 sell 0.04 XAUUSD. 4737.500 sl: 4747.510 tp: 4717.435 [#74 buy 0.04 XAUUSD. at 4747.510]
+HH	0	06:31:03.999	Core 01	2026.04.13 19:33:00   deal #69 buy 0.04 XAUUSD. at 4747.510 done (based on order #74)
+MF	0	06:31:03.999	Core 01	2026.04.13 19:33:00   deal performed [#69 buy 0.04 XAUUSD. at 4747.510]
+DJ	0	06:31:03.999	Core 01	2026.04.13 19:33:00   order performed buy 0.04 at 4747.510 [#74 buy 0.04 XAUUSD. at 4747.510]
+KJ	0	06:31:03.999	Core 01	2026.04.14 01:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.14 01:00 O=4769.880 H=4777.060 L=4762.430 C=4776.000 body=6.120 ATR=10.893 body_ATR_pct=56.18 min_pct=75.00 max_pct=166.00 close_wick_pct=7.25 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+MJ	0	06:31:03.999	Core 01	2026.04.14 05:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.14 05:00 O=4774.210 H=4774.390 L=4763.400 C=4765.500 body=8.710 ATR=6.353 body_ATR_pct=137.09 min_pct=75.00 max_pct=166.00 close_wick_pct=19.11 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+LM	0	06:31:03.999	Core 01	2026.04.14 10:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.14 10:30 O=4783.970 H=4784.600 L=4753.330 C=4767.710 body=16.260 ATR=15.140 body_ATR_pct=107.40 min_pct=75.00 max_pct=166.00 close_wick_pct=45.99 trend_ok=false atr_ok=true wick_ok=false reason=Trend, Knot
+FD	0	06:31:03.999	Core 01	2026.04.14 22:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.14 22:00 O=4840.780 H=4850.910 L=4838.350 C=4844.940 body=4.160 ATR=6.257 body_ATR_pct=66.49 min_pct=75.00 max_pct=166.00 close_wick_pct=47.53 trend_ok=true atr_ok=false wick_ok=false reason=ATR, Knot
+JM	0	06:31:03.999	Core 01	2026.04.15 20:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.15 20:30 O=4793.920 H=4793.930 L=4790.200 C=4790.850 body=3.070 ATR=3.390 body_ATR_pct=90.56 min_pct=75.00 max_pct=166.00 close_wick_pct=17.43 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+EG	0	06:31:03.999	Core 01	2026.04.16 06:30:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.16 06:15 O=4822.850 H=4825.310 L=4814.590 C=4816.350 body=6.500 ATR=8.540 body_ATR_pct=76.11 min_pct=75.00 max_pct=166.00 close_wick_pct=16.42 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+OJ	0	06:31:03.999	Core 01	2026.04.16 14:00:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.16 13:45 O=4816.360 H=4819.640 L=4785.140 C=4794.890 body=21.470 ATR=17.303 body_ATR_pct=124.08 min_pct=75.00 max_pct=166.00 close_wick_pct=28.26 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+OR	0	06:31:03.999	Core 01	2026.04.17 20:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.17 20:30 O=4845.980 H=4847.060 L=4834.160 C=4835.800 body=10.180 ATR=10.290 body_ATR_pct=98.93 min_pct=75.00 max_pct=166.00 close_wick_pct=12.71 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+DI	0	06:31:03.999	Core 01	2026.04.20 00:30:00   EFIB setup diagnostics: ACCEPTED LONG setup_candle=2026.04.20 00:15 O=4752.230 H=4765.870 L=4751.890 C=4765.470 body=13.240 ATR=14.160 body_ATR_pct=93.50 min_pct=75.00 max_pct=166.00 close_wick_pct=2.86 trend_ok=true atr_ok=true wick_ok=true
+GF	0	06:31:03.999	Core 01	2026.04.20 00:30:00   buy limit 0.04 XAUUSD. at 4755.435 sl: 4745.000 tp: 4776.305 (4765.490 / 4765.580)
+LM	0	06:31:03.999	Core 01	2026.04.20 00:30:00   CTrade::OrderSend: buy limit 0.04 XAUUSD. at 4755.435 sl: 4745.000 tp: 4776.305 [done]
+JO	0	06:31:03.999	Core 01	2026.04.20 01:15:00   order canceled [#75 buy limit 0.04 XAUUSD. at 4755.435]
+OJ	0	06:31:03.999	Core 01	2026.04.20 01:15:00   CTrade::OrderSend: cancel #75 [done]
+PG	0	06:31:03.999	Core 01	2026.04.20 02:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.20 02:00 O=4807.940 H=4809.120 L=4800.810 C=4801.130 body=6.810 ATR=9.153 body_ATR_pct=74.40 min_pct=75.00 max_pct=166.00 close_wick_pct=3.85 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+QK	0	06:31:03.999	Core 01	2026.04.20 04:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.20 04:30 O=4794.710 H=4794.770 L=4787.260 C=4787.430 body=7.280 ATR=5.440 body_ATR_pct=133.82 min_pct=75.00 max_pct=166.00 close_wick_pct=2.26 trend_ok=true atr_ok=true wick_ok=true
+DR	0	06:31:03.999	Core 01	2026.04.20 04:45:00   sell limit 0.11 XAUUSD. at 4791.530 sl: 4795.800 tp: 4782.990 (4787.500 / 4787.600)
+PN	0	06:31:03.999	Core 01	2026.04.20 04:45:00   CTrade::OrderSend: sell limit 0.11 XAUUSD. at 4791.530 sl: 4795.800 tp: 4782.990 [done]
+RP	0	06:31:03.999	Core 01	2026.04.20 04:47:03   order [#76 sell limit 0.11 XAUUSD. at 4791.530] triggered
+ER	0	06:31:03.999	Core 01	2026.04.20 04:47:03   deal #70 sell 0.11 XAUUSD. at 4791.790 done (based on order #76)
+HL	0	06:31:03.999	Core 01	2026.04.20 04:47:03   deal performed [#70 sell 0.11 XAUUSD. at 4791.790]
+EH	0	06:31:03.999	Core 01	2026.04.20 04:47:03   order performed sell 0.11 at 4791.790 [#76 sell limit 0.11 XAUUSD. at 4791.530]
+FK	0	06:31:03.999	Core 01	2026.04.20 04:47:03   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.20 04:30 price=4791.790 volume=0.11
+OS	0	06:31:03.999	Core 01	2026.04.20 05:32:08   stop loss triggered #76 sell 0.11 XAUUSD. 4791.790 sl: 4795.800 tp: 4782.990 [#77 buy 0.11 XAUUSD. at 4795.800]
+MR	0	06:31:03.999	Core 01	2026.04.20 05:32:08   deal #71 buy 0.11 XAUUSD. at 4795.820 done (based on order #77)
+QQ	0	06:31:03.999	Core 01	2026.04.20 05:32:08   deal performed [#71 buy 0.11 XAUUSD. at 4795.820]
+CD	0	06:31:03.999	Core 01	2026.04.20 05:32:08   order performed buy 0.11 at 4795.820 [#77 buy 0.11 XAUUSD. at 4795.800]
+JJ	0	06:31:03.999	Core 01	2026.04.20 05:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.20 05:30 O=4787.930 H=4796.090 L=4779.900 C=4780.890 body=7.040 ATR=9.663 body_ATR_pct=72.85 min_pct=75.00 max_pct=166.00 close_wick_pct=6.11 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+RS	0	06:31:03.999	Core 01	2026.04.20 11:15:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.20 11:00 O=4795.900 H=4796.310 L=4787.000 C=4789.820 body=6.080 ATR=5.647 body_ATR_pct=107.67 min_pct=75.00 max_pct=166.00 close_wick_pct=30.29 trend_ok=true atr_ok=true wick_ok=true
+RF	0	06:31:03.999	Core 01	2026.04.20 11:15:00   sell limit 0.09 XAUUSD. at 4792.100 sl: 4797.200 tp: 4781.900 (4789.820 / 4789.890)
+NK	0	06:31:03.999	Core 01	2026.04.20 11:15:00   CTrade::OrderSend: sell limit 0.09 XAUUSD. at 4792.100 sl: 4797.200 tp: 4781.900 [done]
+GD	0	06:31:03.999	Core 01	2026.04.20 11:41:23   order [#78 sell limit 0.09 XAUUSD. at 4792.100] triggered
+CN	0	06:31:03.999	Core 01	2026.04.20 11:41:23   deal #72 sell 0.09 XAUUSD. at 4792.130 done (based on order #78)
+LS	0	06:31:03.999	Core 01	2026.04.20 11:41:23   deal performed [#72 sell 0.09 XAUUSD. at 4792.130]
+RL	0	06:31:03.999	Core 01	2026.04.20 11:41:23   order performed sell 0.09 at 4792.130 [#78 sell limit 0.09 XAUUSD. at 4792.100]
+MO	0	06:31:03.999	Core 01	2026.04.20 11:41:23   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.20 11:00 price=4792.130 volume=0.09
+QN	0	06:31:03.999	Core 01	2026.04.20 11:46:01   stop loss triggered #78 sell 0.09 XAUUSD. 4792.130 sl: 4797.200 tp: 4781.900 [#79 buy 0.09 XAUUSD. at 4797.200]
+IG	0	06:31:03.999	Core 01	2026.04.20 11:46:01   deal #73 buy 0.09 XAUUSD. at 4797.240 done (based on order #79)
+OM	0	06:31:03.999	Core 01	2026.04.20 11:46:01   deal performed [#73 buy 0.09 XAUUSD. at 4797.240]
+RP	0	06:31:03.999	Core 01	2026.04.20 11:46:01   order performed buy 0.09 at 4797.240 [#79 buy 0.09 XAUUSD. at 4797.200]
+FQ	0	06:31:03.999	Core 01	2026.04.20 13:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.20 13:00 O=4803.580 H=4816.970 L=4799.840 C=4815.510 body=11.930 ATR=11.627 body_ATR_pct=102.61 min_pct=75.00 max_pct=166.00 close_wick_pct=8.52 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+EJ	0	06:31:03.999	Core 01	2026.04.20 14:30:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.20 14:15 O=4816.330 H=4826.930 L=4814.530 C=4823.390 body=7.060 ATR=10.447 body_ATR_pct=67.58 min_pct=75.00 max_pct=166.00 close_wick_pct=28.55 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+ER	0	06:31:03.999	Core 01	2026.04.20 18:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.20 18:00 O=4806.850 H=4815.980 L=4806.850 C=4815.590 body=8.740 ATR=6.700 body_ATR_pct=130.45 min_pct=75.00 max_pct=166.00 close_wick_pct=4.27 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+LO	0	06:31:03.999	Core 01	2026.04.20 19:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.20 19:00 O=4814.140 H=4821.440 L=4814.000 C=4820.520 body=6.380 ATR=5.080 body_ATR_pct=125.59 min_pct=75.00 max_pct=166.00 close_wick_pct=12.37 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+QH	0	06:31:03.999	Core 01	2026.04.21 01:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.21 01:00 O=4824.080 H=4824.680 L=4813.200 C=4814.790 body=9.290 ATR=7.983 body_ATR_pct=116.37 min_pct=75.00 max_pct=166.00 close_wick_pct=13.85 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+QN	0	06:31:03.999	Core 01	2026.04.21 17:00:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.21 16:45 O=4721.060 H=4723.000 L=4708.460 C=4711.000 body=10.060 ATR=12.157 body_ATR_pct=82.75 min_pct=75.00 max_pct=166.00 close_wick_pct=17.47 trend_ok=true atr_ok=true wick_ok=true
+OQ	0	06:31:03.999	Core 01	2026.04.21 17:00:00   sell limit 0.05 XAUUSD. at 4718.030 sl: 4727.600 tp: 4698.890 (4711.050 / 4711.130)
+CM	0	06:31:03.999	Core 01	2026.04.21 17:00:00   CTrade::OrderSend: sell limit 0.05 XAUUSD. at 4718.030 sl: 4727.600 tp: 4698.890 [done]
+KF	0	06:31:03.999	Core 01	2026.04.21 17:01:56   order [#80 sell limit 0.05 XAUUSD. at 4718.030] triggered
+JO	0	06:31:03.999	Core 01	2026.04.21 17:01:56   deal #74 sell 0.05 XAUUSD. at 4718.320 done (based on order #80)
+LQ	0	06:31:03.999	Core 01	2026.04.21 17:01:56   deal performed [#74 sell 0.05 XAUUSD. at 4718.320]
+EO	0	06:31:03.999	Core 01	2026.04.21 17:01:56   order performed sell 0.05 at 4718.320 [#80 sell limit 0.05 XAUUSD. at 4718.030]
+RL	0	06:31:03.999	Core 01	2026.04.21 17:01:56   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.21 16:45 price=4718.320 volume=0.05
+RR	0	06:31:03.999	Core 01	2026.04.21 17:12:49   position modified [#80 sell 0.05 XAUUSD. 4718.320 sl: 4718.320 tp: 4698.890]
+MN	0	06:31:03.999	Core 01	2026.04.21 17:12:49   CTrade::OrderSend: modify position #80 XAUUSD. (sl: 4718.320, tp: 4698.890) [done]
+DQ	0	06:31:03.999	Core 01	2026.04.21 17:28:15   take profit triggered #80 sell 0.05 XAUUSD. 4718.320 sl: 4718.320 tp: 4698.890 [#81 buy 0.05 XAUUSD. at 4698.890]
+OF	0	06:31:03.999	Core 01	2026.04.21 17:28:15   deal #75 buy 0.05 XAUUSD. at 4697.910 done (based on order #81)
+PL	0	06:31:03.999	Core 01	2026.04.21 17:28:15   deal performed [#75 buy 0.05 XAUUSD. at 4697.910]
+EQ	0	06:31:03.999	Core 01	2026.04.21 17:28:15   order performed buy 0.05 at 4697.910 [#81 buy 0.05 XAUUSD. at 4698.890]
+QN	0	06:31:03.999	Core 01	2026.04.21 19:45:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.21 19:30 O=4714.040 H=4714.780 L=4668.530 C=4671.560 body=42.480 ATR=21.673 body_ATR_pct=196.00 min_pct=75.00 max_pct=166.00 close_wick_pct=6.55 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+DD	0	06:31:03.999	Core 01	2026.04.22 11:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.22 11:30 O=4757.380 H=4760.030 L=4748.440 C=4748.720 body=8.660 ATR=6.603 body_ATR_pct=131.15 min_pct=75.00 max_pct=166.00 close_wick_pct=2.42 trend_ok=true atr_ok=true wick_ok=true
+NJ	0	06:31:03.999	Core 01	2026.04.22 11:45:00   sell limit 0.08 XAUUSD. at 4754.640 sl: 4760.840 tp: 4742.240 (4748.720 / 4748.810)
+GG	0	06:31:03.999	Core 01	2026.04.22 11:45:00   CTrade::OrderSend: sell limit 0.08 XAUUSD. at 4754.640 sl: 4760.840 tp: 4742.240 [done]
+FH	0	06:31:03.999	Core 01	2026.04.22 12:01:37   order [#82 sell limit 0.08 XAUUSD. at 4754.640] triggered
+CJ	0	06:31:03.999	Core 01	2026.04.22 12:01:37   deal #76 sell 0.08 XAUUSD. at 4754.860 done (based on order #82)
+GD	0	06:31:03.999	Core 01	2026.04.22 12:01:37   deal performed [#76 sell 0.08 XAUUSD. at 4754.860]
+NP	0	06:31:03.999	Core 01	2026.04.22 12:01:37   order performed sell 0.08 at 4754.860 [#82 sell limit 0.08 XAUUSD. at 4754.640]
+IS	0	06:31:03.999	Core 01	2026.04.22 12:01:37   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.22 11:30 price=4754.860 volume=0.08
+FI	0	06:31:03.999	Core 01	2026.04.22 12:48:57   position modified [#82 sell 0.08 XAUUSD. 4754.860 sl: 4754.860 tp: 4742.240]
+GE	0	06:31:03.999	Core 01	2026.04.22 12:48:57   CTrade::OrderSend: modify position #82 XAUUSD. (sl: 4754.860, tp: 4742.240) [done]
+EK	0	06:31:03.999	Core 01	2026.04.22 13:01:07   take profit triggered #82 sell 0.08 XAUUSD. 4754.860 sl: 4754.860 tp: 4742.240 [#83 buy 0.08 XAUUSD. at 4742.240]
+DK	0	06:31:03.999	Core 01	2026.04.22 13:01:07   deal #77 buy 0.08 XAUUSD. at 4742.200 done (based on order #83)
+EI	0	06:31:03.999	Core 01	2026.04.22 13:01:07   deal performed [#77 buy 0.08 XAUUSD. at 4742.200]
+DK	0	06:31:03.999	Core 01	2026.04.22 13:01:07   order performed buy 0.08 at 4742.200 [#83 buy 0.08 XAUUSD. at 4742.240]
+CS	0	06:31:03.999	Core 01	2026.04.22 22:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.22 22:00 O=4746.750 H=4746.750 L=4736.200 C=4736.640 body=10.110 ATR=5.763 body_ATR_pct=175.42 min_pct=75.00 max_pct=166.00 close_wick_pct=4.17 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+RJ	0	06:31:03.999	Core 01	2026.04.23 00:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.23 00:00 O=4727.860 H=4728.300 L=4698.730 C=4699.300 body=28.560 ATR=12.940 body_ATR_pct=220.71 min_pct=75.00 max_pct=166.00 close_wick_pct=1.93 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+EL	0	06:31:03.999	Core 01	2026.04.23 01:15:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.23 01:00 O=4747.940 H=4749.930 L=4736.030 C=4736.980 body=10.960 ATR=11.510 body_ATR_pct=95.22 min_pct=75.00 max_pct=166.00 close_wick_pct=6.83 trend_ok=true atr_ok=true wick_ok=true
+IQ	0	06:31:03.999	Core 01	2026.04.23 01:15:00   sell limit 0.05 XAUUSD. at 4744.855 sl: 4753.680 tp: 4727.205 (4736.950 / 4737.050)
+DJ	0	06:31:03.999	Core 01	2026.04.23 01:15:00   CTrade::OrderSend: sell limit 0.05 XAUUSD. at 4744.855 sl: 4753.680 tp: 4727.205 [done]
+EH	0	06:31:03.999	Core 01	2026.04.23 02:00:00   order canceled [#84 sell limit 0.05 XAUUSD. at 4744.855]
+OR	0	06:31:03.999	Core 01	2026.04.23 02:00:00   CTrade::OrderSend: cancel #84 [done]
+QN	0	06:31:03.999	Core 01	2026.04.24 17:30:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.24 17:15 O=4728.020 H=4729.420 L=4722.490 C=4723.060 body=4.960 ATR=6.157 body_ATR_pct=80.56 min_pct=75.00 max_pct=166.00 close_wick_pct=8.23 trend_ok=true atr_ok=true wick_ok=true
+HS	0	06:31:03.999	Core 01	2026.04.24 17:30:00   sell limit 0.13 XAUUSD. at 4726.295 sl: 4730.100 tp: 4718.685 (4723.020 / 4723.100)
+LL	0	06:31:03.999	Core 01	2026.04.24 17:30:00   CTrade::OrderSend: sell limit 0.13 XAUUSD. at 4726.295 sl: 4730.100 tp: 4718.685 [done]
+MQ	0	06:31:03.999	Core 01	2026.04.24 17:54:44   order [#85 sell limit 0.13 XAUUSD. at 4726.295] triggered
+OM	0	06:31:03.999	Core 01	2026.04.24 17:54:44   deal #78 sell 0.13 XAUUSD. at 4726.360 done (based on order #85)
+JN	0	06:31:03.999	Core 01	2026.04.24 17:54:44   deal performed [#78 sell 0.13 XAUUSD. at 4726.360]
+EI	0	06:31:03.999	Core 01	2026.04.24 17:54:44   order performed sell 0.13 at 4726.360 [#85 sell limit 0.13 XAUUSD. at 4726.295]
+KJ	0	06:31:03.999	Core 01	2026.04.24 17:54:44   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.24 17:15 price=4726.360 volume=0.13
+FS	0	06:31:03.999	Core 01	2026.04.24 18:27:13   position modified [#85 sell 0.13 XAUUSD. 4726.360 sl: 4726.360 tp: 4718.685]
+CO	0	06:31:03.999	Core 01	2026.04.24 18:27:13   CTrade::OrderSend: modify position #85 XAUUSD. (sl: 4726.360, tp: 4718.685) [done]
+DP	0	06:31:03.999	Core 01	2026.04.24 18:27:14   take profit triggered #85 sell 0.13 XAUUSD. 4726.360 sl: 4726.360 tp: 4718.685 [#86 buy 0.13 XAUUSD. at 4718.685]
+HP	0	06:31:03.999	Core 01	2026.04.24 18:27:14   deal #79 buy 0.13 XAUUSD. at 4718.500 done (based on order #86)
+RO	0	06:31:03.999	Core 01	2026.04.24 18:27:14   deal performed [#79 buy 0.13 XAUUSD. at 4718.500]
+FR	0	06:31:03.999	Core 01	2026.04.24 18:27:14   order performed buy 0.13 at 4718.500 [#86 buy 0.13 XAUUSD. at 4718.685]
+HS	0	06:31:03.999	Core 01	2026.04.27 01:00:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.27 00:45 O=4680.740 H=4698.340 L=4680.720 C=4697.900 body=17.160 ATR=8.973 body_ATR_pct=191.23 min_pct=75.00 max_pct=166.00 close_wick_pct=2.50 trend_ok=false atr_ok=false wick_ok=true reason=Trend, ATR
+CN	0	06:31:03.999	Core 01	2026.04.27 03:45:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.27 03:30 O=4715.700 H=4729.440 L=4715.450 C=4728.350 body=12.650 ATR=7.937 body_ATR_pct=159.39 min_pct=75.00 max_pct=166.00 close_wick_pct=7.79 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+RI	0	06:31:03.999	Core 01	2026.04.28 05:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.28 05:30 O=4658.310 H=4658.550 L=4624.440 C=4624.890 body=33.420 ATR=20.553 body_ATR_pct=162.60 min_pct=75.00 max_pct=166.00 close_wick_pct=1.32 trend_ok=true atr_ok=true wick_ok=true
+KL	0	06:31:03.999	Core 01	2026.04.28 05:45:00   sell limit 0.02 XAUUSD. at 4642.030 sl: 4659.620 tp: 4606.850 (4624.870 / 4624.960)
+FP	0	06:31:03.999	Core 01	2026.04.28 05:45:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 4642.030 sl: 4659.620 tp: 4606.850 [done]
+FM	0	06:31:03.999	Core 01	2026.04.28 06:08:35   order [#87 sell limit 0.02 XAUUSD. at 4642.030] triggered
+PP	0	06:31:03.999	Core 01	2026.04.28 06:08:35   deal #80 sell 0.02 XAUUSD. at 4642.380 done (based on order #87)
+GJ	0	06:31:03.999	Core 01	2026.04.28 06:08:35   deal performed [#80 sell 0.02 XAUUSD. at 4642.380]
+MJ	0	06:31:03.999	Core 01	2026.04.28 06:08:35   order performed sell 0.02 at 4642.380 [#87 sell limit 0.02 XAUUSD. at 4642.030]
+CI	0	06:31:03.999	Core 01	2026.04.28 06:08:35   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.28 05:30 price=4642.380 volume=0.02
+CG	0	06:31:03.999	Core 01	2026.04.28 09:32:49   position modified [#87 sell 0.02 XAUUSD. 4642.380 sl: 4642.380 tp: 4606.850]
+IK	0	06:31:03.999	Core 01	2026.04.28 09:32:49   CTrade::OrderSend: modify position #87 XAUUSD. (sl: 4642.380, tp: 4606.850) [done]
+HD	0	06:31:03.999	Core 01	2026.04.28 09:57:33   take profit triggered #87 sell 0.02 XAUUSD. 4642.380 sl: 4642.380 tp: 4606.850 [#88 buy 0.02 XAUUSD. at 4606.850]
+HM	0	06:31:03.999	Core 01	2026.04.28 09:57:33   deal #81 buy 0.02 XAUUSD. at 4606.420 done (based on order #88)
+PS	0	06:31:03.999	Core 01	2026.04.28 09:57:33   deal performed [#81 buy 0.02 XAUUSD. at 4606.420]
+OF	0	06:31:03.999	Core 01	2026.04.28 09:57:33   order performed buy 0.02 at 4606.420 [#88 buy 0.02 XAUUSD. at 4606.850]
+RH	0	06:31:03.999	Core 01	2026.04.28 11:00:01   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.28 10:45 O=4613.240 H=4615.460 L=4603.510 C=4603.700 body=9.540 ATR=7.470 body_ATR_pct=127.71 min_pct=75.00 max_pct=166.00 close_wick_pct=1.59 trend_ok=true atr_ok=true wick_ok=true
+CO	0	06:31:03.999	Core 01	2026.04.28 11:00:01   sell limit 0.08 XAUUSD. at 4609.695 sl: 4615.880 tp: 4597.325 (4603.700 / 4603.790)
+IS	0	06:31:03.999	Core 01	2026.04.28 11:00:01   CTrade::OrderSend: sell limit 0.08 XAUUSD. at 4609.695 sl: 4615.880 tp: 4597.325 [done]
+KR	0	06:31:03.999	Core 01	2026.04.28 11:45:00   order canceled [#89 sell limit 0.08 XAUUSD. at 4609.695]
+DL	0	06:31:03.999	Core 01	2026.04.28 11:45:00   CTrade::OrderSend: cancel #89 [done]
+LD	0	06:31:03.999	Core 01	2026.04.28 11:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.28 11:30 O=4599.370 H=4599.890 L=4568.250 C=4572.070 body=27.300 ATR=17.533 body_ATR_pct=155.70 min_pct=75.00 max_pct=166.00 close_wick_pct=12.07 trend_ok=true atr_ok=true wick_ok=true
+JI	0	06:31:03.999	Core 01	2026.04.28 11:45:00   sell limit 0.02 XAUUSD. at 4586.205 sl: 4604.160 tp: 4550.295 (4572.060 / 4572.140)
+NR	0	06:31:03.999	Core 01	2026.04.28 11:45:00   CTrade::OrderSend: sell limit 0.02 XAUUSD. at 4586.205 sl: 4604.160 tp: 4550.295 [done]
+DO	0	06:31:03.999	Core 01	2026.04.28 12:16:10   order [#90 sell limit 0.02 XAUUSD. at 4586.205] triggered
+QG	0	06:31:03.999	Core 01	2026.04.28 12:16:10   deal #82 sell 0.02 XAUUSD. at 4586.330 done (based on order #90)
+DH	0	06:31:03.999	Core 01	2026.04.28 12:16:10   deal performed [#82 sell 0.02 XAUUSD. at 4586.330]
+GG	0	06:31:03.999	Core 01	2026.04.28 12:16:10   order performed sell 0.02 at 4586.330 [#90 sell limit 0.02 XAUUSD. at 4586.205]
+ID	0	06:31:03.999	Core 01	2026.04.28 12:16:10   EFIB transaction opened: SHORT setup candle EFIB SHORT 2026.04.28 11:30 price=4586.330 volume=0.02
+QG	0	06:31:03.999	Core 01	2026.04.29 00:01:07   stop loss triggered #90 sell 0.02 XAUUSD. 4586.330 sl: 4604.160 tp: 4550.295 [#91 buy 0.02 XAUUSD. at 4604.160]
+GN	0	06:31:03.999	Core 01	2026.04.29 00:01:07   deal #83 buy 0.02 XAUUSD. at 4604.540 done (based on order #91)
+KD	0	06:31:03.999	Core 01	2026.04.29 00:01:07   deal performed [#83 buy 0.02 XAUUSD. at 4604.540]
+JI	0	06:31:03.999	Core 01	2026.04.29 00:01:07   order performed buy 0.02 at 4604.540 [#91 buy 0.02 XAUUSD. at 4604.160]
+OH	0	06:31:03.999	Core 01	2026.04.29 02:15:00   EFIB setup diagnostics: FILTERED LONG setup_candle=2026.04.29 02:00 O=4584.920 H=4602.430 L=4584.920 C=4600.980 body=16.060 ATR=13.733 body_ATR_pct=116.94 min_pct=75.00 max_pct=166.00 close_wick_pct=8.28 trend_ok=false atr_ok=true wick_ok=true reason=Trend
+PL	0	06:31:03.999	Core 01	2026.04.29 13:30:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.29 13:15 O=4549.930 H=4551.650 L=4534.610 C=4537.890 body=12.040 ATR=14.380 body_ATR_pct=83.73 min_pct=75.00 max_pct=166.00 close_wick_pct=19.25 trend_ok=true atr_ok=true wick_ok=true
+KR	0	06:31:03.999	Core 01	2026.04.29 13:30:00   sell limit 0.05 XAUUSD. at 4543.950 sl: 4553.290 tp: 4525.270 (4537.880 / 4537.970)
+HO	0	06:31:03.999	Core 01	2026.04.29 13:30:00   CTrade::OrderSend: sell limit 0.05 XAUUSD. at 4543.950 sl: 4553.290 tp: 4525.270 [done]
+PO	0	06:31:03.999	Core 01	2026.04.29 13:45:00   order canceled [#92 sell limit 0.05 XAUUSD. at 4543.950]
+EO	0	06:31:03.999	Core 01	2026.04.29 13:45:00   CTrade::OrderSend: cancel #92 [done]
+OI	0	06:31:03.999	Core 01	2026.04.29 16:45:00   EFIB setup diagnostics: ACCEPTED SHORT setup_candle=2026.04.29 16:30 O=4560.290 H=4560.290 L=4545.840 C=4550.330 body=9.960 ATR=13.117 body_ATR_pct=75.93 min_pct=75.00 max_pct=166.00 close_wick_pct=31.07 trend_ok=true atr_ok=true wick_ok=true
+QM	0	06:31:03.999	Core 01	2026.04.29 16:45:00   sell limit 0.05 XAUUSD. at 4555.055 sl: 4564.270 tp: 4536.625 (4550.370 / 4550.440)
+DQ	0	06:31:03.999	Core 01	2026.04.29 16:45:00   CTrade::OrderSend: sell limit 0.05 XAUUSD. at 4555.055 sl: 4564.270 tp: 4536.625 [done]
+PM	0	06:31:03.999	Core 01	2026.04.29 18:15:00   order canceled [#93 sell limit 0.05 XAUUSD. at 4555.055]
+DN	0	06:31:03.999	Core 01	2026.04.29 18:15:00   CTrade::OrderSend: cancel #93 [done]
+QK	0	06:31:03.999	Core 01	2026.04.29 18:15:00   EFIB setup diagnostics: FILTERED SHORT setup_candle=2026.04.29 18:00 O=4547.500 H=4553.030 L=4525.380 C=4525.610 body=21.890 ATR=13.117 body_ATR_pct=166.89 min_pct=75.00 max_pct=166.00 close_wick_pct=0.83 trend_ok=true atr_ok=false wick_ok=true reason=ATR
+CO	0	06:31:03.999	Core 01	final balance 1855.84 USD
+MK	0	06:31:03.999	Core 01	XAUUSD.,M15: 16897769 ticks, 3868 bars generated. Environment synchronized in 0:00:00.022. Test passed in 0:00:01.713.
+IK	0	06:31:03.999	Core 01	XAUUSD.,M15: total time from login to stop testing 0:00:01.735 (including 0:00:00.022 for history data synchronization)
+QG	0	06:31:03.999	Core 01	552 Mb memory used including 1.88 Mb of history data, 384 Mb of tick data
+HH	0	06:31:03.999	Core 01	log file "C:\Users\padma\AppData\Roaming\MetaQuotes\Tester\D0E8209F77C8CF37AD8BF550E51FF075\Agent-127.0.0.1-3000\logs\20260501.log" written
+PE	0	06:31:04.080	Core 01	connection closed

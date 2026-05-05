@@ -1,0 +1,775 @@
+//@version=5
+indicator("Tracker setupów Engulfing 0.5 Fibo", overlay=true, max_lines_count=500, max_labels_count=500)
+
+//------------------------------------------------------------------------------
+// Inputs
+//------------------------------------------------------------------------------
+requireOppositeColor = input.bool(false, "Wymagaj przeciwnego koloru świecy objętej")
+minSizeMultiple = input.float(2.0, "Min. mnożnik rozmiaru świecy obejmującej", minval=0.1, step=0.1)
+sameColorSizeMultiple = input.float(3.0, "Min. mnożnik gdy świece nie są przeciwne", minval=0.1, step=0.1)
+entryFib = input.float(0.5, "Poziom wejścia Fibo", minval=0.0, maxval=1.0, step=0.05)
+rewardR = input.float(2.0, "Cel zysku w R", minval=0.1, step=0.1)
+useBreakEven = input.bool(true, "Włącz przesuwanie SL na BE")
+breakEvenTriggerPct = input.float(85.0, "Przesuń SL na BE przy % drogi do TP", minval=1.0, maxval=99.0, step=1.0)
+setupExpiryBars = input.int(20, "Anuluj niewypełniony setup po liczbie świec (0 = nigdy)", minval=0)
+pendingInvalidationMode = input.string("Zamknięcie za TP", "Unieważnij oczekujący gdy", options=["Nigdy", "Knot dotknie TP", "Korpus dotknie TP", "Zamknięcie za TP"])
+sameBarMode = input.string("Najpierw SL", "Gdy TP i SL trafione na tej samej świecy", options=["Najpierw SL", "Najpierw TP"])
+pendingSameBarMode = input.string("Najpierw wejście", "Gdy oczekujące: wejście i TP na tej samej świecy", options=["Najpierw wejście", "Najpierw unieważnienie"])
+useTrendFilter = input.bool(false, "Włącz filtr trendu")
+trendFilterMode = input.string("EMA", "Tryb filtra trendu", options=["EMA", "LuxAlgo Supertrend AI", "TTD 5m+15m+1h"])
+trendFastLen = input.int(9, "Szybka EMA trendu", minval=1)
+trendSlowLen = input.int(21, "Wolna EMA trendu", minval=2)
+showTrendEma = input.bool(false, "Pokazuj EMA trendu")
+fastEmaWidth = input.int(1, "Grubość szybkiej EMA", minval=1, maxval=5)
+slowEmaWidth = input.int(3, "Grubość wolnej EMA", minval=1, maxval=5)
+supertrendAtrLength = input.int(10, "Supertrend AI: długość ATR", minval=1, group="Filtr trendu - LuxAlgo Supertrend AI")
+supertrendMinFactor = input.float(1.0, "Supertrend AI: min. factor", minval=0.0, step=0.1, group="Filtr trendu - LuxAlgo Supertrend AI")
+supertrendMaxFactor = input.float(5.0, "Supertrend AI: maks. factor", minval=0.0, step=0.1, group="Filtr trendu - LuxAlgo Supertrend AI")
+supertrendStep = input.float(0.5, "Supertrend AI: krok factor", minval=0.1, step=0.1, group="Filtr trendu - LuxAlgo Supertrend AI")
+supertrendPerfAlpha = input.float(10.0, "Supertrend AI: pamięć performance", minval=2.0, step=1.0, group="Filtr trendu - LuxAlgo Supertrend AI")
+supertrendCluster = input.string("Best", "Supertrend AI: klaster", options=["Best", "Average", "Worst"], group="Filtr trendu - LuxAlgo Supertrend AI")
+supertrendMaxIter = input.int(1000, "Supertrend AI: maks. iteracji", minval=0, group="Filtr trendu - LuxAlgo Supertrend AI")
+supertrendMaxData = input.int(10000, "Supertrend AI: świece historyczne", minval=0, group="Filtr trendu - LuxAlgo Supertrend AI")
+ttdTrendApproach = input.string("Kierunek jednej EMA", "TTD: definicja trendu", options=["Kierunek jednej EMA", "Porównanie dwóch EMA"], group="Filtr trendu - TTD")
+ttdEma1Len = input.int(50, "TTD: długość EMA", minval=1, maxval=800, group="Filtr trendu - TTD")
+ttdEma2Len = input.int(200, "TTD: dodatkowa EMA", minval=1, maxval=800, group="Filtr trendu - TTD")
+ttdCatchFlat = input.bool(false, "TTD: wykrywaj flat", group="Filtr trendu - TTD")
+useAtrFilter = input.bool(false, "Włącz filtr ATR")
+atrLength = input.int(14, "Długość ATR", minval=1)
+minBodyAtrPct = input.float(50.0, "Min. body świecy setupu (% ATR)", minval=0.0, step=1.0)
+maxBodyAtrPct = input.float(300.0, "Maks. body świecy setupu (% ATR, 0 = brak)", minval=0.0, step=10.0)
+useCloseWickFilter = input.bool(false, "Włącz filtr knota świecy zamknięcia")
+maxCloseWickPct = input.float(25.0, "Maks. knot świecy setupu (%)", minval=0.0, maxval=100.0, step=1.0)
+
+showFibs = input.bool(true, "Rysuj poziomy Fibo")
+fibProjectionBars = input.int(24, "Długość linii Fibo w świecach", minval=1, maxval=500)
+maxVisibleSetups = input.int(60, "Maks. widocznych setupów", minval=1, maxval=90)
+showTradeLabels = input.bool(true, "Pokazuj etykiety wejścia/wygranej/straty")
+showFilteredSetups = input.bool(false, "Pokazuj odfiltrowane setupy")
+alertFilteredSetups = input.bool(false, "Alerty dla odfiltrowanych setupów")
+showDashboard = input.bool(true, "Pokazuj panel")
+showConfigDashboard = input.bool(false, "Tryb konfiguracji panelu")
+dashPosInput = input.string("Prawy górny", "Pozycja panelu", options=["Prawy górny", "Lewy górny", "Prawy dolny", "Lewy dolny"])
+maxCloseOpenGapAtrPct = input.float(5.0, "Maks. luka close-open (% ATR)", minval=0.0, step=0.5, group="Techniczne")
+
+bullColor = input.color(color.rgb(24, 156, 112), "Kolor wzrostowy")
+bearColor = input.color(color.rgb(219, 74, 94), "Kolor spadkowy")
+entryColor = input.color(color.rgb(242, 178, 62), "Kolor wejścia Fibo")
+tpColor = input.color(color.rgb(74, 166, 255), "Kolor TP")
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+f_dashboard_pos(string pos) =>
+    switch pos
+        "Lewy górny" => position.top_left
+        "Prawy dolny" => position.bottom_right
+        "Lewy dolny" => position.bottom_left
+        => position.top_right
+
+f_keep_lines(array<line> items, int maxItems) =>
+    while array.size(items) > maxItems
+        line.delete(array.shift(items))
+
+f_keep_labels(array<label> items, int maxItems) =>
+    while array.size(items) > maxItems
+        label.delete(array.shift(items))
+
+f_push_line(array<line> items, line item, int maxItems) =>
+    array.push(items, item)
+    f_keep_lines(items, maxItems)
+
+f_push_label(array<label> items, label item, int maxItems) =>
+    array.push(items, item)
+    f_keep_labels(items, maxItems)
+
+f_filter_reasons(bool trendFail, bool atrFail, bool wickFail) =>
+    string result = ""
+    result := trendFail ? "Trend" : result
+    result := atrFail ? (result == "" ? "ATR" : result + ", ATR") : result
+    result := wickFail ? (result == "" ? "Knot" : result + ", Knot") : result
+    result
+
+type efib_supertrend
+    float upper = hl2
+    float lower = hl2
+    float output
+    float perf = 0.0
+    float factor
+    int trend = 0
+
+type efib_vector
+    array<float> out
+
+f_ttd_smma(src, len) =>
+    var float smma = na
+    smaValue = ta.sma(src, len)
+    smma := na(smma) ? smaValue : (smma[1] * (len - 1) + src) / len
+    smma
+
+f_ttd_zlema(src, len) =>
+    ema1 = ta.ema(src, len)
+    ema2 = ta.ema(ema1, len)
+    ema1 + (ema1 - ema2)
+
+f_ttd_impulse() =>
+    impulseLength = 34
+    impulseStrength = 9
+    hi = f_ttd_smma(high, impulseLength)
+    lo = f_ttd_smma(low, impulseLength)
+    mi = f_ttd_zlema(hlc3, impulseLength)
+    md = mi > hi ? mi - hi : mi < lo ? mi - lo : 0.0
+    mdPrev = mi[1] > hi[1] ? mi[1] - hi[1] : mi[1] < lo[1] ? mi[1] - lo[1] : 0.0
+    sb = ta.sma(md, impulseStrength)
+    sbPrev = ta.sma(mdPrev, impulseStrength)
+    sh = md - sb
+    shPrev = mdPrev - sbPrev
+    sh != 0.0 and shPrev != 0.0
+
+f_ttd_status() =>
+    impulse = ttdCatchFlat ? f_ttd_impulse() : true
+    ema1 = ta.ema(close, ttdEma1Len)
+    ema2 = ta.ema(close, ttdEma2Len)
+    int trend = 0
+    if impulse
+        if ttdTrendApproach == "Kierunek jednej EMA"
+            trend := ema1 > ema1[1] ? 1 : ema1 < ema1[1] ? -1 : 0
+        else
+            trend := ema1 > ema2 ? 1 : ema1 < ema2 ? -1 : 0
+    trend
+
+f_cap_line(line item, int endBar) =>
+    if not na(item)
+        line.set_x2(item, endBar)
+
+f_cap_label(label item, int endBar) =>
+    if not na(item)
+        label.set_x(item, endBar)
+
+f_cap_line_set(int idx, array<line> lineA, array<line> lineB, array<line> lineC, array<line> lineD, array<line> lineE, int endBar) =>
+    f_cap_line(array.get(lineA, idx), endBar)
+    f_cap_line(array.get(lineB, idx), endBar)
+    f_cap_line(array.get(lineC, idx), endBar)
+    f_cap_line(array.get(lineD, idx), endBar)
+    f_cap_line(array.get(lineE, idx), endBar)
+
+f_remove_line_set(int idx, array<line> lineA, array<line> lineB, array<line> lineC, array<line> lineD, array<line> lineE) =>
+    array.remove(lineA, idx)
+    array.remove(lineB, idx)
+    array.remove(lineC, idx)
+    array.remove(lineD, idx)
+    array.remove(lineE, idx)
+
+f_remove_pending(int idx, array<int> dirs, array<float> entries, array<float> stops, array<float> targets, array<int> bars) =>
+    array.remove(dirs, idx)
+    array.remove(entries, idx)
+    array.remove(stops, idx)
+    array.remove(targets, idx)
+    array.remove(bars, idx)
+
+f_remove_active(int idx, array<int> dirs, array<float> entries, array<float> stops, array<float> targets, array<int> bars, array<int> setupBars) =>
+    array.remove(dirs, idx)
+    array.remove(entries, idx)
+    array.remove(stops, idx)
+    array.remove(targets, idx)
+    array.remove(bars, idx)
+    array.remove(setupBars, idx)
+
+//------------------------------------------------------------------------------
+// State
+//------------------------------------------------------------------------------
+var int setupsFound = 0
+var int tradesFilled = 0
+var int wins = 0
+var int losses = 0
+var int breakEvenTrades = 0
+var int invalidatedSetups = 0
+var int expiredSetups = 0
+var int oppositeColorSetups = 0
+var int sameColorSetups = 0
+var int lastSetupDir = 0
+var int lastSetupBar = na
+var float lastSetupEntry = na
+var float lastSetupStop = na
+var float lastSetupTarget = na
+var float lastSetupMultiple = na
+var string lastSetupStatus = "Brak"
+
+var array<int> pendingDir = array.new_int()
+var array<float> pendingEntry = array.new_float()
+var array<float> pendingStop = array.new_float()
+var array<float> pendingTp = array.new_float()
+var array<int> pendingBar = array.new_int()
+var array<line> pendingLineA = array.new_line()
+var array<line> pendingLineB = array.new_line()
+var array<line> pendingLineC = array.new_line()
+var array<line> pendingLineD = array.new_line()
+var array<line> pendingLineE = array.new_line()
+var array<label> pendingEntryLabel = array.new_label()
+
+var array<int> activeDir = array.new_int()
+var array<float> activeEntry = array.new_float()
+var array<float> activeStop = array.new_float()
+var array<float> activeTp = array.new_float()
+var array<int> activeBar = array.new_int()
+var array<int> activeSetupBar = array.new_int()
+var array<line> activeLineA = array.new_line()
+var array<line> activeLineB = array.new_line()
+var array<line> activeLineC = array.new_line()
+var array<line> activeLineD = array.new_line()
+var array<line> activeLineE = array.new_line()
+var array<line> activeBeLine = array.new_line()
+var array<label> activeEntryLabel = array.new_label()
+
+var array<line> drawnLines = array.new_line()
+var array<label> drawnLabels = array.new_label()
+var table dashboard = table.new(f_dashboard_pos(dashPosInput), 2, 15, border_width=1)
+var array<efib_supertrend> supertrendHolder = array.new<efib_supertrend>(0)
+var array<float> supertrendFactors = array.new_float()
+var array<efib_vector> supertrendFactorClusters = na
+var array<efib_vector> supertrendPerfClusters = na
+var float supertrendTargetFactor = na
+var float supertrendUpper = hl2
+var float supertrendLower = hl2
+var int supertrendDirection = -1
+
+maxLinesToKeep = math.min(maxVisibleSetups * 5, 480)
+maxLabelsToKeep = math.min(maxVisibleSetups * 4, 480)
+isTradingTf = timeframe.isminutes and timeframe.multiplier == 15
+
+//------------------------------------------------------------------------------
+// Trade tracking
+//------------------------------------------------------------------------------
+activeCountForLoop = array.size(activeDir)
+if isTradingTf and activeCountForLoop > 0
+    for offset = 0 to activeCountForLoop - 1
+        i = activeCountForLoop - 1 - offset
+        dir = array.get(activeDir, i)
+        entry = array.get(activeEntry, i)
+        stop = array.get(activeStop, i)
+        target = array.get(activeTp, i)
+        entryBar = array.get(activeBar, i)
+        setupBar = array.get(activeSetupBar, i)
+
+        if bar_index > entryBar
+            isBreakEvenStop = stop == entry
+            hitStop = dir == 1 ? low <= stop : high >= stop
+            hitTarget = dir == 1 ? high >= target : low <= target
+            tradeClosed = hitStop or hitTarget
+            tradeWon = hitTarget and not hitStop
+            tradeBreakEven = useBreakEven and hitStop and isBreakEvenStop and not hitTarget
+            if hitStop and hitTarget
+                tradeWon := sameBarMode == "Najpierw TP"
+                tradeBreakEven := useBreakEven and not tradeWon and isBreakEvenStop
+
+            if tradeClosed
+                if tradeWon
+                    wins += 1
+                else if tradeBreakEven
+                    breakEvenTrades += 1
+                else
+                    losses += 1
+
+                if setupBar == lastSetupBar
+                    lastSetupStatus := tradeWon ? "Wygrana" : tradeBreakEven ? "BE" : "Strata"
+
+                f_cap_line_set(i, activeLineA, activeLineB, activeLineC, activeLineD, activeLineE, bar_index)
+                f_cap_line(array.get(activeBeLine, i), bar_index)
+                f_cap_label(array.get(activeEntryLabel, i), bar_index)
+
+                if showTradeLabels
+                    resultPrice = tradeWon ? target : stop
+                    resultText = tradeWon ? "Wygrana" : tradeBreakEven ? "BE" : "Strata"
+                    resultColor = tradeWon ? color.new(tpColor, 0) : tradeBreakEven ? color.new(color.gray, 0) : color.new(bearColor, 0)
+                    lbl = label.new(bar_index, resultPrice, resultText, style=label.style_label_left, textcolor=color.white, color=resultColor, size=size.small)
+                    f_push_label(drawnLabels, lbl, maxLabelsToKeep)
+
+                f_remove_active(i, activeDir, activeEntry, activeStop, activeTp, activeBar, activeSetupBar)
+                f_remove_line_set(i, activeLineA, activeLineB, activeLineC, activeLineD, activeLineE)
+                array.remove(activeBeLine, i)
+                array.remove(activeEntryLabel, i)
+            else
+                beTrigger = dir == 1 ? entry + (target - entry) * breakEvenTriggerPct * 0.01 : entry - (entry - target) * breakEvenTriggerPct * 0.01
+                hitBreakEvenTrigger = useBreakEven and not isBreakEvenStop and (dir == 1 ? high >= beTrigger : low <= beTrigger)
+
+                if hitBreakEvenTrigger
+                    array.set(activeStop, i, entry)
+                    if setupBar == lastSetupBar
+                        lastSetupStatus := "Aktywny BE"
+                    beLine = line.new(bar_index, entry, bar_index + fibProjectionBars, entry, color=color.new(color.gray, 20), style=line.style_dotted)
+                    f_push_line(drawnLines, beLine, maxLinesToKeep)
+                    array.set(activeBeLine, i, beLine)
+
+                    if showTradeLabels
+                        lbl = label.new(bar_index, entry, "SL -> BE", style=label.style_label_left, textcolor=color.white, color=color.new(color.gray, 0), size=size.tiny)
+                        f_push_label(drawnLabels, lbl, maxLabelsToKeep)
+
+pendingCountForLoop = array.size(pendingDir)
+if isTradingTf and pendingCountForLoop > 0
+    for offset = 0 to pendingCountForLoop - 1
+        i = pendingCountForLoop - 1 - offset
+        dir = array.get(pendingDir, i)
+        entry = array.get(pendingEntry, i)
+        stop = array.get(pendingStop, i)
+        target = array.get(pendingTp, i)
+        setupBar = array.get(pendingBar, i)
+        age = bar_index - setupBar
+
+        touchedEntry = dir == 1 ? low <= entry : high >= entry
+        pendingInvalidationHit = switch pendingInvalidationMode
+            "Knot dotknie TP" => dir == 1 ? high >= target : low <= target
+            "Korpus dotknie TP" => dir == 1 ? math.max(open, close) >= target : math.min(open, close) <= target
+            "Zamknięcie za TP" => dir == 1 ? close >= target : close <= target
+            => false
+        invalidateSetup = age > 0 and pendingInvalidationHit and (not touchedEntry or pendingSameBarMode == "Najpierw unieważnienie")
+        isExpired = setupExpiryBars > 0 and age > setupExpiryBars
+
+        if invalidateSetup
+            invalidatedSetups += 1
+            if setupBar == lastSetupBar
+                lastSetupStatus := "Nieważny"
+            f_cap_line_set(i, pendingLineA, pendingLineB, pendingLineC, pendingLineD, pendingLineE, bar_index)
+            f_cap_label(array.get(pendingEntryLabel, i), bar_index)
+
+            lbl = label.new(bar_index, target, "Nieważny", style=label.style_label_left, textcolor=color.white, color=color.new(color.gray, 0), size=size.small)
+            f_push_label(drawnLabels, lbl, maxLabelsToKeep)
+
+            f_remove_pending(i, pendingDir, pendingEntry, pendingStop, pendingTp, pendingBar)
+            f_remove_line_set(i, pendingLineA, pendingLineB, pendingLineC, pendingLineD, pendingLineE)
+            array.remove(pendingEntryLabel, i)
+        else if age > 0 and touchedEntry
+            tradesFilled += 1
+            array.push(activeDir, dir)
+            array.push(activeEntry, entry)
+            array.push(activeStop, stop)
+            array.push(activeTp, target)
+            array.push(activeBar, bar_index)
+            array.push(activeSetupBar, setupBar)
+            if setupBar == lastSetupBar
+                lastSetupStatus := "Aktywny"
+            array.push(activeLineA, array.get(pendingLineA, i))
+            array.push(activeLineB, array.get(pendingLineB, i))
+            array.push(activeLineC, array.get(pendingLineC, i))
+            array.push(activeLineD, array.get(pendingLineD, i))
+            array.push(activeLineE, array.get(pendingLineE, i))
+            line emptyBeLine = na
+            array.push(activeBeLine, emptyBeLine)
+            array.push(activeEntryLabel, array.get(pendingEntryLabel, i))
+
+            if showTradeLabels
+                entryText = dir == 1 ? "Long 0.5" : "Short 0.5"
+                entryLblColor = dir == 1 ? color.new(bullColor, 0) : color.new(bearColor, 0)
+                lbl = label.new(bar_index, entry, entryText, style=label.style_label_left, textcolor=color.white, color=entryLblColor, size=size.small)
+                f_push_label(drawnLabels, lbl, maxLabelsToKeep)
+
+            f_remove_pending(i, pendingDir, pendingEntry, pendingStop, pendingTp, pendingBar)
+            f_remove_line_set(i, pendingLineA, pendingLineB, pendingLineC, pendingLineD, pendingLineE)
+            array.remove(pendingEntryLabel, i)
+        else if isExpired
+            expiredSetups += 1
+            if setupBar == lastSetupBar
+                lastSetupStatus := "Wygasły"
+            f_remove_pending(i, pendingDir, pendingEntry, pendingStop, pendingTp, pendingBar)
+            f_remove_line_set(i, pendingLineA, pendingLineB, pendingLineC, pendingLineD, pendingLineE)
+            array.remove(pendingEntryLabel, i)
+
+//------------------------------------------------------------------------------
+// Setup detection
+//------------------------------------------------------------------------------
+prevBear = close[1] < open[1]
+prevBull = close[1] > open[1]
+currBull = close > open
+currBear = close < open
+
+currBodyHigh = math.max(open, close)
+currBodyLow = math.min(open, close)
+prevBodyHigh = math.max(open[1], close[1])
+prevBodyLow = math.min(open[1], close[1])
+atrValue = ta.atr(atrLength)
+closeOpenGap = na(close[1]) ? 0.0 : math.abs(open - close[1])
+gapAtrCap = not na(atrValue) ? atrValue * maxCloseOpenGapAtrPct * 0.01 : 0.0
+gapTolerance = math.min(closeOpenGap, gapAtrCap)
+bodyBullEngulf = currBodyLow <= prevBodyLow + gapTolerance and currBodyHigh >= prevBodyHigh - gapTolerance
+bodyBearEngulf = currBodyHigh >= prevBodyHigh - gapTolerance and currBodyLow <= prevBodyLow + gapTolerance
+bullEngulf = bodyBullEngulf
+bearEngulf = bodyBearEngulf
+
+if barstate.isfirst
+    if supertrendMinFactor > supertrendMaxFactor
+        runtime.error("Supertrend AI: min. factor jest większy niż maks. factor")
+    supertrendFactorCount = int(math.max(0, math.floor((supertrendMaxFactor - supertrendMinFactor) / supertrendStep)))
+    for stIndex = 0 to supertrendFactorCount
+        array.push(supertrendFactors, supertrendMinFactor + stIndex * supertrendStep)
+        array.push(supertrendHolder, efib_supertrend.new())
+
+supertrendAtr = ta.atr(supertrendAtrLength)
+stK = 0
+for stFactor in supertrendFactors
+    stItem = array.get(supertrendHolder, stK)
+    stUp = hl2 + supertrendAtr * stFactor
+    stDn = hl2 - supertrendAtr * stFactor
+    stItem.trend := close > stItem.upper ? 1 : close < stItem.lower ? 0 : stItem.trend
+    stItem.upper := close[1] < stItem.upper ? math.min(stUp, stItem.upper) : stUp
+    stItem.lower := close[1] > stItem.lower ? math.max(stDn, stItem.lower) : stDn
+    stDiff = nz(math.sign(close[1] - stItem.output))
+    stItem.perf += 2.0 / (supertrendPerfAlpha + 1.0) * (nz(close - close[1]) * stDiff - stItem.perf)
+    stItem.output := stItem.trend == 1 ? stItem.lower : stItem.upper
+    stItem.factor := stFactor
+    stK += 1
+
+stFactorData = array.new_float(0)
+stPerfData = array.new_float(0)
+if last_bar_index - bar_index <= supertrendMaxData
+    for stElement in supertrendHolder
+        array.push(stPerfData, stElement.perf)
+        array.push(stFactorData, stElement.factor)
+
+if array.size(stPerfData) > 0
+    stCentroids = array.new_float(0)
+    array.push(stCentroids, stPerfData.percentile_linear_interpolation(25))
+    array.push(stCentroids, stPerfData.percentile_linear_interpolation(50))
+    array.push(stCentroids, stPerfData.percentile_linear_interpolation(75))
+
+    for _ = 0 to supertrendMaxIter
+        supertrendFactorClusters := array.from(efib_vector.new(array.new_float(0)), efib_vector.new(array.new_float(0)), efib_vector.new(array.new_float(0)))
+        supertrendPerfClusters := array.from(efib_vector.new(array.new_float(0)), efib_vector.new(array.new_float(0)), efib_vector.new(array.new_float(0)))
+        stDataIndex = 0
+        for stPerfValue in stPerfData
+            stDist0 = math.abs(stPerfValue - array.get(stCentroids, 0))
+            stDist1 = math.abs(stPerfValue - array.get(stCentroids, 1))
+            stDist2 = math.abs(stPerfValue - array.get(stCentroids, 2))
+            stClusterIndex = stDist0 <= stDist1 and stDist0 <= stDist2 ? 0 : stDist1 <= stDist2 ? 1 : 2
+            stPerfCluster = array.get(supertrendPerfClusters, stClusterIndex)
+            stFactorCluster = array.get(supertrendFactorClusters, stClusterIndex)
+            array.push(stPerfCluster.out, stPerfValue)
+            array.push(stFactorCluster.out, array.get(stFactorData, stDataIndex))
+            stDataIndex += 1
+
+        stNewCentroids = array.new_float(0)
+        for stClusterSlot = 0 to 2
+            stCluster = array.get(supertrendPerfClusters, stClusterSlot)
+            stClusterAvg = stCluster.out.avg()
+            array.push(stNewCentroids, na(stClusterAvg) ? array.get(stCentroids, stClusterSlot) : stClusterAvg)
+
+        stCentroidsUnchanged = array.get(stNewCentroids, 0) == array.get(stCentroids, 0) and array.get(stNewCentroids, 1) == array.get(stCentroids, 1) and array.get(stNewCentroids, 2) == array.get(stCentroids, 2)
+        stCentroids := stNewCentroids
+        if stCentroidsUnchanged
+            break
+
+stClusterChoice = supertrendCluster == "Best" ? 2 : supertrendCluster == "Average" ? 1 : 0
+if not na(supertrendFactorClusters)
+    stSelectedCluster = array.get(supertrendFactorClusters, stClusterChoice)
+    stSelectedFactors = stSelectedCluster.out
+    supertrendTargetFactor := nz(stSelectedFactors.avg(), supertrendTargetFactor)
+
+stTargetFactor = nz(supertrendTargetFactor, supertrendMinFactor)
+stSelectedUp = hl2 + supertrendAtr * stTargetFactor
+stSelectedDn = hl2 - supertrendAtr * stTargetFactor
+supertrendUpper := close[1] < supertrendUpper ? math.min(stSelectedUp, supertrendUpper) : stSelectedUp
+supertrendLower := close[1] > supertrendLower ? math.max(stSelectedDn, supertrendLower) : stSelectedDn
+supertrendDirection := close > supertrendUpper ? 1 : close < supertrendLower ? -1 : supertrendDirection
+supertrendUp = supertrendDirection == 1
+supertrendDown = supertrendDirection == -1
+
+ttdTrend5m = request.security(syminfo.tickerid, "5", f_ttd_status(), gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_off)
+ttdTrend15m = f_ttd_status()
+ttdTrend1h = request.security(syminfo.tickerid, "60", f_ttd_status()[1], gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_on)
+ttdTrendUp = ttdTrend5m == 1 and ttdTrend15m == 1 and ttdTrend1h == 1
+ttdTrendDown = ttdTrend5m == -1 and ttdTrend15m == -1 and ttdTrend1h == -1
+
+trendFastEma = ta.ema(close, trendFastLen)
+trendSlowEma = ta.ema(close, trendSlowLen)
+emaTrendUp = trendFastEma > trendSlowEma
+emaTrendDown = trendFastEma < trendSlowEma
+trendUp = trendFilterMode == "LuxAlgo Supertrend AI" ? supertrendUp : trendFilterMode == "TTD 5m+15m+1h" ? ttdTrendUp : emaTrendUp
+trendDown = trendFilterMode == "LuxAlgo Supertrend AI" ? supertrendDown : trendFilterMode == "TTD 5m+15m+1h" ? ttdTrendDown : emaTrendDown
+trendAllowsLong = not useTrendFilter or trendUp
+trendAllowsShort = not useTrendFilter or trendDown
+
+// For size comparison, only the body of the engulfing candle is used.
+bullEngulfingSize = close - open
+bearEngulfingSize = open - close
+bullEngulfedSize = high[1] - close[1]  // ignores the engulfed candle's bottom wick
+bearEngulfedSize = close[1] - low[1]   // ignores the engulfed candle's top wick
+
+bullOppositeColor = prevBear
+bearOppositeColor = prevBull
+bullSameColor = prevBull
+bearSameColor = prevBear
+
+bullClassicSizeOk = bullEngulfedSize > syminfo.mintick and bullEngulfingSize >= bullEngulfedSize * minSizeMultiple
+bearClassicSizeOk = bearEngulfedSize > syminfo.mintick and bearEngulfingSize >= bearEngulfedSize * minSizeMultiple
+
+bullSameColorEngulfedSize = high[1] - open[1]
+bearSameColorEngulfedSize = open[1] - low[1]
+bullSameColorSizeOk = bullSameColorEngulfedSize > syminfo.mintick and bullEngulfingSize >= bullSameColorEngulfedSize * sameColorSizeMultiple
+bearSameColorSizeOk = bearSameColorEngulfedSize > syminfo.mintick and bearEngulfingSize >= bearSameColorEngulfedSize * sameColorSizeMultiple
+
+bullSameColorBreakout = close >= high[1] - gapTolerance
+bearSameColorBreakout = close <= low[1] + gapTolerance
+atrMaxDisabled = maxBodyAtrPct == 0.0
+bullAtrOk = not useAtrFilter or (not na(atrValue) and bullEngulfingSize >= atrValue * minBodyAtrPct * 0.01 and (atrMaxDisabled or bullEngulfingSize <= atrValue * maxBodyAtrPct * 0.01))
+bearAtrOk = not useAtrFilter or (not na(atrValue) and bearEngulfingSize >= atrValue * minBodyAtrPct * 0.01 and (atrMaxDisabled or bearEngulfingSize <= atrValue * maxBodyAtrPct * 0.01))
+candleRange = high - low
+bullCloseWickPct = candleRange > syminfo.mintick ? (high - close) / candleRange * 100.0 : 100.0
+bearCloseWickPct = candleRange > syminfo.mintick ? (close - low) / candleRange * 100.0 : 100.0
+bullCloseWickOk = not useCloseWickFilter or bullCloseWickPct <= maxCloseWickPct
+bearCloseWickOk = not useCloseWickFilter or bearCloseWickPct <= maxCloseWickPct
+
+bullClassicSetup = bullOppositeColor and currBull and bullEngulf and bullClassicSizeOk
+bearClassicSetup = bearOppositeColor and currBear and bearEngulf and bearClassicSizeOk
+bullSameColorSetup = not requireOppositeColor and bullSameColor and currBull and bullSameColorSizeOk and bullSameColorBreakout
+bearSameColorSetup = not requireOppositeColor and bearSameColor and currBear and bearSameColorSizeOk and bearSameColorBreakout
+
+bullPatternSetup = bullClassicSetup or bullSameColorSetup
+bearPatternSetup = bearClassicSetup or bearSameColorSetup
+bullTrendFail = not trendAllowsLong
+bearTrendFail = not trendAllowsShort
+bullAtrFail = not bullAtrOk
+bearAtrFail = not bearAtrOk
+bullWickFail = not bullCloseWickOk
+bearWickFail = not bearCloseWickOk
+bullFilterFail = bullTrendFail or bullAtrFail or bullWickFail
+bearFilterFail = bearTrendFail or bearAtrFail or bearWickFail
+bullFilterReasons = f_filter_reasons(bullTrendFail, bullAtrFail, bullWickFail)
+bearFilterReasons = f_filter_reasons(bearTrendFail, bearAtrFail, bearWickFail)
+
+bullSetup = isTradingTf and trendAllowsLong and bullAtrOk and bullCloseWickOk and bullPatternSetup
+bearSetup = isTradingTf and trendAllowsShort and bearAtrOk and bearCloseWickOk and bearPatternSetup
+confirmedBullSetup = bullSetup and barstate.isconfirmed
+confirmedBearSetup = bearSetup and barstate.isconfirmed
+confirmedBullFilteredSetup = isTradingTf and bullPatternSetup and bullFilterFail and barstate.isconfirmed
+confirmedBearFilteredSetup = isTradingTf and bearPatternSetup and bearFilterFail and barstate.isconfirmed
+
+plot(showTrendEma and isTradingTf and trendFilterMode == "EMA" ? trendFastEma : na, title="Szybka EMA trendu", color=color.new(bullColor, 0), linewidth=fastEmaWidth)
+plot(showTrendEma and isTradingTf and trendFilterMode == "EMA" ? trendSlowEma : na, title="Wolna EMA trendu", color=color.new(bearColor, 0), linewidth=slowEmaWidth)
+plotshape(confirmedBullSetup, title="Wzrostowy setup objęcia", style=shape.triangleup, location=location.belowbar, color=bullColor, text="B", textcolor=color.white, size=size.tiny)
+plotshape(confirmedBearSetup, title="Spadkowy setup objęcia", style=shape.triangledown, location=location.abovebar, color=bearColor, text="S", textcolor=color.white, size=size.tiny)
+
+if showFilteredSetups and confirmedBullFilteredSetup
+    lbl = label.new(bar_index, low, "B\n" + bullFilterReasons, style=label.style_label_up, textcolor=color.black, color=color.yellow, size=size.tiny)
+    f_push_label(drawnLabels, lbl, maxLabelsToKeep)
+
+if showFilteredSetups and confirmedBearFilteredSetup
+    lbl = label.new(bar_index, high, "S\n" + bearFilterReasons, style=label.style_label_down, textcolor=color.black, color=color.yellow, size=size.tiny)
+    f_push_label(drawnLabels, lbl, maxLabelsToKeep)
+
+newBullAlert = confirmedBullSetup
+newBearAlert = confirmedBearSetup
+newBullFilteredAlert = alertFilteredSetups and confirmedBullFilteredSetup
+newBearFilteredAlert = alertFilteredSetups and confirmedBearFilteredSetup
+
+alertcondition(newBullAlert, title="Nowy wzrostowy setup", message="Nowy wzrostowy setup Engulfing Fibo na {{ticker}} {{interval}}")
+alertcondition(newBearAlert, title="Nowy spadkowy setup", message="Nowy spadkowy setup Engulfing Fibo na {{ticker}} {{interval}}")
+alertcondition(newBullAlert or newBearAlert, title="Nowy setup", message="Nowy setup Engulfing Fibo na {{ticker}} {{interval}}")
+alertcondition(newBullFilteredAlert, title="Odfiltrowany wzrostowy setup", message="Odfiltrowany wzrostowy setup Engulfing Fibo na {{ticker}} {{interval}}")
+alertcondition(newBearFilteredAlert, title="Odfiltrowany spadkowy setup", message="Odfiltrowany spadkowy setup Engulfing Fibo na {{ticker}} {{interval}}")
+alertcondition(newBullFilteredAlert or newBearFilteredAlert, title="Odfiltrowany setup", message="Odfiltrowany setup Engulfing Fibo na {{ticker}} {{interval}}")
+
+if newBullAlert
+    alert("Nowy wzrostowy setup Engulfing Fibo", alert.freq_once_per_bar_close)
+
+if newBearAlert
+    alert("Nowy spadkowy setup Engulfing Fibo", alert.freq_once_per_bar_close)
+
+if newBullFilteredAlert
+    alert("Odfiltrowany wzrostowy setup Engulfing Fibo: " + bullFilterReasons, alert.freq_once_per_bar_close)
+
+if newBearFilteredAlert
+    alert("Odfiltrowany spadkowy setup Engulfing Fibo: " + bearFilterReasons, alert.freq_once_per_bar_close)
+
+if confirmedBullSetup
+    fibLow = math.min(low, low[1])
+    fibHigh = math.max(high, high[1])
+    entry = fibLow + (fibHigh - fibLow) * entryFib
+    stop = fibLow
+    risk = entry - stop
+    target = entry + risk * rewardR
+
+    if risk > syminfo.mintick
+        setupsFound += 1
+        lastSetupDir := 1
+        lastSetupBar := bar_index
+        lastSetupEntry := entry
+        lastSetupStop := stop
+        lastSetupTarget := target
+        bullMeasuredEngulfedSize = bullOppositeColor ? bullEngulfedSize : bullSameColorEngulfedSize
+        lastSetupMultiple := bullMeasuredEngulfedSize > syminfo.mintick ? bullEngulfingSize / bullMeasuredEngulfedSize : na
+        lastSetupStatus := "Oczekujący"
+        if bullOppositeColor
+            oppositeColorSetups += 1
+        else
+            sameColorSetups += 1
+        array.push(pendingDir, 1)
+        array.push(pendingEntry, entry)
+        array.push(pendingStop, stop)
+        array.push(pendingTp, target)
+        array.push(pendingBar, bar_index)
+
+        line bullLineA = na
+        line bullLineB = na
+        line bullLineC = na
+        line bullLineD = na
+        line bullLineE = na
+        label bullEntryLabel = na
+
+        if showFibs
+            x1 = bar_index - 1
+            x2 = bar_index + fibProjectionBars
+            bullLineA := line.new(x1, fibLow, x2, fibLow, color=color.new(bullColor, 50), width=1)
+            bullLineB := line.new(x1, entry, x2, entry, color=color.new(entryColor, 0), width=2)
+            bullLineC := line.new(x1, fibHigh, x2, fibHigh, color=color.new(bullColor, 15), width=1)
+            bullLineD := line.new(bar_index, stop, x2, stop, color=color.new(bearColor, 20), style=line.style_dotted)
+            bullLineE := line.new(bar_index, target, x2, target, color=color.new(tpColor, 20), style=line.style_dotted)
+            f_push_line(drawnLines, bullLineA, maxLinesToKeep)
+            f_push_line(drawnLines, bullLineB, maxLinesToKeep)
+            f_push_line(drawnLines, bullLineC, maxLinesToKeep)
+            f_push_line(drawnLines, bullLineD, maxLinesToKeep)
+            f_push_line(drawnLines, bullLineE, maxLinesToKeep)
+            bullEntryLabel := label.new(x2, entry, "0.5", style=label.style_label_left, textcolor=color.white, color=color.new(entryColor, 0), size=size.tiny)
+            f_push_label(drawnLabels, bullEntryLabel, maxLabelsToKeep)
+
+        array.push(pendingLineA, bullLineA)
+        array.push(pendingLineB, bullLineB)
+        array.push(pendingLineC, bullLineC)
+        array.push(pendingLineD, bullLineD)
+        array.push(pendingLineE, bullLineE)
+        array.push(pendingEntryLabel, bullEntryLabel)
+
+if confirmedBearSetup
+    fibHigh = math.max(high, high[1])
+    fibLow = math.min(low, low[1])
+    entry = fibHigh + (fibLow - fibHigh) * entryFib
+    stop = fibHigh
+    risk = stop - entry
+    target = entry - risk * rewardR
+
+    if risk > syminfo.mintick
+        setupsFound += 1
+        lastSetupDir := -1
+        lastSetupBar := bar_index
+        lastSetupEntry := entry
+        lastSetupStop := stop
+        lastSetupTarget := target
+        bearMeasuredEngulfedSize = bearOppositeColor ? bearEngulfedSize : bearSameColorEngulfedSize
+        lastSetupMultiple := bearMeasuredEngulfedSize > syminfo.mintick ? bearEngulfingSize / bearMeasuredEngulfedSize : na
+        lastSetupStatus := "Oczekujący"
+        if bearOppositeColor
+            oppositeColorSetups += 1
+        else
+            sameColorSetups += 1
+        array.push(pendingDir, -1)
+        array.push(pendingEntry, entry)
+        array.push(pendingStop, stop)
+        array.push(pendingTp, target)
+        array.push(pendingBar, bar_index)
+
+        line bearLineA = na
+        line bearLineB = na
+        line bearLineC = na
+        line bearLineD = na
+        line bearLineE = na
+        label bearEntryLabel = na
+
+        if showFibs
+            x1 = bar_index - 1
+            x2 = bar_index + fibProjectionBars
+            bearLineA := line.new(x1, fibHigh, x2, fibHigh, color=color.new(bearColor, 50), width=1)
+            bearLineB := line.new(x1, entry, x2, entry, color=color.new(entryColor, 0), width=2)
+            bearLineC := line.new(x1, fibLow, x2, fibLow, color=color.new(bearColor, 15), width=1)
+            bearLineD := line.new(bar_index, stop, x2, stop, color=color.new(bearColor, 20), style=line.style_dotted)
+            bearLineE := line.new(bar_index, target, x2, target, color=color.new(tpColor, 20), style=line.style_dotted)
+            f_push_line(drawnLines, bearLineA, maxLinesToKeep)
+            f_push_line(drawnLines, bearLineB, maxLinesToKeep)
+            f_push_line(drawnLines, bearLineC, maxLinesToKeep)
+            f_push_line(drawnLines, bearLineD, maxLinesToKeep)
+            f_push_line(drawnLines, bearLineE, maxLinesToKeep)
+            bearEntryLabel := label.new(x2, entry, "0.5", style=label.style_label_left, textcolor=color.white, color=color.new(entryColor, 0), size=size.tiny)
+            f_push_label(drawnLabels, bearEntryLabel, maxLabelsToKeep)
+
+        array.push(pendingLineA, bearLineA)
+        array.push(pendingLineB, bearLineB)
+        array.push(pendingLineC, bearLineC)
+        array.push(pendingLineD, bearLineD)
+        array.push(pendingLineE, bearLineE)
+        array.push(pendingEntryLabel, bearEntryLabel)
+
+//------------------------------------------------------------------------------
+// Dashboard
+//------------------------------------------------------------------------------
+if showDashboard and barstate.islast
+    closedTrades = wins + losses
+    winRate = closedTrades > 0 ? wins * 100.0 / closedTrades : na
+    pendingCount = array.size(pendingDir)
+    activeCount = array.size(activeDir)
+    trendModeText = trendFilterMode == "LuxAlgo Supertrend AI" ? "LuxST" : trendFilterMode == "TTD 5m+15m+1h" ? "TTD" : "EMA"
+    trendDirectionText = trendUp ? "Tylko long" : trendDown ? "Tylko short" : "Brak"
+    trendText = not useTrendFilter ? "Wył." : trendDirectionText + " " + trendModeText
+    atrText = not useAtrFilter ? "Wył." : str.tostring(atrValue, format.mintick)
+    closeWickText = not useCloseWickFilter ? "Wył." : "<=" + str.tostring(maxCloseWickPct, "#") + "%"
+    lastDirText = lastSetupDir == 1 ? "Long" : lastSetupDir == -1 ? "Short" : "Brak"
+    lastEntryText = na(lastSetupEntry) ? "-" : str.tostring(lastSetupEntry, "#.##")
+    lastStopText = na(lastSetupStop) ? "-" : str.tostring(lastSetupStop, "#.##")
+    lastTargetText = na(lastSetupTarget) ? "-" : str.tostring(lastSetupTarget, "#.##")
+    lastMultipleText = na(lastSetupMultiple) ? "-" : "x" + str.tostring(lastSetupMultiple, "#.00")
+    lastStatusText = na(lastSetupEntry) ? "-" : lastSetupStatus
+
+    if showConfigDashboard
+        table.clear(dashboard, 0, 0, 1, 14)
+        table.cell(dashboard, 0, 0, "Engulfing Fibo", text_color=color.white, bgcolor=color.rgb(32, 38, 46))
+        table.cell(dashboard, 1, 0, "Tylko 15m", text_color=color.white, bgcolor=color.rgb(32, 38, 46))
+
+        if isTradingTf
+            table.cell(dashboard, 0, 1, "Setupy", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 1, str.tostring(setupsFound), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 2, "Aktywowane", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 2, str.tostring(tradesFilled), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 3, "Wygrane", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 3, str.tostring(wins), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 4, "Straty", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 4, str.tostring(losses), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 5, "Skuteczność", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 5, na(winRate) ? "n/a" : str.tostring(winRate, "#.##") + "%", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 6, "BE", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 6, useBreakEven ? str.tostring(breakEvenTrades) : "Wył.", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 7, "Oczekujące / Aktywne", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 7, str.tostring(pendingCount) + " / " + str.tostring(activeCount), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 8, "Nieważne", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 8, str.tostring(invalidatedSetups), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 9, "Wygasłe", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 9, str.tostring(expiredSetups), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 10, "Przeciwne", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 10, str.tostring(oppositeColorSetups), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 11, "Nieprzeciwne", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 11, str.tostring(sameColorSetups), text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 12, "Trend", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 12, trendText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 13, "ATR", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 13, atrText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 14, "Filtr knota", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 14, closeWickText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+        else
+            table.cell(dashboard, 0, 1, "Status", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 1, "Zły TF", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 2, "Użyj wykresu", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 2, "15m", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+    else
+        table.clear(dashboard, 0, 0, 1, 14)
+        table.cell(dashboard, 0, 0, "Ostatni setup", text_color=color.white, bgcolor=color.rgb(32, 38, 46))
+        table.cell(dashboard, 1, 0, isTradingTf ? lastDirText : "Tylko 15m", text_color=color.white, bgcolor=color.rgb(32, 38, 46))
+        if isTradingTf
+            table.cell(dashboard, 0, 1, "Entry", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 1, lastEntryText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 2, "SL", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 2, lastStopText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 3, "TP", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 3, lastTargetText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 4, "Stan", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 4, lastStatusText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 5, "Mnożnik", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 5, lastMultipleText, text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+        else
+            table.cell(dashboard, 0, 1, "Status", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 1, "Zły TF", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 0, 2, "Użyj wykresu", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
+            table.cell(dashboard, 1, 2, "15m", text_color=color.white, bgcolor=color.rgb(20, 24, 30))
