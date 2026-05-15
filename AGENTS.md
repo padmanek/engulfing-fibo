@@ -58,7 +58,7 @@ TradingView indicator:
 - LuxAlgo-style Supertrend AI mode.
 - TTD 5m+15m+1h alignment mode.
 
-TTD logic:
+TradingView TTD logic:
 - long allowed only when 5m, 15m, and 1h are all up;
 - short allowed only when 5m, 15m, and 1h are all down;
 - 1h uses the last closed H1 candle to avoid repainting.
@@ -66,7 +66,11 @@ TTD logic:
 EA:
 - includes EMA trend filter;
 - includes LuxAlgo-style Supertrend AI filter;
-- includes TTD 5m+15m+1h alignment filter.
+- includes TTD M15+H1 alignment filter.
+
+EA TTD logic:
+- long allowed only when M15 and H1 are both up;
+- short allowed only when M15 and H1 are both down.
 
 ## Non-Repaint / Alerts
 
@@ -108,4 +112,3 @@ Always inspect `metaeditor-engulfing-ea.log`; MetaEditor may return a non-zero e
 - Preserve Polish UI labels in the indicator and EA settings.
 - Do not remove existing tester reports or diagnostics unless explicitly asked.
 - Avoid committing credentials, account numbers, or broker login data.
-

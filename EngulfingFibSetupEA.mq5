@@ -449,16 +449,15 @@ bool CalculateTtdTrendForTimeframe(const ENUM_TIMEFRAMES timeframe, int &trend)
 
 bool CalculateTtdAlignment(int &trend_5m, int &trend_15m, int &trend_1h, int &aligned_trend)
 {
+   trend_5m = 0;
    aligned_trend = 0;
 
-   if(!CalculateTtdTrendForTimeframe(PERIOD_M5, trend_5m))
-      return false;
    if(!CalculateTtdTrendForTimeframe(PERIOD_M15, trend_15m))
       return false;
    if(!CalculateTtdTrendForTimeframe(PERIOD_H1, trend_1h))
       return false;
 
-   if(trend_5m == trend_15m && trend_15m == trend_1h)
+   if(trend_15m == trend_1h)
       aligned_trend = trend_15m;
    else
       aligned_trend = 0;
@@ -690,8 +689,7 @@ string TrendStateText(const double fast_ema,
 
    if(InpTrendFilterMode == TrendFilterTtdAlignment)
    {
-      return "TTD 5m=" + TtdTrendName(ttd_trend_5m)
-         + " 15m=" + TtdTrendName(ttd_trend_15m)
+      return "TTD 15m=" + TtdTrendName(ttd_trend_15m)
          + " 1h=" + TtdTrendName(ttd_trend_1h)
          + " aligned=" + TtdTrendName(ttd_aligned_trend);
    }
