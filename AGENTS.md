@@ -4,9 +4,9 @@ This project contains a TradingView Pine indicator and an MT5 Expert Advisor for
 
 ## Main Files
 
-- `engulfing_fib_setup_tracker.pine` - TradingView indicator.
-- `EngulfingFibSetupEA.mq5` - MT5 Expert Advisor source.
-- `EngulfingFibSetupEA.ex5` - compiled MT5 Expert Advisor.
+- `engulfing_fib_setup_tracker.pine` - TradingView indicator named `MBA Pacman`.
+- `MBA Pacman.mq5` - MT5 Expert Advisor source.
+- `MBA Pacman.ex5` - compiled MT5 Expert Advisor.
 - `.set` files - MT5 Strategy Tester presets.
 - `ReportTester*.html/png` and `20260501_last_run_with_diagnostics.log` - tester reports/debug artifacts used during development.
 
@@ -34,43 +34,29 @@ Size comparison:
 - engulfing candle size uses only the body;
 - opposite-color setups use the regular size multiplier;
 - same-color setups use the separate same-color multiplier;
-- same-color setup default multiplier is 3.0 in the TradingView indicator.
+- same-color setup default multiplier is 4.0 in the TradingView indicator.
 
 ## Important Current Defaults
 
 - `requireOppositeColor`: false.
 - regular size multiplier: 2.0.
-- same-color size multiplier: 3.0.
+- same-color size multiplier: 4.0.
 - entry fib: 0.5.
 - RR target: 2.0.
-- break-even enabled at 85% of the way to TP.
+- break-even disabled by default; if enabled, it triggers at 85% of the way to TP.
 - pending invalidation default: close beyond TP.
-- ATR filter exists but is off by default in the indicator unless enabled manually.
+- ATR filter exists in the indicator, uses the full setup candle range including both wicks, uses length 8 by default, and is off by default unless enabled manually.
 - close wick filter exists but is off by default unless enabled manually.
-- trend filter exists but is off by default unless enabled manually.
+- the TradingView indicator no longer has a trend filter or configuration dashboard.
 
 ## Trend Filters
 
-The project has multiple trend filter options.
-
-TradingView indicator:
-- EMA mode, using fast/slow EMA defaults 9 and 21.
-- LuxAlgo-style Supertrend AI mode.
-- TTD 5m+15m+1h alignment mode.
-
-TradingView TTD logic:
-- long allowed only when 5m, 15m, and 1h are all up;
-- short allowed only when 5m, 15m, and 1h are all down;
-- 1h uses the last closed H1 candle to avoid repainting.
+The TradingView indicator has no trend filter.
 
 EA:
-- includes EMA trend filter;
-- includes LuxAlgo-style Supertrend AI filter;
-- includes TTD M15+H1 alignment filter.
-
-EA TTD logic:
-- long allowed only when M15 and H1 are both up;
-- short allowed only when M15 and H1 are both down.
+- no longer exposes trend filter settings, matching the TradingView indicator.
+- can show a manual chart panel with Risk $, calculated lot size, last setup details, and buttons to place the setup limit order or enter now.
+- automatic order placement is intended only for Strategy Tester; when attached to a normal chart, orders should be placed manually from the panel.
 
 ## Non-Repaint / Alerts
 
@@ -78,7 +64,9 @@ TradingView setups and alerts should only fire after candle close using confirme
 
 The indicator has options to show filtered-out setups. Filtered setups:
 - still show a yellow `B` or `S` label;
-- include a short reason such as `Trend`, `ATR`, or `Knot`;
+- are shown by default;
+- include a short reason such as `ATR` or `Knot`;
+- include the actual multiple, such as `x1.87`, when a setup is filtered only because its size is up to 0.2 below the required multiplier;
 - do not trigger normal setup alerts;
 - can trigger separate filtered setup alerts if enabled.
 
@@ -97,7 +85,7 @@ When using real tick data, same-candle TP/SL assumptions matter less than OHLC-o
 Compile the EA with MetaEditor. On this machine the command previously used was:
 
 ```powershell
-$compileArg = '/compile:"C:\Users\padma\Documents\Engulfing Fibo\EngulfingFibSetupEA.mq5"'
+$compileArg = '/compile:"C:\Users\padma\Documents\Engulfing Fibo\MBA Pacman.mq5"'
 $logArg = '/log:"C:\Users\padma\Documents\Engulfing Fibo\metaeditor-engulfing-ea.log"'
 $p = Start-Process -FilePath 'C:\Program Files\MetaTrader 5\MetaEditor64.exe' -ArgumentList $compileArg,$logArg -Wait -PassThru -WindowStyle Hidden
 $p.ExitCode

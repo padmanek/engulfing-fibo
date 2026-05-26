@@ -1,6 +1,11 @@
 //+------------------------------------------------------------------+
-//|                                           EngulfingFibSetupEA.mq5 |
-//|                        Backtest EA for Engulfing 0.5 Fibo setups |
+//|                                                MBA Pacman.mq5     |
+//|                         MT5 EA for MBA Pacman engulfing setups    |
+//| Author: Dawid Włodarczyk                                         |
+//| Discord: p4adman                                                 |
+//| Copyright (c) 2026 Dawid Włodarczyk                              |
+//| License: MIT - free to use, copy, modify, publish, distribute,    |
+//| sublicense, and sell. Provided as-is, without warranty.           |
 //+------------------------------------------------------------------+
 #property strict
 
@@ -10,8 +15,7 @@ enum PendingInvalidationMode
 {
    PendingNever = 0,
    PendingWickTouchesTp = 1,
-   PendingBodyTouchesTp = 2,
-   PendingCloseBeyondTp = 3
+   PendingCloseBeyondTp = 2
 };
 
 enum SameBarPriorityMode
@@ -56,7 +60,7 @@ enum TtdTrendApproach
 input group "Strategia"
 input bool   InpRequireOppositeColor = false;       // Wymagaj przeciwnego koloru swiecy objetej
 input double InpMinSizeMultiple = 2.0;              // Min. mnoznik rozmiaru swiecy obejmujacej
-input double InpSameColorSizeMultiple = 3.0;        // Min. mnoznik gdy swiece nie sa przeciwne
+input double InpSameColorSizeMultiple = 4.0;        // Min. mnoznik gdy swiece nie sa przeciwne
 input double InpEntryFib = 0.5;                     // Poziom wejscia Fibo
 input double InpRewardR = 2.0;                      // Cel zysku w R
 input int    InpSetupExpiryBars = 20;               // Anuluj niewypelniony setup po liczbie swiec, 0 = nigdy
@@ -65,61 +69,82 @@ input SameBarPriorityMode InpSameBarMode = SameBarStopFirst;                 // 
 input PendingSameBarPriorityMode InpPendingSameBarMode = PendingEntryFirst;  // Gdy oczekujace: wejscie i TP na tej samej swiecy
 
 input group "Break Even"
-input bool   InpUseBreakEven = true;                // Wlacz przesuwanie SL na BE
+input bool   InpUseBreakEven = false;               // Wlacz przesuwanie SL na BE
 input double InpBreakEvenTriggerPct = 85.0;         // Przesun SL na BE przy % drogi do TP
 
-input group "Filtr trendu"
-input bool   InpUseTrendFilter = false;             // Wlacz filtr trendu
-input TrendFilterMode InpTrendFilterMode = TrendFilterEma; // Metoda filtra trendu
-input int    InpTrendFastLen = 9;                   // Szybka EMA trendu
-input int    InpTrendSlowLen = 21;                  // Wolna EMA trendu
-input int    InpSupertrendAtrLength = 10;           // LuxAlgo ST: dlugosc ATR
-input double InpSupertrendMinFactor = 1.0;          // LuxAlgo ST: min. faktor
-input double InpSupertrendMaxFactor = 5.0;          // LuxAlgo ST: maks. faktor
-input double InpSupertrendStep = 0.5;               // LuxAlgo ST: krok faktora
-input double InpSupertrendPerfAlpha = 10.0;         // LuxAlgo ST: pamiec performance
-input SupertrendClusterMode InpSupertrendCluster = SupertrendClusterBest; // LuxAlgo ST: klaster
-input int    InpSupertrendMaxIter = 1000;           // LuxAlgo ST: maks. iteracje
-input int    InpSupertrendMaxData = 10000;          // LuxAlgo ST: maks. swiece kalkulacji
-input TtdTrendApproach InpTtdTrendApproach = TtdSingleEmaDirection; // TTD: sposob wykrywania trendu
-input int    InpTtdEma1Len = 50;                    // TTD: EMA length
-input int    InpTtdEma2Len = 200;                   // TTD: dodatkowa EMA length
-input bool   InpTtdCatchFlat = false;               // TTD: wykrywaj flat
+const bool   InpUseTrendFilter = false;
+const TrendFilterMode InpTrendFilterMode = TrendFilterEma;
+const int    InpTrendFastLen = 9;
+const int    InpTrendSlowLen = 21;
+const int    InpSupertrendAtrLength = 10;
+const double InpSupertrendMinFactor = 1.0;
+const double InpSupertrendMaxFactor = 5.0;
+const double InpSupertrendStep = 0.5;
+const double InpSupertrendPerfAlpha = 10.0;
+const SupertrendClusterMode InpSupertrendCluster = SupertrendClusterBest;
+const int    InpSupertrendMaxIter = 1000;
+const int    InpSupertrendMaxData = 10000;
+const TtdTrendApproach InpTtdTrendApproach = TtdSingleEmaDirection;
+const int    InpTtdEma1Len = 50;
+const int    InpTtdEma2Len = 200;
+const bool   InpTtdCatchFlat = false;
 
 input group "Filtr ATR"
 input bool   InpUseAtrFilter = false;               // Wlacz filtr ATR
-input int    InpAtrLength = 14;                     // Dlugosc ATR
+input int    InpAtrLength = 8;                      // Dlugosc ATR
 input double InpMinBodyAtrPct = 50.0;               // Min. body swiecy setupu (% ATR)
-input double InpMaxBodyAtrPct = 300.0;              // Maks. body swiecy setupu (% ATR, 0 = brak)
+input double InpMaxBodyAtrPct = 250.0;              // Maks. body swiecy setupu (% ATR, 0 = brak)
 
 input group "Filtr knota"
-input bool   InpUseCloseWickFilter = false;         // Wlacz filtr knota swiecy zamkniecia
+input bool   InpUseCloseWickFilter = false;         // Wlacz filtr knota swiecy objecia
 input double InpMaxCloseWickPct = 25.0;             // Maks. knot swiecy setupu (%)
 
 input group "Techniczne"
 input double InpMaxCloseOpenGapAtrPct = 5.0;        // Maks. luka close-open (% ATR)
-input bool   InpShowFilteredSetups = false;         // Pokazuj odfiltrowane setupy
+input bool   InpShowFilteredSetups = true;          // Pokazuj odfiltrowane setupy
+const bool   InpPrintSetupDiagnostics = false;
+
+input group "Alerty"
+input bool   InpAlertSetups = false;                // Alerty dla poprawnych setupow
 input bool   InpAlertFilteredSetups = false;        // Alerty dla odfiltrowanych setupow
-input bool   InpPrintSetupDiagnostics = false;      // Drukuj diagnostyke setupow do dziennika
 
 input group "Trading MT5"
 input long   InpMagicNumber = 505015;               // Magic number
 input bool   InpAllowMultipleSetups = true;         // Pozwalaj na wiele setupow naraz
 input int    InpDeviationPoints = 20;               // Maks. odchylenie w punktach
+input bool   InpAutoPlaceOrders = true;             // Auto ordery tylko w Strategy Tester
 input PositionSizingMode InpPositionSizing = SizingFixedLots; // Sposob ustawiania lota
 input double InpFixedLots = 0.10;                   // Staly lot
 input double InpRiskPercent = 1.0;                  // Ryzyko % salda
 input double InpRiskMoney = 100.0;                  // Ryzyko w walucie konta
 
+input group "Panel"
+input bool   InpShowTradePanel = true;              // Pokazuj panel manualnego wejscia
+input double InpPanelRiskMoney = 100.0;             // Domyslne ryzyko w USD w panelu
+input int    InpPanelRestoreLookbackBars = 200;     // Ile swiec M15 skanowac po starcie panelu
+
 input group "Rysowanie"
 input bool   InpDrawSetups = true;                  // Rysuj setupy i poziomy
 input int    InpFibProjectionBars = 24;             // Dlugosc linii Fibo w swiecach
+input bool   InpDeleteDrawingsOnRemove = true;      // Usuwaj linie EA po usunieciu z wykresu
 
 struct PendingInfo
 {
    ulong    ticket;
    datetime setup_time;
    int      direction;
+};
+
+struct SetupSnapshot
+{
+   bool     valid;
+   int      direction;
+   datetime setup_time;
+   double   entry;
+   double   stop;
+   double   target;
+   double   atr_pct;
+   double   wick_pct;
 };
 
 CTrade trade;
@@ -129,6 +154,37 @@ int atr_handle = INVALID_HANDLE;
 int supertrend_atr_handle = INVALID_HANDLE;
 datetime last_m15_bar_time = 0;
 PendingInfo pending_infos[];
+SetupSnapshot last_setup;
+bool auto_place_orders_enabled = true;
+double panel_risk_money = 0.0;
+int panel_x = 12;
+int panel_y = 28;
+int panel_width = 250;
+int panel_height = 295;
+int panel_header_height = 28;
+bool panel_dragging = false;
+int panel_drag_offset_x = 0;
+int panel_drag_offset_y = 0;
+bool panel_saved_chart_mouse_scroll = true;
+bool panel_chart_scroll_locked = false;
+
+#define PANEL_PREFIX       "EFIB_PANEL_"
+#define PANEL_BG           "EFIB_PANEL_BG"
+#define PANEL_HEADER       "EFIB_PANEL_HEADER"
+#define PANEL_TITLE        "EFIB_PANEL_TITLE"
+#define PANEL_AUTO_BUTTON  "EFIB_PANEL_AUTO_BUTTON"
+#define PANEL_PLACE_BUTTON "EFIB_PANEL_PLACE_BUTTON"
+#define PANEL_MARKET_BUTTON "EFIB_PANEL_MARKET_BUTTON"
+#define PANEL_STATUS       "EFIB_PANEL_STATUS"
+#define PANEL_SETUP_TIME   "EFIB_PANEL_SETUP_TIME"
+#define PANEL_ENTRY        "EFIB_PANEL_ENTRY"
+#define PANEL_STOP         "EFIB_PANEL_STOP"
+#define PANEL_TARGET       "EFIB_PANEL_TARGET"
+#define PANEL_ATR          "EFIB_PANEL_ATR"
+#define PANEL_KNOT         "EFIB_PANEL_KNOT"
+#define PANEL_RISK_LABEL   "EFIB_PANEL_RISK_LABEL"
+#define PANEL_RISK_EDIT    "EFIB_PANEL_RISK_EDIT"
+#define PANEL_LOTS         "EFIB_PANEL_LOTS"
 
 //+------------------------------------------------------------------+
 //| Helpers                                                          |
@@ -158,6 +214,22 @@ double NormalizeVolume(const double lots)
    return NormalizeDouble(result, 2);
 }
 
+double CalculateLotsForRiskMoney(const double entry, const double stop, const double risk_money)
+{
+   if(risk_money <= 0.0)
+      return 0.0;
+
+   const double tick_size = TickSize();
+   const double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
+   const double ticks_at_risk = MathAbs(entry - stop) / tick_size;
+   const double money_at_risk_per_lot = ticks_at_risk * tick_value;
+
+   if(money_at_risk_per_lot <= 0.0)
+      return 0.0;
+
+   return NormalizeVolume(risk_money / money_at_risk_per_lot);
+}
+
 double CalculateLots(const double entry, const double stop)
 {
    if(InpPositionSizing == SizingFixedLots)
@@ -170,15 +242,129 @@ double CalculateLots(const double entry, const double stop)
    if(risk_money <= 0.0)
       return NormalizeVolume(InpFixedLots);
 
-   const double tick_size = TickSize();
-   const double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
-   const double ticks_at_risk = MathAbs(entry - stop) / tick_size;
-   const double money_at_risk_per_lot = ticks_at_risk * tick_value;
-
-   if(money_at_risk_per_lot <= 0.0)
+   const double lots = CalculateLotsForRiskMoney(entry, stop, risk_money);
+   if(lots <= 0.0)
       return NormalizeVolume(InpFixedLots);
 
-   return NormalizeVolume(risk_money / money_at_risk_per_lot);
+   return lots;
+}
+
+bool IsStrategyTester()
+{
+   return (bool)MQLInfoInteger(MQL_TESTER);
+}
+
+bool CanAutoPlaceOrders()
+{
+   return IsStrategyTester() && auto_place_orders_enabled;
+}
+
+double CurrentEntrySidePrice(const int direction)
+{
+   return direction == 1 ? SymbolInfoDouble(_Symbol, SYMBOL_ASK) : SymbolInfoDouble(_Symbol, SYMBOL_BID);
+}
+
+bool CanPlaceLimitOrderNow(const int direction, const double entry)
+{
+   if(direction != 1 && direction != -1)
+      return false;
+
+   const double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   const double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   const int stops_level = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL);
+   const double min_distance = MathMax(stops_level * _Point, TickSize());
+
+   if(direction == 1)
+      return ask > entry + min_distance;
+
+   return bid < entry - min_distance;
+}
+
+void ResetLastSetup()
+{
+   last_setup.valid = false;
+   last_setup.direction = 0;
+   last_setup.setup_time = 0;
+   last_setup.entry = 0.0;
+   last_setup.stop = 0.0;
+   last_setup.target = 0.0;
+   last_setup.atr_pct = 0.0;
+   last_setup.wick_pct = 0.0;
+}
+
+string LastSetupGlobalKey(const string field)
+{
+   return "EFIB_LAST_" + _Symbol + "_" + IntegerToString(InpMagicNumber) + "_" + field;
+}
+
+string PanelGlobalKey(const string field)
+{
+   return "EFIB_PANEL_POS_" + _Symbol + "_" + IntegerToString(InpMagicNumber) + "_" + field;
+}
+
+void SaveLastSetupState()
+{
+   GlobalVariableSet(LastSetupGlobalKey("valid"), last_setup.valid ? 1.0 : 0.0);
+   GlobalVariableSet(LastSetupGlobalKey("dir"), (double)last_setup.direction);
+   GlobalVariableSet(LastSetupGlobalKey("time"), (double)last_setup.setup_time);
+   GlobalVariableSet(LastSetupGlobalKey("entry"), last_setup.entry);
+   GlobalVariableSet(LastSetupGlobalKey("stop"), last_setup.stop);
+   GlobalVariableSet(LastSetupGlobalKey("target"), last_setup.target);
+   GlobalVariableSet(LastSetupGlobalKey("atr"), last_setup.atr_pct);
+   GlobalVariableSet(LastSetupGlobalKey("wick"), last_setup.wick_pct);
+}
+
+bool LoadLastSetupState()
+{
+   if(!GlobalVariableCheck(LastSetupGlobalKey("valid")))
+      return false;
+
+   if(GlobalVariableGet(LastSetupGlobalKey("valid")) < 0.5)
+      return false;
+
+   last_setup.valid = true;
+   last_setup.direction = (int)GlobalVariableGet(LastSetupGlobalKey("dir"));
+   last_setup.setup_time = (datetime)GlobalVariableGet(LastSetupGlobalKey("time"));
+   last_setup.entry = GlobalVariableGet(LastSetupGlobalKey("entry"));
+   last_setup.stop = GlobalVariableGet(LastSetupGlobalKey("stop"));
+   last_setup.target = GlobalVariableGet(LastSetupGlobalKey("target"));
+   last_setup.atr_pct = GlobalVariableGet(LastSetupGlobalKey("atr"));
+   last_setup.wick_pct = GlobalVariableGet(LastSetupGlobalKey("wick"));
+
+   if((last_setup.direction != 1 && last_setup.direction != -1) || last_setup.setup_time <= 0 || last_setup.entry <= 0.0 || last_setup.stop <= 0.0 || last_setup.target <= 0.0)
+   {
+      ResetLastSetup();
+      return false;
+   }
+
+   return true;
+}
+
+void ClampPanelPosition()
+{
+   const int chart_width = (int)ChartGetInteger(0, CHART_WIDTH_IN_PIXELS, 0);
+   const int chart_height = (int)ChartGetInteger(0, CHART_HEIGHT_IN_PIXELS, 0);
+   const int max_x = MathMax(0, chart_width - panel_width);
+   const int max_y = MathMax(0, chart_height - panel_header_height);
+
+   panel_x = MathMax(0, MathMin(panel_x, max_x));
+   panel_y = MathMax(0, MathMin(panel_y, max_y));
+}
+
+void SavePanelPosition()
+{
+   GlobalVariableSet(PanelGlobalKey("x"), (double)panel_x);
+   GlobalVariableSet(PanelGlobalKey("y"), (double)panel_y);
+}
+
+void LoadPanelPosition()
+{
+   if(GlobalVariableCheck(PanelGlobalKey("x")))
+      panel_x = (int)GlobalVariableGet(PanelGlobalKey("x"));
+   if(GlobalVariableCheck(PanelGlobalKey("y")))
+      panel_y = (int)GlobalVariableGet(PanelGlobalKey("y"));
+
+   ClampPanelPosition();
 }
 
 bool IsM15Chart()
@@ -215,11 +401,16 @@ bool GetBufferValue(const int handle, const int shift, double &value)
 
 bool LoadIndicatorValues(double &fast_ema, double &slow_ema, double &atr_value)
 {
-   if(!GetBufferValue(fast_ema_handle, 1, fast_ema))
+   return LoadIndicatorValuesAtShift(1, fast_ema, slow_ema, atr_value);
+}
+
+bool LoadIndicatorValuesAtShift(const int shift, double &fast_ema, double &slow_ema, double &atr_value)
+{
+   if(!GetBufferValue(fast_ema_handle, shift, fast_ema))
       return false;
-   if(!GetBufferValue(slow_ema_handle, 1, slow_ema))
+   if(!GetBufferValue(slow_ema_handle, shift, slow_ema))
       return false;
-   if(!GetBufferValue(atr_handle, 1, atr_value))
+   if(!GetBufferValue(atr_handle, shift, atr_value))
       return false;
 
    return true;
@@ -781,9 +972,6 @@ bool PendingInvalidationHit(const int direction, const MqlRates &bar, const doub
       case PendingWickTouchesTp:
          return direction == 1 ? bar.high >= target : bar.low <= target;
 
-      case PendingBodyTouchesTp:
-         return direction == 1 ? MathMax(bar.open, bar.close) >= target : MathMin(bar.open, bar.close) <= target;
-
       case PendingCloseBeyondTp:
          return direction == 1 ? bar.close >= target : bar.close <= target;
 
@@ -832,9 +1020,7 @@ void DrawSetup(const int direction, const datetime setup_time, const double entr
    const color setup_color = direction == 1 ? clrSeaGreen : clrCrimson;
 
    DrawTextObject(prefix + "mark", setup_time, direction == 1 ? fib_low : fib_high, direction == 1 ? "B" : "S", setup_color);
-   DrawSegment(prefix + "fib_low", setup_time, end_time, fib_low, setup_color, STYLE_SOLID, 1);
-   DrawSegment(prefix + "entry", setup_time, end_time, entry, clrOrange, STYLE_SOLID, 2);
-   DrawSegment(prefix + "fib_high", setup_time, end_time, fib_high, setup_color, STYLE_SOLID, 1);
+   DrawSegment(prefix + "entry", setup_time, end_time, entry, clrOrange, STYLE_SOLID, 1);
    DrawSegment(prefix + "sl", setup_time, end_time, stop, clrCrimson, STYLE_DOT, 1);
    DrawSegment(prefix + "tp", setup_time, end_time, target, clrDodgerBlue, STYLE_DOT, 1);
 }
@@ -847,6 +1033,377 @@ void DrawFilteredSetup(const int direction, const MqlRates &bar, const string re
    const string prefix = "EFIB_FILTERED_" + IntegerToString((int)bar.time) + "_" + (direction == 1 ? "B" : "S");
    const double price = direction == 1 ? bar.low : bar.high;
    DrawTextObject(prefix, bar.time, price, (direction == 1 ? "B " : "S ") + reason, clrGold);
+}
+
+string FormatPanelPrice(const double price)
+{
+   return DoubleToString(price, _Digits);
+}
+
+void SetPanelBaseProps(const string name, const int x, const int y)
+{
+   ObjectSetInteger(0, name, OBJPROP_CORNER, CORNER_LEFT_UPPER);
+   ObjectSetInteger(0, name, OBJPROP_XDISTANCE, x);
+   ObjectSetInteger(0, name, OBJPROP_YDISTANCE, y);
+   ObjectSetInteger(0, name, OBJPROP_SELECTABLE, false);
+   ObjectSetInteger(0, name, OBJPROP_HIDDEN, true);
+   ObjectSetInteger(0, name, OBJPROP_BACK, false);
+   ObjectSetInteger(0, name, OBJPROP_ZORDER, 1000);
+}
+
+void EnsurePanelLabel(const string name, const int x, const int y, const string text, const color clr = clrWhite)
+{
+   if(ObjectFind(0, name) < 0)
+      ObjectCreate(0, name, OBJ_LABEL, 0, 0, 0);
+
+   SetPanelBaseProps(name, x, y);
+   ObjectSetString(0, name, OBJPROP_TEXT, text);
+   ObjectSetString(0, name, OBJPROP_FONT, "Arial");
+   ObjectSetInteger(0, name, OBJPROP_FONTSIZE, 9);
+   ObjectSetInteger(0, name, OBJPROP_COLOR, clr);
+}
+
+void EnsurePanelButton(const string name, const int x, const int y, const int width, const int height, const string text, const color bg)
+{
+   if(ObjectFind(0, name) < 0)
+      ObjectCreate(0, name, OBJ_BUTTON, 0, 0, 0);
+
+   SetPanelBaseProps(name, x, y);
+   ObjectSetInteger(0, name, OBJPROP_XSIZE, width);
+   ObjectSetInteger(0, name, OBJPROP_YSIZE, height);
+   ObjectSetInteger(0, name, OBJPROP_BGCOLOR, bg);
+   ObjectSetInteger(0, name, OBJPROP_COLOR, clrWhite);
+   ObjectSetInteger(0, name, OBJPROP_BORDER_COLOR, clrDimGray);
+   ObjectSetString(0, name, OBJPROP_TEXT, text);
+   ObjectSetInteger(0, name, OBJPROP_FONTSIZE, 8);
+}
+
+void EnsurePanelEdit(const string name, const int x, const int y, const int width, const int height, const string text)
+{
+   if(ObjectFind(0, name) < 0)
+   {
+      ObjectCreate(0, name, OBJ_EDIT, 0, 0, 0);
+      ObjectSetString(0, name, OBJPROP_TEXT, text);
+   }
+
+   SetPanelBaseProps(name, x, y);
+   ObjectSetInteger(0, name, OBJPROP_XSIZE, width);
+   ObjectSetInteger(0, name, OBJPROP_YSIZE, height);
+   ObjectSetInteger(0, name, OBJPROP_BGCOLOR, clrBlack);
+   ObjectSetInteger(0, name, OBJPROP_COLOR, clrWhite);
+   ObjectSetInteger(0, name, OBJPROP_BORDER_COLOR, clrDimGray);
+   ObjectSetInteger(0, name, OBJPROP_FONTSIZE, 9);
+}
+
+double ReadPanelRiskMoney()
+{
+   if(ObjectFind(0, PANEL_RISK_EDIT) < 0)
+      return panel_risk_money;
+
+   string text = ObjectGetString(0, PANEL_RISK_EDIT, OBJPROP_TEXT);
+   StringReplace(text, ",", ".");
+   const double value = StringToDouble(text);
+
+   if(value > 0.0)
+      panel_risk_money = value;
+
+   return panel_risk_money;
+}
+
+void DeleteTradePanel()
+{
+   ObjectDelete(0, PANEL_BG);
+   ObjectDelete(0, PANEL_HEADER);
+   ObjectDelete(0, PANEL_TITLE);
+   ObjectDelete(0, PANEL_AUTO_BUTTON);
+   ObjectDelete(0, PANEL_PLACE_BUTTON);
+   ObjectDelete(0, PANEL_MARKET_BUTTON);
+   ObjectDelete(0, PANEL_STATUS);
+   ObjectDelete(0, PANEL_SETUP_TIME);
+   ObjectDelete(0, PANEL_ENTRY);
+   ObjectDelete(0, PANEL_STOP);
+   ObjectDelete(0, PANEL_TARGET);
+   ObjectDelete(0, PANEL_ATR);
+   ObjectDelete(0, PANEL_KNOT);
+   ObjectDelete(0, PANEL_RISK_LABEL);
+   ObjectDelete(0, PANEL_RISK_EDIT);
+   ObjectDelete(0, PANEL_LOTS);
+}
+
+void DeleteEaDrawings()
+{
+   for(int i = ObjectsTotal(0, -1, -1) - 1; i >= 0; i--)
+   {
+      const string name = ObjectName(0, i, -1, -1);
+      if(StringFind(name, "EFIB_") != 0)
+         continue;
+
+      if(StringFind(name, PANEL_PREFIX) == 0)
+         continue;
+
+      ObjectDelete(0, name);
+   }
+}
+
+void StoreLastSetup(const int direction,
+                    const datetime setup_time,
+                    const double entry,
+                    const double stop,
+                    const double target,
+                    const double atr_pct,
+                    const double wick_pct)
+{
+   last_setup.valid = true;
+   last_setup.direction = direction;
+   last_setup.setup_time = setup_time;
+   last_setup.entry = entry;
+   last_setup.stop = stop;
+   last_setup.target = target;
+   last_setup.atr_pct = atr_pct;
+   last_setup.wick_pct = wick_pct;
+   SaveLastSetupState();
+}
+
+void UpdateTradePanel()
+{
+   if(!InpShowTradePanel)
+   {
+      DeleteTradePanel();
+      return;
+   }
+
+   ClampPanelPosition();
+
+   const int x = panel_x;
+   const int y = panel_y;
+   const int w = panel_width;
+   const int h = panel_height;
+
+   if(ObjectFind(0, PANEL_BG) < 0)
+      ObjectCreate(0, PANEL_BG, OBJ_RECTANGLE_LABEL, 0, 0, 0);
+
+   SetPanelBaseProps(PANEL_BG, x, y);
+   ObjectSetInteger(0, PANEL_BG, OBJPROP_XSIZE, w);
+   ObjectSetInteger(0, PANEL_BG, OBJPROP_YSIZE, h);
+   ObjectSetInteger(0, PANEL_BG, OBJPROP_BGCOLOR, clrBlack);
+   ObjectSetInteger(0, PANEL_BG, OBJPROP_BORDER_COLOR, clrDimGray);
+
+   if(ObjectFind(0, PANEL_HEADER) < 0)
+      ObjectCreate(0, PANEL_HEADER, OBJ_RECTANGLE_LABEL, 0, 0, 0);
+
+   SetPanelBaseProps(PANEL_HEADER, x, y);
+   ObjectSetInteger(0, PANEL_HEADER, OBJPROP_XSIZE, w);
+   ObjectSetInteger(0, PANEL_HEADER, OBJPROP_YSIZE, panel_header_height);
+   ObjectSetInteger(0, PANEL_HEADER, OBJPROP_BGCOLOR, C'28,36,46');
+   ObjectSetInteger(0, PANEL_HEADER, OBJPROP_BORDER_COLOR, C'48,58,70');
+
+   const string title = "MBA Pacman EA";
+   EnsurePanelLabel(PANEL_TITLE, x + 10, y + 8, title, clrWhite);
+
+   const bool tester = IsStrategyTester();
+   if(tester)
+   {
+      const string auto_text = auto_place_orders_enabled ? "Auto: WŁ." : "Auto: WYŁ.";
+      const color auto_color = auto_place_orders_enabled ? clrSeaGreen : clrDimGray;
+      EnsurePanelButton(PANEL_AUTO_BUTTON, x + 155, y + 6, 85, 22, auto_text, auto_color);
+   }
+   else
+   {
+      ObjectDelete(0, PANEL_AUTO_BUTTON);
+   }
+
+   string status = "Ostatni: brak";
+   string setup_time = "Setup: -";
+   string entry_text = "Entry: -";
+   string stop_text = "SL: -";
+   string target_text = "TP: -";
+   string atr_text = "ATR: -";
+   string knot_text = "Knot: -";
+   string lots_text = "Lot: -";
+   bool can_place_limit = false;
+   bool can_place_market = false;
+   color status_color = clrSilver;
+
+   const double risk_money = ReadPanelRiskMoney();
+   if(last_setup.valid)
+   {
+      status = "Ostatni: " + (last_setup.direction == 1 ? "LONG" : "SHORT");
+      setup_time = "Setup: " + TimeToString(last_setup.setup_time, TIME_DATE | TIME_MINUTES);
+      entry_text = "Entry: " + FormatPanelPrice(last_setup.entry);
+      stop_text = "SL: " + FormatPanelPrice(last_setup.stop);
+      target_text = "TP: " + FormatPanelPrice(last_setup.target);
+      atr_text = "ATR: " + DoubleToString(last_setup.atr_pct, 0) + "%";
+      knot_text = "Knot: " + DoubleToString(last_setup.wick_pct, 0) + "%";
+      const double lots = CalculateLotsForRiskMoney(last_setup.entry, last_setup.stop, risk_money);
+      lots_text = "Lot: " + (lots > 0.0 ? DoubleToString(lots, 2) : "-");
+      can_place_limit = CanPlaceLimitOrderNow(last_setup.direction, last_setup.entry);
+      can_place_market = true;
+      status_color = last_setup.direction == 1 ? clrSeaGreen : clrCrimson;
+   }
+
+   EnsurePanelLabel(PANEL_STATUS, x + 10, y + 38, status, status_color);
+   EnsurePanelLabel(PANEL_SETUP_TIME, x + 10, y + 58, setup_time, clrSilver);
+   EnsurePanelLabel(PANEL_ENTRY, x + 10, y + 80, entry_text, clrOrange);
+   EnsurePanelLabel(PANEL_STOP, x + 10, y + 100, stop_text, clrCrimson);
+   EnsurePanelLabel(PANEL_TARGET, x + 10, y + 120, target_text, clrDodgerBlue);
+   EnsurePanelLabel(PANEL_ATR, x + 10, y + 145, atr_text, clrWhite);
+   EnsurePanelLabel(PANEL_KNOT, x + 10, y + 165, knot_text, clrWhite);
+   EnsurePanelLabel(PANEL_RISK_LABEL, x + 10, y + 195, "Ryzyko $", clrWhite);
+   EnsurePanelEdit(PANEL_RISK_EDIT, x + 82, y + 190, 70, 22, DoubleToString(panel_risk_money, 2));
+   EnsurePanelLabel(PANEL_LOTS, x + 165, y + 195, lots_text, clrWhite);
+   EnsurePanelButton(PANEL_PLACE_BUTTON, x + 10, y + 228, 230, 25, "Ustaw zlecenie", can_place_limit ? clrSeaGreen : clrDimGray);
+   EnsurePanelButton(PANEL_MARKET_BUTTON, x + 10, y + 258, 230, 25, "Wejdź teraz", can_place_market ? clrDodgerBlue : clrDimGray);
+
+   ChartRedraw(0);
+}
+
+void PlaceLastSetupFromPanel()
+{
+   if(!last_setup.valid)
+   {
+      Print("EFIB panel: brak poprawnego setupu do ustawienia zlecenia.");
+      return;
+   }
+
+   if(!CanPlaceLimitOrderNow(last_setup.direction, last_setup.entry))
+   {
+      Print("EFIB panel: nie mozna ustawic limit order, bo aktualna cena jest juz po zlej stronie Entry.");
+      UpdateTradePanel();
+      return;
+   }
+
+   const double risk_money = ReadPanelRiskMoney();
+   const double volume = CalculateLotsForRiskMoney(last_setup.entry, last_setup.stop, risk_money);
+   if(volume <= 0.0)
+   {
+      Print("EFIB panel: niepoprawne ryzyko USD albo nie udalo sie wyliczyc lota.");
+      return;
+   }
+
+   SendSetupOrderWithVolume(last_setup.direction,
+                            last_setup.setup_time,
+                            volume,
+                            last_setup.entry,
+                            last_setup.stop,
+                            last_setup.target,
+                            "PANEL");
+
+   UpdateTradePanel();
+}
+
+void EnterLastSetupNowFromPanel()
+{
+   if(!last_setup.valid)
+   {
+      Print("EFIB panel: brak poprawnego setupu do wejscia teraz.");
+      return;
+   }
+
+   const double risk_money = ReadPanelRiskMoney();
+   const double market_price = CurrentEntrySidePrice(last_setup.direction);
+   const double volume = CalculateLotsForRiskMoney(market_price, last_setup.stop, risk_money);
+   if(volume <= 0.0)
+   {
+      Print("EFIB panel: niepoprawne ryzyko USD albo nie udalo sie wyliczyc lota dla wejscia teraz.");
+      return;
+   }
+
+   SendMarketOrderWithVolume(last_setup.direction,
+                             last_setup.setup_time,
+                             volume,
+                             last_setup.stop,
+                             last_setup.target,
+                             "PANEL");
+
+   UpdateTradePanel();
+}
+
+bool IsLeftMouseDown(const string state)
+{
+   const int mask = (int)StringToInteger(state);
+   return (mask & 1) == 1;
+}
+
+bool IsPointInRect(const int mouse_x,
+                   const int mouse_y,
+                   const int rect_x,
+                   const int rect_y,
+                   const int rect_w,
+                   const int rect_h)
+{
+   return mouse_x >= rect_x
+      && mouse_x <= rect_x + rect_w
+      && mouse_y >= rect_y
+      && mouse_y <= rect_y + rect_h;
+}
+
+bool IsPanelAutoButtonArea(const int mouse_x, const int mouse_y)
+{
+   if(!IsStrategyTester())
+      return false;
+
+   return IsPointInRect(mouse_x, mouse_y, panel_x + 155, panel_y + 6, 85, 22);
+}
+
+bool IsPanelHeaderArea(const int mouse_x, const int mouse_y)
+{
+   if(!IsPointInRect(mouse_x, mouse_y, panel_x, panel_y, panel_width, panel_header_height))
+      return false;
+
+   return !IsPanelAutoButtonArea(mouse_x, mouse_y);
+}
+
+void SetPanelChartScrollLock(const bool lock)
+{
+   if(lock)
+   {
+      if(panel_chart_scroll_locked)
+         return;
+
+      panel_saved_chart_mouse_scroll = (bool)ChartGetInteger(0, CHART_MOUSE_SCROLL, 0);
+      ChartSetInteger(0, CHART_MOUSE_SCROLL, false);
+      panel_chart_scroll_locked = true;
+      return;
+   }
+
+   if(!panel_chart_scroll_locked)
+      return;
+
+   ChartSetInteger(0, CHART_MOUSE_SCROLL, panel_saved_chart_mouse_scroll);
+   panel_chart_scroll_locked = false;
+}
+
+void HandlePanelMouseMove(const long &lparam, const double &dparam, const string &sparam)
+{
+   const int mouse_x = (int)lparam;
+   const int mouse_y = (int)dparam;
+   const bool left_down = IsLeftMouseDown(sparam);
+
+   if(!left_down)
+   {
+      if(panel_dragging)
+         SavePanelPosition();
+
+      panel_dragging = false;
+      SetPanelChartScrollLock(false);
+      return;
+   }
+
+   if(!panel_dragging)
+   {
+      if(!IsPanelHeaderArea(mouse_x, mouse_y))
+         return;
+
+      panel_dragging = true;
+      SetPanelChartScrollLock(true);
+      panel_drag_offset_x = mouse_x - panel_x;
+      panel_drag_offset_y = mouse_y - panel_y;
+   }
+
+   panel_x = mouse_x - panel_drag_offset_x;
+   panel_y = mouse_y - panel_drag_offset_y;
+   ClampPanelPosition();
+   UpdateTradePanel();
 }
 
 void PrintSetupDiagnostics(const string status,
@@ -900,6 +1457,46 @@ void PrintSetupDiagnostics(const string status,
          " wick_ok=",
          wick_ok ? "true" : "false",
          reason == "" ? "" : " reason=" + reason);
+}
+
+void AlertValidSetup(const int direction,
+                     const datetime setup_time,
+                     const double entry,
+                     const double stop,
+                     const double target)
+{
+   if(!InpAlertSetups)
+      return;
+
+   Alert("Nowy Pacman ",
+         _Symbol,
+         " M15 ",
+         direction == 1 ? "LONG" : "SHORT",
+         " setup ",
+         TimeToString(setup_time, TIME_DATE | TIME_MINUTES),
+         " Entry=",
+         DoubleToString(entry, _Digits),
+         " SL=",
+         DoubleToString(stop, _Digits),
+         " TP=",
+         DoubleToString(target, _Digits));
+}
+
+void AlertFilteredSetup(const int direction,
+                        const datetime setup_time,
+                        const string reason)
+{
+   if(!InpAlertFilteredSetups)
+      return;
+
+   Alert("Odfiltrowany Pacman ",
+         _Symbol,
+         " M15 ",
+         direction == 1 ? "LONG" : "SHORT",
+         " setup ",
+         TimeToString(setup_time, TIME_DATE | TIME_MINUTES),
+         " ",
+         reason);
 }
 
 void CleanupPendingInfos()
@@ -989,16 +1586,18 @@ void ManagePendingOrders(const MqlRates &closed_bar)
    }
 }
 
-bool SendSetupOrder(const int direction, const MqlRates &setup_bar, const double entry, const double stop, const double target)
+bool SendSetupOrderWithVolume(const int direction,
+                              const datetime setup_time,
+                              const double volume,
+                              const double entry,
+                              const double stop,
+                              const double target,
+                              const string source)
 {
-   if(!InpAllowMultipleSetups && CountOurExposure() > 0)
-      return false;
-
-   const double volume = CalculateLots(entry, stop);
    if(volume <= 0.0)
       return false;
 
-   const string setup_time_text = TimeToString(setup_bar.time, TIME_DATE | TIME_MINUTES);
+   const string setup_time_text = TimeToString(setup_time, TIME_DATE | TIME_MINUTES);
    const string comment = "EFIB " + (direction == 1 ? "LONG " : "SHORT ") + setup_time_text;
    bool ok = false;
 
@@ -1017,9 +1616,69 @@ bool SendSetupOrder(const int direction, const MqlRates &setup_bar, const double
       return false;
    }
 
-   AddPendingInfo(trade.ResultOrder(), setup_bar.time, direction);
+   AddPendingInfo(trade.ResultOrder(), setup_time, direction);
+   Print("EFIB ", source, " limit order placed: ",
+         direction == 1 ? "LONG" : "SHORT",
+         " setup candle ",
+         setup_time_text,
+         " entry=",
+         DoubleToString(entry, _Digits),
+         " stop=",
+         DoubleToString(stop, _Digits),
+         " target=",
+         DoubleToString(target, _Digits),
+         " volume=",
+         DoubleToString(volume, 2));
 
    return true;
+}
+
+bool SendMarketOrderWithVolume(const int direction,
+                               const datetime setup_time,
+                               const double volume,
+                               const double stop,
+                               const double target,
+                               const string source)
+{
+   if(volume <= 0.0)
+      return false;
+
+   const string setup_time_text = TimeToString(setup_time, TIME_DATE | TIME_MINUTES);
+   const string comment = "EFIB " + (direction == 1 ? "LONG " : "SHORT ") + setup_time_text;
+   bool ok = false;
+
+   if(direction == 1)
+      ok = trade.Buy(volume, _Symbol, 0.0, stop, target, comment);
+   else
+      ok = trade.Sell(volume, _Symbol, 0.0, stop, target, comment);
+
+   if(!ok)
+   {
+      Print("EFIB zlecenie market nieudane. Retcode=", trade.ResultRetcode(), " ", trade.ResultRetcodeDescription());
+      return false;
+   }
+
+   Print("EFIB ", source, " zlecenie market wyslane: ",
+         direction == 1 ? "LONG" : "SHORT",
+         " setup candle ",
+         setup_time_text,
+         " stop=",
+         DoubleToString(stop, _Digits),
+         " target=",
+         DoubleToString(target, _Digits),
+         " volume=",
+         DoubleToString(volume, 2));
+
+   return true;
+}
+
+bool SendSetupOrder(const int direction, const MqlRates &setup_bar, const double entry, const double stop, const double target)
+{
+   if(!InpAllowMultipleSetups && CountOurExposure() > 0)
+      return false;
+
+   const double volume = CalculateLots(entry, stop);
+   return SendSetupOrderWithVolume(direction, setup_bar.time, volume, entry, stop, target, "AUTO");
 }
 
 //+------------------------------------------------------------------+
@@ -1037,6 +1696,188 @@ string FilterReasons(const bool trend_fail, const bool atr_fail, const bool wick
       result = result == "" ? "Knot" : result + ", Knot";
 
    return result;
+}
+
+bool BuildAcceptedSetupFromBars(const MqlRates &prev,
+                                const MqlRates &curr,
+                                const int shift,
+                                int &direction,
+                                double &entry,
+                                double &stop,
+                                double &target,
+                                double &setup_atr_pct,
+                                double &wick_pct)
+{
+   direction = 0;
+   entry = 0.0;
+   stop = 0.0;
+   target = 0.0;
+   setup_atr_pct = 0.0;
+   wick_pct = 0.0;
+
+   double fast_ema = 0.0;
+   double slow_ema = 0.0;
+   double atr_value = 0.0;
+   int supertrend_direction = 0;
+   double supertrend_value = 0.0;
+   double supertrend_factor = 0.0;
+   int ttd_trend_5m = 0;
+   int ttd_trend_15m = 0;
+   int ttd_trend_1h = 0;
+   int ttd_aligned_trend = 0;
+
+   if(!LoadIndicatorValuesAtShift(shift, fast_ema, slow_ema, atr_value))
+      return false;
+
+   if(InpUseTrendFilter && InpTrendFilterMode == TrendFilterSupertrend)
+   {
+      if(!CalculateSupertrend(shift, supertrend_direction, supertrend_value, supertrend_factor))
+         return false;
+   }
+
+   if(InpUseTrendFilter && InpTrendFilterMode == TrendFilterTtdAlignment)
+   {
+      if(!CalculateTtdAlignment(ttd_trend_5m, ttd_trend_15m, ttd_trend_1h, ttd_aligned_trend))
+         return false;
+   }
+
+   const bool prev_bear = prev.close < prev.open;
+   const bool prev_bull = prev.close > prev.open;
+   const bool curr_bull = curr.close > curr.open;
+   const bool curr_bear = curr.close < curr.open;
+
+   const double curr_body_high = MathMax(curr.open, curr.close);
+   const double curr_body_low = MathMin(curr.open, curr.close);
+   const double prev_body_high = MathMax(prev.open, prev.close);
+   const double prev_body_low = MathMin(prev.open, prev.close);
+   const double close_open_gap = MathAbs(curr.open - prev.close);
+   const double gap_atr_cap = atr_value * InpMaxCloseOpenGapAtrPct * 0.01;
+   const double gap_tolerance = MathMin(close_open_gap, gap_atr_cap);
+
+   const bool body_bull_engulf = curr_body_low <= prev_body_low + gap_tolerance && curr_body_high >= prev_body_high - gap_tolerance;
+   const bool body_bear_engulf = curr_body_high >= prev_body_high - gap_tolerance && curr_body_low <= prev_body_low + gap_tolerance;
+
+   const double bull_engulfing_size = curr.close - curr.open;
+   const double bear_engulfing_size = curr.open - curr.close;
+   const double bull_engulfed_size = prev.high - prev.close;
+   const double bear_engulfed_size = prev.close - prev.low;
+
+   const bool bull_opposite_color = prev_bear;
+   const bool bear_opposite_color = prev_bull;
+   const bool bull_same_color = prev_bull;
+   const bool bear_same_color = prev_bear;
+
+   const bool bull_classic_size_ok = bull_engulfed_size > TickSize() && bull_engulfing_size >= bull_engulfed_size * InpMinSizeMultiple;
+   const bool bear_classic_size_ok = bear_engulfed_size > TickSize() && bear_engulfing_size >= bear_engulfed_size * InpMinSizeMultiple;
+
+   const double bull_same_color_engulfed_size = prev.high - prev.open;
+   const double bear_same_color_engulfed_size = prev.open - prev.low;
+   const bool bull_same_color_size_ok = bull_same_color_engulfed_size > TickSize() && bull_engulfing_size >= bull_same_color_engulfed_size * InpSameColorSizeMultiple;
+   const bool bear_same_color_size_ok = bear_same_color_engulfed_size > TickSize() && bear_engulfing_size >= bear_same_color_engulfed_size * InpSameColorSizeMultiple;
+
+   const bool bull_same_color_breakout = curr.close >= prev.high - gap_tolerance;
+   const bool bear_same_color_breakout = curr.close <= prev.low + gap_tolerance;
+
+   const bool ema_trend_up = fast_ema > slow_ema;
+   const bool ema_trend_down = fast_ema < slow_ema;
+   const bool supertrend_up = supertrend_direction == 1;
+   const bool supertrend_down = supertrend_direction == -1;
+   const bool ttd_trend_up = ttd_aligned_trend == 1;
+   const bool ttd_trend_down = ttd_aligned_trend == -1;
+   const bool trend_up = InpTrendFilterMode == TrendFilterSupertrend ? supertrend_up : InpTrendFilterMode == TrendFilterTtdAlignment ? ttd_trend_up : ema_trend_up;
+   const bool trend_down = InpTrendFilterMode == TrendFilterSupertrend ? supertrend_down : InpTrendFilterMode == TrendFilterTtdAlignment ? ttd_trend_down : ema_trend_down;
+   const bool trend_allows_long = !InpUseTrendFilter || trend_up;
+   const bool trend_allows_short = !InpUseTrendFilter || trend_down;
+
+   const bool atr_max_disabled = InpMaxBodyAtrPct == 0.0;
+   const bool bull_atr_ok = !InpUseAtrFilter || (atr_value > 0.0 && bull_engulfing_size >= atr_value * InpMinBodyAtrPct * 0.01 && (atr_max_disabled || bull_engulfing_size <= atr_value * InpMaxBodyAtrPct * 0.01));
+   const bool bear_atr_ok = !InpUseAtrFilter || (atr_value > 0.0 && bear_engulfing_size >= atr_value * InpMinBodyAtrPct * 0.01 && (atr_max_disabled || bear_engulfing_size <= atr_value * InpMaxBodyAtrPct * 0.01));
+
+   const double candle_range = curr.high - curr.low;
+   setup_atr_pct = atr_value > 0.0 ? candle_range / atr_value * 100.0 : 0.0;
+   const double bull_close_wick_pct = candle_range > TickSize() ? (curr.high - curr.close) / candle_range * 100.0 : 100.0;
+   const double bear_close_wick_pct = candle_range > TickSize() ? (curr.close - curr.low) / candle_range * 100.0 : 100.0;
+   const bool bull_close_wick_ok = !InpUseCloseWickFilter || bull_close_wick_pct <= InpMaxCloseWickPct;
+   const bool bear_close_wick_ok = !InpUseCloseWickFilter || bear_close_wick_pct <= InpMaxCloseWickPct;
+
+   const bool bull_classic_setup = bull_opposite_color && curr_bull && body_bull_engulf && bull_classic_size_ok;
+   const bool bear_classic_setup = bear_opposite_color && curr_bear && body_bear_engulf && bear_classic_size_ok;
+   const bool bull_same_color_setup = !InpRequireOppositeColor && bull_same_color && curr_bull && bull_same_color_size_ok && bull_same_color_breakout;
+   const bool bear_same_color_setup = !InpRequireOppositeColor && bear_same_color && curr_bear && bear_same_color_size_ok && bear_same_color_breakout;
+
+   if(bull_classic_setup || bull_same_color_setup)
+   {
+      if(!trend_allows_long || !bull_atr_ok || !bull_close_wick_ok)
+         return false;
+
+      const double fib_low = MathMin(curr.low, prev.low);
+      const double fib_high = MathMax(curr.high, prev.high);
+      entry = NormalizePrice(fib_low + (fib_high - fib_low) * InpEntryFib);
+      stop = NormalizePrice(fib_low);
+      const double risk = entry - stop;
+      target = NormalizePrice(entry + risk * InpRewardR);
+      wick_pct = bull_close_wick_pct;
+      direction = risk > TickSize() ? 1 : 0;
+      return direction == 1;
+   }
+
+   if(bear_classic_setup || bear_same_color_setup)
+   {
+      if(!trend_allows_short || !bear_atr_ok || !bear_close_wick_ok)
+         return false;
+
+      const double fib_high = MathMax(curr.high, prev.high);
+      const double fib_low = MathMin(curr.low, prev.low);
+      entry = NormalizePrice(fib_high + (fib_low - fib_high) * InpEntryFib);
+      stop = NormalizePrice(fib_high);
+      const double risk = stop - entry;
+      target = NormalizePrice(entry - risk * InpRewardR);
+      wick_pct = bear_close_wick_pct;
+      direction = risk > TickSize() ? -1 : 0;
+      return direction == -1;
+   }
+
+   return false;
+}
+
+bool RestoreLatestSetupFromHistory()
+{
+   const int lookback = MathMax(1, InpPanelRestoreLookbackBars);
+
+   MqlRates rates[];
+   ArraySetAsSeries(rates, true);
+
+   const int copied = CopyRates(_Symbol, PERIOD_M15, 0, lookback + 2, rates);
+   if(copied < 3)
+      return false;
+
+   for(int shift = 1; shift <= copied - 2; shift++)
+   {
+      int direction = 0;
+      double entry = 0.0;
+      double stop = 0.0;
+      double target = 0.0;
+      double setup_atr_pct = 0.0;
+      double wick_pct = 0.0;
+
+      const MqlRates curr = rates[shift];
+      const MqlRates prev = rates[shift + 1];
+
+      if(!BuildAcceptedSetupFromBars(prev, curr, shift, direction, entry, stop, target, setup_atr_pct, wick_pct))
+         continue;
+
+      if(last_setup.valid && curr.time <= last_setup.setup_time)
+         return false;
+
+      StoreLastSetup(direction, curr.time, entry, stop, target, setup_atr_pct, wick_pct);
+
+      Print("EFIB panel: odtworzono ostatni setup z historii M15: ",
+            direction == 1 ? "LONG " : "SHORT ",
+            TimeToString(curr.time, TIME_DATE | TIME_MINUTES));
+      return true;
+   }
+
+   return false;
 }
 
 void EvaluateSetup()
@@ -1130,6 +1971,7 @@ void EvaluateSetup()
    const bool bear_atr_ok = !InpUseAtrFilter || (atr_value > 0.0 && bear_engulfing_size >= atr_value * InpMinBodyAtrPct * 0.01 && (atr_max_disabled || bear_engulfing_size <= atr_value * InpMaxBodyAtrPct * 0.01));
 
    const double candle_range = curr.high - curr.low;
+   const double setup_atr_pct = atr_value > 0.0 ? candle_range / atr_value * 100.0 : 0.0;
    const double bull_close_wick_pct = candle_range > TickSize() ? (curr.high - curr.close) / candle_range * 100.0 : 100.0;
    const double bear_close_wick_pct = candle_range > TickSize() ? (curr.close - curr.low) / candle_range * 100.0 : 100.0;
    const bool bull_close_wick_ok = !InpUseCloseWickFilter || bull_close_wick_pct <= InpMaxCloseWickPct;
@@ -1158,8 +2000,7 @@ void EvaluateSetup()
       const string reason = FilterReasons(bull_trend_fail, bull_atr_fail, bull_wick_fail);
       PrintSetupDiagnostics("FILTERED", 1, curr, bull_engulfing_size, atr_value, bull_close_wick_pct, trend_allows_long, bull_atr_ok, bull_close_wick_ok, reason, trend_state);
       DrawFilteredSetup(1, curr, reason);
-      if(InpAlertFilteredSetups)
-         Alert("Odfiltrowany wzrostowy setup EFIB: ", reason);
+      AlertFilteredSetup(1, curr.time, reason);
       return;
    }
 
@@ -1168,8 +2009,7 @@ void EvaluateSetup()
       const string reason = FilterReasons(bear_trend_fail, bear_atr_fail, bear_wick_fail);
       PrintSetupDiagnostics("FILTERED", -1, curr, bear_engulfing_size, atr_value, bear_close_wick_pct, trend_allows_short, bear_atr_ok, bear_close_wick_ok, reason, trend_state);
       DrawFilteredSetup(-1, curr, reason);
-      if(InpAlertFilteredSetups)
-         Alert("Odfiltrowany spadkowy setup EFIB: ", reason);
+      AlertFilteredSetup(-1, curr.time, reason);
       return;
    }
 
@@ -1185,8 +2025,12 @@ void EvaluateSetup()
       if(risk > TickSize())
       {
          PrintSetupDiagnostics("ACCEPTED", 1, curr, bull_engulfing_size, atr_value, bull_close_wick_pct, trend_allows_long, bull_atr_ok, bull_close_wick_ok, "", trend_state);
+         StoreLastSetup(1, curr.time, entry, stop, target, setup_atr_pct, bull_close_wick_pct);
          DrawSetup(1, curr.time, entry, stop, target, fib_low, fib_high);
-         SendSetupOrder(1, curr, entry, stop, target);
+         AlertValidSetup(1, curr.time, entry, stop, target);
+         if(CanAutoPlaceOrders())
+            SendSetupOrder(1, curr, entry, stop, target);
+         UpdateTradePanel();
       }
    }
 
@@ -1202,8 +2046,12 @@ void EvaluateSetup()
       if(risk > TickSize())
       {
          PrintSetupDiagnostics("ACCEPTED", -1, curr, bear_engulfing_size, atr_value, bear_close_wick_pct, trend_allows_short, bear_atr_ok, bear_close_wick_ok, "", trend_state);
+         StoreLastSetup(-1, curr.time, entry, stop, target, setup_atr_pct, bear_close_wick_pct);
          DrawSetup(-1, curr.time, entry, stop, target, fib_low, fib_high);
-         SendSetupOrder(-1, curr, entry, stop, target);
+         AlertValidSetup(-1, curr.time, entry, stop, target);
+         if(CanAutoPlaceOrders())
+            SendSetupOrder(-1, curr, entry, stop, target);
+         UpdateTradePanel();
       }
    }
 }
@@ -1215,6 +2063,12 @@ int OnInit()
 {
    trade.SetExpertMagicNumber(InpMagicNumber);
    trade.SetDeviationInPoints(InpDeviationPoints);
+   auto_place_orders_enabled = InpAutoPlaceOrders;
+   panel_risk_money = InpPanelRiskMoney > 0.0 ? InpPanelRiskMoney : InpRiskMoney;
+   ChartSetInteger(0, CHART_EVENT_MOUSE_MOVE, true);
+   LoadPanelPosition();
+   ResetLastSetup();
+   LoadLastSetupState();
 
    fast_ema_handle = iMA(_Symbol, PERIOD_M15, InpTrendFastLen, 0, MODE_EMA, PRICE_CLOSE);
    slow_ema_handle = iMA(_Symbol, PERIOD_M15, InpTrendSlowLen, 0, MODE_EMA, PRICE_CLOSE);
@@ -1230,6 +2084,8 @@ int OnInit()
    if(!IsM15Chart())
       Print("EngulfingFibSetupEA trades only on M15 charts.");
 
+   RestoreLatestSetupFromHistory();
+   UpdateTradePanel();
    return INIT_SUCCEEDED;
 }
 
@@ -1243,6 +2099,12 @@ void OnDeinit(const int reason)
       IndicatorRelease(atr_handle);
    if(supertrend_atr_handle != INVALID_HANDLE)
       IndicatorRelease(supertrend_atr_handle);
+
+   SetPanelChartScrollLock(false);
+   DeleteTradePanel();
+
+   if(InpDeleteDrawingsOnRemove && reason == REASON_REMOVE)
+      DeleteEaDrawings();
 }
 
 void OnTick()
@@ -1264,6 +2126,50 @@ void OnTick()
    ManagePendingOrders(rates[1]);
    CleanupPendingInfos();
    EvaluateSetup();
+}
+
+void OnChartEvent(const int id,
+                  const long &lparam,
+                  const double &dparam,
+                  const string &sparam)
+{
+   if(!InpShowTradePanel)
+      return;
+
+   if(id == CHARTEVENT_MOUSE_MOVE)
+   {
+      HandlePanelMouseMove(lparam, dparam, sparam);
+      return;
+   }
+
+   if(id == CHARTEVENT_OBJECT_CLICK)
+   {
+      if(sparam == PANEL_AUTO_BUTTON)
+      {
+         if(IsStrategyTester())
+            auto_place_orders_enabled = !auto_place_orders_enabled;
+         else
+            Print("EFIB panel: auto zlecenia sa dostepne tylko w Strategy Tester. Na normalnym wykresie uzyj Ustaw zlecenie albo Wejdz teraz.");
+
+         UpdateTradePanel();
+         return;
+      }
+
+      if(sparam == PANEL_PLACE_BUTTON)
+      {
+         PlaceLastSetupFromPanel();
+         return;
+      }
+
+      if(sparam == PANEL_MARKET_BUTTON)
+      {
+         EnterLastSetupNowFromPanel();
+         return;
+      }
+   }
+
+   if(id == CHARTEVENT_OBJECT_ENDEDIT && sparam == PANEL_RISK_EDIT)
+      UpdateTradePanel();
 }
 
 void OnTradeTransaction(const MqlTradeTransaction &trans,
