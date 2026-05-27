@@ -145,6 +145,7 @@ struct SetupSnapshot
    double   target;
    double   atr_pct;
    double   wick_pct;
+   double   marker_price;
 };
 
 CTrade trade;
@@ -155,6 +156,8 @@ int supertrend_atr_handle = INVALID_HANDLE;
 datetime last_m15_bar_time = 0;
 PendingInfo pending_infos[];
 SetupSnapshot last_setup;
+SetupSnapshot setup_history[];
+int selected_setup_index = -1;
 bool auto_place_orders_enabled = true;
 double panel_risk_money = 0.0;
 int panel_x = 12;
@@ -173,6 +176,8 @@ bool panel_chart_scroll_locked = false;
 #define PANEL_HEADER       "EFIB_PANEL_HEADER"
 #define PANEL_TITLE        "EFIB_PANEL_TITLE"
 #define PANEL_AUTO_BUTTON  "EFIB_PANEL_AUTO_BUTTON"
+#define PANEL_PREV_BUTTON  "EFIB_PANEL_PREV_BUTTON"
+#define PANEL_NEXT_BUTTON  "EFIB_PANEL_NEXT_BUTTON"
 #define PANEL_PLACE_BUTTON "EFIB_PANEL_PLACE_BUTTON"
 #define PANEL_MARKET_BUTTON "EFIB_PANEL_MARKET_BUTTON"
 #define PANEL_STATUS       "EFIB_PANEL_STATUS"
@@ -264,6 +269,12 @@ double CurrentEntrySidePrice(const int direction)
    return direction == 1 ? SymbolInfoDouble(_Symbol, SYMBOL_ASK) : SymbolInfoDouble(_Symbol, SYMBOL_BID);
 }
 
+double SetupMarkerPrice(const int direction, const double setup_high, const double setup_low)
+{
+   const double offset = MathMax(TickSize() * 8.0, _Point * 8.0);
+   return direction == 1 ? setup_low - offset : setup_high + offset;
+}
+
 bool CanPlaceLimitOrderNow(const int direction, const double entry)
 {
    if(direction != 1 && direction != -1)
@@ -280,6 +291,71 @@ bool CanPlaceLimitOrderNow(const int direction, const double entry)
    return bid < entry - min_distance;
 }
 
+bool GetPendingOrderTypeForEntry(const int direction, const double entry, ENUM_ORDER_TYPE &order_type)
+{
+   if(direction != 1 && direction != -1)
+      return false;
+
+   const double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   const double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   const int stops_level = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL);
+   const double min_distance = MathMax(stops_level * _Point, TickSize());
+
+   if(direction == 1)
+   {
+      if(ask > entry + min_distance)
+      {
+         order_type = ORDER_TYPE_BUY_LIMIT;
+         return true;
+      }
+
+      if(ask < entry - min_distance)
+      {
+         order_type = ORDER_TYPE_BUY_STOP;
+         return true;
+      }
+
+      return false;
+   }
+
+   if(bid < entry - min_distance)
+   {
+      order_type = ORDER_TYPE_SELL_LIMIT;
+      return true;
+   }
+
+   if(bid > entry + min_distance)
+   {
+      order_type = ORDER_TYPE_SELL_STOP;
+      return true;
+   }
+
+   return false;
+}
+
+bool CanPlacePendingOrderNow(const int direction, const double entry)
+{
+   ENUM_ORDER_TYPE order_type;
+   return GetPendingOrderTypeForEntry(direction, entry, order_type);
+}
+
+string PendingOrderKindText(const ENUM_ORDER_TYPE order_type)
+{
+   switch(order_type)
+   {
+      case ORDER_TYPE_BUY_LIMIT:
+      case ORDER_TYPE_SELL_LIMIT:
+         return "limit";
+
+      case ORDER_TYPE_BUY_STOP:
+      case ORDER_TYPE_SELL_STOP:
+         return "stop";
+
+      default:
+         return "pending";
+   }
+}
+
 void ResetLastSetup()
 {
    last_setup.valid = false;
@@ -290,6 +366,7 @@ void ResetLastSetup()
    last_setup.target = 0.0;
    last_setup.atr_pct = 0.0;
    last_setup.wick_pct = 0.0;
+   last_setup.marker_price = 0.0;
 }
 
 string LastSetupGlobalKey(const string field)
@@ -312,6 +389,7 @@ void SaveLastSetupState()
    GlobalVariableSet(LastSetupGlobalKey("target"), last_setup.target);
    GlobalVariableSet(LastSetupGlobalKey("atr"), last_setup.atr_pct);
    GlobalVariableSet(LastSetupGlobalKey("wick"), last_setup.wick_pct);
+   GlobalVariableSet(LastSetupGlobalKey("marker"), last_setup.marker_price);
 }
 
 bool LoadLastSetupState()
@@ -330,6 +408,7 @@ bool LoadLastSetupState()
    last_setup.target = GlobalVariableGet(LastSetupGlobalKey("target"));
    last_setup.atr_pct = GlobalVariableGet(LastSetupGlobalKey("atr"));
    last_setup.wick_pct = GlobalVariableGet(LastSetupGlobalKey("wick"));
+   last_setup.marker_price = GlobalVariableCheck(LastSetupGlobalKey("marker")) ? GlobalVariableGet(LastSetupGlobalKey("marker")) : 0.0;
 
    if((last_setup.direction != 1 && last_setup.direction != -1) || last_setup.setup_time <= 0 || last_setup.entry <= 0.0 || last_setup.stop <= 0.0 || last_setup.target <= 0.0)
    {
@@ -995,6 +1074,20 @@ void DrawTextObject(const string name, const datetime time, const double price, 
    ObjectSetInteger(0, name, OBJPROP_FONTSIZE, 8);
 }
 
+void DrawArrowObject(const string name, const datetime time, const double price, const int arrow_code, const color clr)
+{
+   if(!InpDrawSetups)
+      return;
+
+   ObjectDelete(0, name);
+   if(!ObjectCreate(0, name, OBJ_ARROW, 0, time, price))
+      return;
+
+   ObjectSetInteger(0, name, OBJPROP_ARROWCODE, arrow_code);
+   ObjectSetInteger(0, name, OBJPROP_COLOR, clr);
+   ObjectSetInteger(0, name, OBJPROP_WIDTH, 2);
+}
+
 void DrawSegment(const string name, const datetime start_time, const datetime end_time, const double price, const color clr, const ENUM_LINE_STYLE style, const int width)
 {
    if(!InpDrawSetups)
@@ -1010,6 +1103,72 @@ void DrawSegment(const string name, const datetime start_time, const datetime en
    ObjectSetInteger(0, name, OBJPROP_RAY_RIGHT, false);
 }
 
+void UpsertSelectedTextObject(const string name, const datetime time, const double price, const string text, const color clr, const int font_size)
+{
+   if(!InpDrawSetups)
+      return;
+
+   if(ObjectFind(0, name) < 0)
+   {
+      if(!ObjectCreate(0, name, OBJ_TEXT, 0, time, price))
+         return;
+   }
+   else
+   {
+      ObjectMove(0, name, 0, time, price);
+   }
+
+   ObjectSetString(0, name, OBJPROP_TEXT, text);
+   ObjectSetInteger(0, name, OBJPROP_COLOR, clr);
+   ObjectSetInteger(0, name, OBJPROP_FONTSIZE, font_size);
+   ObjectSetInteger(0, name, OBJPROP_ANCHOR, ANCHOR_CENTER);
+   ObjectSetInteger(0, name, OBJPROP_ZORDER, 1200);
+}
+
+void UpsertSelectedArrowObject(const string name, const datetime time, const double price, const int arrow_code, const color clr)
+{
+   if(!InpDrawSetups)
+      return;
+
+   if(ObjectFind(0, name) < 0)
+   {
+      if(!ObjectCreate(0, name, OBJ_ARROW, 0, time, price))
+         return;
+   }
+   else
+   {
+      ObjectMove(0, name, 0, time, price);
+   }
+
+   ObjectSetInteger(0, name, OBJPROP_ARROWCODE, arrow_code);
+   ObjectSetInteger(0, name, OBJPROP_COLOR, clr);
+   ObjectSetInteger(0, name, OBJPROP_WIDTH, 2);
+   ObjectSetInteger(0, name, OBJPROP_ZORDER, 1200);
+}
+
+void UpsertSelectedSegment(const string name, const datetime start_time, const datetime end_time, const double price, const color clr, const ENUM_LINE_STYLE style, const int width)
+{
+   if(!InpDrawSetups)
+      return;
+
+   if(ObjectFind(0, name) < 0)
+   {
+      if(!ObjectCreate(0, name, OBJ_TREND, 0, start_time, price, end_time, price))
+         return;
+   }
+   else
+   {
+      ObjectMove(0, name, 0, start_time, price);
+      ObjectMove(0, name, 1, end_time, price);
+   }
+
+   ObjectSetInteger(0, name, OBJPROP_COLOR, clr);
+   ObjectSetInteger(0, name, OBJPROP_STYLE, style);
+   ObjectSetInteger(0, name, OBJPROP_WIDTH, width);
+   ObjectSetInteger(0, name, OBJPROP_RAY_RIGHT, false);
+   ObjectSetInteger(0, name, OBJPROP_ZORDER, 1100);
+}
+
 void DrawSetup(const int direction, const datetime setup_time, const double entry, const double stop, const double target, const double fib_low, const double fib_high)
 {
    if(!InpDrawSetups)
@@ -1023,6 +1182,34 @@ void DrawSetup(const int direction, const datetime setup_time, const double entr
    DrawSegment(prefix + "entry", setup_time, end_time, entry, clrOrange, STYLE_SOLID, 1);
    DrawSegment(prefix + "sl", setup_time, end_time, stop, clrCrimson, STYLE_DOT, 1);
    DrawSegment(prefix + "tp", setup_time, end_time, target, clrDodgerBlue, STYLE_DOT, 1);
+}
+
+void DeleteSelectedSetupDrawing()
+{
+   ObjectDelete(0, "EFIB_SELECTED_entry");
+   ObjectDelete(0, "EFIB_SELECTED_sl");
+   ObjectDelete(0, "EFIB_SELECTED_tp");
+   ObjectDelete(0, "EFIB_SELECTED_mark");
+}
+
+void DrawSelectedSetup(const SetupSnapshot &setup)
+{
+   if(!InpDrawSetups || !setup.valid)
+   {
+      DeleteSelectedSetupDrawing();
+      return;
+   }
+
+   const datetime end_time = setup.setup_time + InpFibProjectionBars * PeriodSeconds(PERIOD_M15);
+   const double offset = MathMax(TickSize() * 8.0, _Point * 8.0);
+   const double marker_price = setup.marker_price > 0.0 ? setup.marker_price : (setup.direction == 1 ? setup.stop - offset : setup.stop + offset);
+   const double text_price = setup.direction == 1 ? marker_price - offset : marker_price + offset;
+   const color setup_color = setup.direction == 1 ? clrSeaGreen : clrCrimson;
+
+   UpsertSelectedSegment("EFIB_SELECTED_entry", setup.setup_time, end_time, setup.entry, clrOrange, STYLE_SOLID, 1);
+   UpsertSelectedSegment("EFIB_SELECTED_sl", setup.setup_time, end_time, setup.stop, clrCrimson, STYLE_DOT, 1);
+   UpsertSelectedSegment("EFIB_SELECTED_tp", setup.setup_time, end_time, setup.target, clrDodgerBlue, STYLE_DOT, 1);
+   UpsertSelectedTextObject("EFIB_SELECTED_mark", setup.setup_time, text_price, setup.direction == 1 ? "B" : "S", setup_color, 11);
 }
 
 void DrawFilteredSetup(const int direction, const MqlRates &bar, const string reason)
@@ -1116,6 +1303,8 @@ void DeleteTradePanel()
    ObjectDelete(0, PANEL_HEADER);
    ObjectDelete(0, PANEL_TITLE);
    ObjectDelete(0, PANEL_AUTO_BUTTON);
+   ObjectDelete(0, PANEL_PREV_BUTTON);
+   ObjectDelete(0, PANEL_NEXT_BUTTON);
    ObjectDelete(0, PANEL_PLACE_BUTTON);
    ObjectDelete(0, PANEL_MARKET_BUTTON);
    ObjectDelete(0, PANEL_STATUS);
@@ -1145,23 +1334,108 @@ void DeleteEaDrawings()
    }
 }
 
+void ClearSetupHistory()
+{
+   ArrayResize(setup_history, 0);
+   selected_setup_index = -1;
+}
+
+int FindSetupHistoryIndex(const datetime setup_time, const int direction)
+{
+   const int count = ArraySize(setup_history);
+   for(int i = 0; i < count; i++)
+   {
+      if(setup_history[i].setup_time == setup_time && setup_history[i].direction == direction)
+         return i;
+   }
+
+   return -1;
+}
+
+int PushSetupHistory(const SetupSnapshot &setup)
+{
+   if(!setup.valid)
+      return -1;
+
+   const int existing = FindSetupHistoryIndex(setup.setup_time, setup.direction);
+   if(existing >= 0)
+   {
+      setup_history[existing] = setup;
+      return existing;
+   }
+
+   int count = ArraySize(setup_history);
+   const int max_items = MathMax(1, InpPanelRestoreLookbackBars);
+
+   if(count >= max_items)
+   {
+      for(int i = 1; i < count; i++)
+         setup_history[i - 1] = setup_history[i];
+
+      ArrayResize(setup_history, count - 1);
+      count--;
+
+      if(selected_setup_index > 0)
+         selected_setup_index--;
+      else if(selected_setup_index == 0)
+         selected_setup_index = -1;
+   }
+
+   ArrayResize(setup_history, count + 1);
+   setup_history[count] = setup;
+   return count;
+}
+
+void SelectSetupIndex(const int index)
+{
+   const int count = ArraySize(setup_history);
+   if(count <= 0)
+   {
+      selected_setup_index = -1;
+      ResetLastSetup();
+      DeleteSelectedSetupDrawing();
+      SaveLastSetupState();
+      return;
+   }
+
+   selected_setup_index = MathMax(0, MathMin(index, count - 1));
+   last_setup = setup_history[selected_setup_index];
+   SaveLastSetupState();
+   DrawSelectedSetup(last_setup);
+}
+
+void SelectPreviousSetup()
+{
+   SelectSetupIndex(selected_setup_index - 1);
+}
+
+void SelectNextSetup()
+{
+   SelectSetupIndex(selected_setup_index + 1);
+}
+
 void StoreLastSetup(const int direction,
                     const datetime setup_time,
                     const double entry,
                     const double stop,
                     const double target,
                     const double atr_pct,
-                    const double wick_pct)
+                    const double wick_pct,
+                    const double marker_price)
 {
-   last_setup.valid = true;
-   last_setup.direction = direction;
-   last_setup.setup_time = setup_time;
-   last_setup.entry = entry;
-   last_setup.stop = stop;
-   last_setup.target = target;
-   last_setup.atr_pct = atr_pct;
-   last_setup.wick_pct = wick_pct;
-   SaveLastSetupState();
+   SetupSnapshot setup;
+   setup.valid = true;
+   setup.direction = direction;
+   setup.setup_time = setup_time;
+   setup.entry = entry;
+   setup.stop = stop;
+   setup.target = target;
+   setup.atr_pct = atr_pct;
+   setup.wick_pct = wick_pct;
+   setup.marker_price = marker_price;
+
+   const int index = PushSetupHistory(setup);
+   SelectSetupIndex(index);
 }
 
 void UpdateTradePanel()
@@ -1220,14 +1494,16 @@ void UpdateTradePanel()
    string atr_text = "ATR: -";
    string knot_text = "Knot: -";
    string lots_text = "Lot: -";
-   bool can_place_limit = false;
+   bool can_place_pending = false;
    bool can_place_market = false;
    color status_color = clrSilver;
+   const int history_count = ArraySize(setup_history);
 
    const double risk_money = ReadPanelRiskMoney();
    if(last_setup.valid)
    {
-      status = "Ostatni: " + (last_setup.direction == 1 ? "LONG" : "SHORT");
+      const int shown_index = selected_setup_index >= 0 ? selected_setup_index + 1 : history_count;
+      status = "Setup " + IntegerToString(shown_index) + "/" + IntegerToString(MathMax(history_count, 1)) + ": " + (last_setup.direction == 1 ? "LONG" : "SHORT");
       setup_time = "Setup: " + TimeToString(last_setup.setup_time, TIME_DATE | TIME_MINUTES);
       entry_text = "Entry: " + FormatPanelPrice(last_setup.entry);
       stop_text = "SL: " + FormatPanelPrice(last_setup.stop);
@@ -1236,12 +1512,14 @@ void UpdateTradePanel()
       knot_text = "Knot: " + DoubleToString(last_setup.wick_pct, 0) + "%";
       const double lots = CalculateLotsForRiskMoney(last_setup.entry, last_setup.stop, risk_money);
       lots_text = "Lot: " + (lots > 0.0 ? DoubleToString(lots, 2) : "-");
-      can_place_limit = CanPlaceLimitOrderNow(last_setup.direction, last_setup.entry);
+      can_place_pending = CanPlacePendingOrderNow(last_setup.direction, last_setup.entry);
       can_place_market = true;
       status_color = last_setup.direction == 1 ? clrSeaGreen : clrCrimson;
    }
 
    EnsurePanelLabel(PANEL_STATUS, x + 10, y + 38, status, status_color);
+   EnsurePanelButton(PANEL_PREV_BUTTON, x + 178, y + 36, 28, 20, "<", history_count > 1 && selected_setup_index > 0 ? C'48,58,70' : clrDimGray);
+   EnsurePanelButton(PANEL_NEXT_BUTTON, x + 212, y + 36, 28, 20, ">", history_count > 1 && selected_setup_index < history_count - 1 ? C'48,58,70' : clrDimGray);
    EnsurePanelLabel(PANEL_SETUP_TIME, x + 10, y + 58, setup_time, clrSilver);
    EnsurePanelLabel(PANEL_ENTRY, x + 10, y + 80, entry_text, clrOrange);
    EnsurePanelLabel(PANEL_STOP, x + 10, y + 100, stop_text, clrCrimson);
@@ -1251,7 +1529,7 @@ void UpdateTradePanel()
    EnsurePanelLabel(PANEL_RISK_LABEL, x + 10, y + 195, "Ryzyko $", clrWhite);
    EnsurePanelEdit(PANEL_RISK_EDIT, x + 82, y + 190, 70, 22, DoubleToString(panel_risk_money, 2));
    EnsurePanelLabel(PANEL_LOTS, x + 165, y + 195, lots_text, clrWhite);
-   EnsurePanelButton(PANEL_PLACE_BUTTON, x + 10, y + 228, 230, 25, "Ustaw zlecenie", can_place_limit ? clrSeaGreen : clrDimGray);
+   EnsurePanelButton(PANEL_PLACE_BUTTON, x + 10, y + 228, 230, 25, "Ustaw zlecenie", can_place_pending ? clrSeaGreen : clrDimGray);
    EnsurePanelButton(PANEL_MARKET_BUTTON, x + 10, y + 258, 230, 25, "Wejdź teraz", can_place_market ? clrDodgerBlue : clrDimGray);
 
    ChartRedraw(0);
@@ -1265,9 +1543,9 @@ void PlaceLastSetupFromPanel()
       return;
    }
 
-   if(!CanPlaceLimitOrderNow(last_setup.direction, last_setup.entry))
+   if(!CanPlacePendingOrderNow(last_setup.direction, last_setup.entry))
    {
-      Print("EFIB panel: nie mozna ustawic limit order, bo aktualna cena jest juz po zlej stronie Entry.");
+      Print("EFIB panel: nie mozna ustawic pending order, bo Entry jest zbyt blisko aktualnej ceny.");
       UpdateTradePanel();
       return;
    }
@@ -1562,13 +1840,15 @@ void ManagePendingOrders(const MqlRates &closed_bar)
       }
 
       const ENUM_ORDER_TYPE order_type = (ENUM_ORDER_TYPE)OrderGetInteger(ORDER_TYPE);
-      if(order_type != ORDER_TYPE_BUY_LIMIT && order_type != ORDER_TYPE_SELL_LIMIT)
+      const bool is_buy_pending = order_type == ORDER_TYPE_BUY_LIMIT || order_type == ORDER_TYPE_BUY_STOP;
+      const bool is_sell_pending = order_type == ORDER_TYPE_SELL_LIMIT || order_type == ORDER_TYPE_SELL_STOP;
+      if(!is_buy_pending && !is_sell_pending)
       {
          RemovePendingInfoByIndex(i);
          continue;
       }
 
-      const int direction = order_type == ORDER_TYPE_BUY_LIMIT ? 1 : -1;
+      const int direction = is_buy_pending ? 1 : -1;
       const double entry = OrderGetDouble(ORDER_PRICE_OPEN);
       const double target = OrderGetDouble(ORDER_TP);
       const int age = BarsSinceSetup(pending_infos[i].setup_time, closed_bar.time);
@@ -1599,15 +1879,30 @@ bool SendSetupOrderWithVolume(const int direction,
 
    const string setup_time_text = TimeToString(setup_time, TIME_DATE | TIME_MINUTES);
    const string comment = "EFIB " + (direction == 1 ? "LONG " : "SHORT ") + setup_time_text;
+   ENUM_ORDER_TYPE order_type;
+   if(!GetPendingOrderTypeForEntry(direction, entry, order_type))
+   {
+      Print("EFIB order failed. Entry jest zbyt blisko aktualnej ceny dla pending order.");
+      return false;
+   }
+
    bool ok = false;
 
-   if(direction == 1)
+   if(order_type == ORDER_TYPE_BUY_LIMIT)
    {
       ok = trade.BuyLimit(volume, entry, _Symbol, stop, target, ORDER_TIME_GTC, 0, comment);
    }
-   else
+   else if(order_type == ORDER_TYPE_SELL_LIMIT)
    {
       ok = trade.SellLimit(volume, entry, _Symbol, stop, target, ORDER_TIME_GTC, 0, comment);
+   }
+   else if(order_type == ORDER_TYPE_BUY_STOP)
+   {
+      ok = trade.BuyStop(volume, entry, _Symbol, stop, target, ORDER_TIME_GTC, 0, comment);
+   }
+   else if(order_type == ORDER_TYPE_SELL_STOP)
+   {
+      ok = trade.SellStop(volume, entry, _Symbol, stop, target, ORDER_TIME_GTC, 0, comment);
    }
 
    if(!ok)
@@ -1617,7 +1912,7 @@ bool SendSetupOrderWithVolume(const int direction,
    }
 
    AddPendingInfo(trade.ResultOrder(), setup_time, direction);
-   Print("EFIB ", source, " limit order placed: ",
+   Print("EFIB ", source, " ", PendingOrderKindText(order_type), " order placed: ",
          direction == 1 ? "LONG" : "SHORT",
          " setup candle ",
          setup_time_text,
@@ -1843,6 +2138,7 @@ bool BuildAcceptedSetupFromBars(const MqlRates &prev,
 bool RestoreLatestSetupFromHistory()
 {
    const int lookback = MathMax(1, InpPanelRestoreLookbackBars);
+   ClearSetupHistory();
 
    MqlRates rates[];
    ArraySetAsSeries(rates, true);
@@ -1851,7 +2147,7 @@ bool RestoreLatestSetupFromHistory()
    if(copied < 3)
       return false;
 
-   for(int shift = 1; shift <= copied - 2; shift++)
+   for(int shift = copied - 2; shift >= 1; shift--)
    {
       int direction = 0;
       double entry = 0.0;
@@ -1866,18 +2162,32 @@ bool RestoreLatestSetupFromHistory()
       if(!BuildAcceptedSetupFromBars(prev, curr, shift, direction, entry, stop, target, setup_atr_pct, wick_pct))
          continue;
 
-      if(last_setup.valid && curr.time <= last_setup.setup_time)
-         return false;
+      SetupSnapshot setup;
+      setup.valid = true;
+      setup.direction = direction;
+      setup.setup_time = curr.time;
+      setup.entry = entry;
+      setup.stop = stop;
+      setup.target = target;
+      setup.atr_pct = setup_atr_pct;
+      setup.wick_pct = wick_pct;
+      setup.marker_price = SetupMarkerPrice(direction, curr.high, curr.low);
 
-      StoreLastSetup(direction, curr.time, entry, stop, target, setup_atr_pct, wick_pct);
-
-      Print("EFIB panel: odtworzono ostatni setup z historii M15: ",
-            direction == 1 ? "LONG " : "SHORT ",
-            TimeToString(curr.time, TIME_DATE | TIME_MINUTES));
-      return true;
+      PushSetupHistory(setup);
    }
 
-   return false;
+   const int count = ArraySize(setup_history);
+   if(count <= 0)
+      return false;
+
+   SelectSetupIndex(count - 1);
+
+   Print("EFIB panel: odtworzono setupy z historii M15: ",
+         count,
+         ", ostatni ",
+         last_setup.direction == 1 ? "LONG " : "SHORT ",
+         TimeToString(last_setup.setup_time, TIME_DATE | TIME_MINUTES));
+   return true;
 }
 
 void EvaluateSetup()
@@ -2025,7 +2335,7 @@ void EvaluateSetup()
       if(risk > TickSize())
       {
          PrintSetupDiagnostics("ACCEPTED", 1, curr, bull_engulfing_size, atr_value, bull_close_wick_pct, trend_allows_long, bull_atr_ok, bull_close_wick_ok, "", trend_state);
-         StoreLastSetup(1, curr.time, entry, stop, target, setup_atr_pct, bull_close_wick_pct);
+         StoreLastSetup(1, curr.time, entry, stop, target, setup_atr_pct, bull_close_wick_pct, SetupMarkerPrice(1, curr.high, curr.low));
          DrawSetup(1, curr.time, entry, stop, target, fib_low, fib_high);
          AlertValidSetup(1, curr.time, entry, stop, target);
          if(CanAutoPlaceOrders())
@@ -2046,7 +2356,7 @@ void EvaluateSetup()
       if(risk > TickSize())
       {
          PrintSetupDiagnostics("ACCEPTED", -1, curr, bear_engulfing_size, atr_value, bear_close_wick_pct, trend_allows_short, bear_atr_ok, bear_close_wick_ok, "", trend_state);
-         StoreLastSetup(-1, curr.time, entry, stop, target, setup_atr_pct, bear_close_wick_pct);
+         StoreLastSetup(-1, curr.time, entry, stop, target, setup_atr_pct, bear_close_wick_pct, SetupMarkerPrice(-1, curr.high, curr.low));
          DrawSetup(-1, curr.time, entry, stop, target, fib_low, fib_high);
          AlertValidSetup(-1, curr.time, entry, stop, target);
          if(CanAutoPlaceOrders())
@@ -2068,7 +2378,7 @@ int OnInit()
    ChartSetInteger(0, CHART_EVENT_MOUSE_MOVE, true);
    LoadPanelPosition();
    ResetLastSetup();
-   LoadLastSetupState();
+   const bool loaded_last_setup = LoadLastSetupState();
 
    fast_ema_handle = iMA(_Symbol, PERIOD_M15, InpTrendFastLen, 0, MODE_EMA, PRICE_CLOSE);
    slow_ema_handle = iMA(_Symbol, PERIOD_M15, InpTrendSlowLen, 0, MODE_EMA, PRICE_CLOSE);
@@ -2084,7 +2394,12 @@ int OnInit()
    if(!IsM15Chart())
       Print("EngulfingFibSetupEA trades only on M15 charts.");
 
-   RestoreLatestSetupFromHistory();
+   if(!RestoreLatestSetupFromHistory() && loaded_last_setup && last_setup.valid)
+   {
+      const int index = PushSetupHistory(last_setup);
+      SelectSetupIndex(index);
+   }
+
    UpdateTradePanel();
    return INIT_SUCCEEDED;
 }
@@ -2158,6 +2473,24 @@ void OnChartEvent(const int id,
       if(sparam == PANEL_PLACE_BUTTON)
       {
          PlaceLastSetupFromPanel();
+         return;
+      }
+
+      if(sparam == PANEL_PREV_BUTTON)
+      {
+         if(ArraySize(setup_history) > 1 && selected_setup_index > 0)
+            SelectPreviousSetup();
+
+         UpdateTradePanel();
+         return;
+      }
+
+      if(sparam == PANEL_NEXT_BUTTON)
+      {
+         if(ArraySize(setup_history) > 1 && selected_setup_index < ArraySize(setup_history) - 1)
+            SelectNextSetup();
+
+         UpdateTradePanel();
          return;
       }
 
